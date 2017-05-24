@@ -67,7 +67,7 @@ public class LocacaoDAO implements ILocacaoDAO {
 
 	@Override
 	public boolean removeLocacao(LocacaoBean locacao) throws ProjetoException {
-		// NECESSÁRIO A OBRA IMPLEMENTADA
+		// NECESSï¿½RIO A OBRA IMPLEMENTADA
 		// LOCALIZA AS OBRAS DA LOCACAO NO BANCO E ADICIONA A QUANTIDADE
 		// RETIRADA PARA A LOCACAO
 		// DELETA A LOCACAO DO BANCO
@@ -129,8 +129,8 @@ public class LocacaoDAO implements ILocacaoDAO {
 		String sql = "select * from acl.locacao ";
 
 		if (type == 1) {
-			sql += "join acl.pessoa on locacao.id_pessoa = pessoa.id_pessoa where pessoa.p_login like ? order by locacao.data_locacao ";
-		}else if (type == 2) {
+			sql += "join acl.pessoa on locacao.id_pessoa = pessoa.id_pessoa where aluno.nome like ? order by locacao.data_locacao ";
+		} else if (type == 2) {
 			sql += "join acl.livro on locacao.id_livro = livro.id_livro where livro.nome like ? order by locacao.data_locacao ";
 		}
 		List<LocacaoBean> list = new ArrayList<>();
@@ -139,25 +139,29 @@ public class LocacaoDAO implements ILocacaoDAO {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			if (type == 1) {
-				stmt.setString(1,value);
+				stmt.setString(1, value);
 			}
 			if (type == 2) {
-				stmt.setString(1,value);
+				stmt.setString(1, value);
 			}
 
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				LocacaoBean lb = new LocacaoBean();
-
+				ArrayList<Integer> auxLivros = new ArrayList<>();
 				lb.setId(rs.getInt("idalunos"));
-				//RECEBER ID PESSOA
+				lb.setPessoa(rs.getInt("id_pessoa"));
 				lb.setDataLocacao(rs.getDate("data_locacao"));
 				lb.setDataEntrega(rs.getDate("data_devolucao"));
-				//RECEBER ID LIVRO
-				
-				list.add(lb);
-
+				PreparedStatement stmt2 = conexao.prepareStatement("SELECT id_livro FROM acl.locacao WHERE id_locacao = ?");
+				stmt2.setInt(1, rs.getInt("id_locacao"));
+				ResultSet rs2 = stmt2.executeQuery();
+				while(rs2.next()){
+					auxLivros.add(rs2.getInt("id_livro"));
+				}
+				lb.setLivros(auxLivros);
+				list.add(lb);					
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
