@@ -60,12 +60,35 @@ public class AlunoController {
     return "/pages/comum/principal.faces?faces-redirect=true";
 	
 	}
+	
+	// METODO DE ADCIONAR ALUNO
+		public void cadastrarTeste() throws ProjetoException {
+
+			AlunoDAO adao = new AlunoDAO();
+			boolean cadastrou = adao.cadastrarTeste(aluno);
+
+			if (cadastrou == true) {
+
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Teste cadastrado com sucesso!", "Sucesso");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				listaAluno = null;
+				RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+			} else {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Ocorreu um erro durante o cadastro!", "Erro");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+
+				RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+			}
+		}
+	
 
 	// METODO DE ADCIONAR ALUNO
-	public void cadastrarAlunoMysql() throws ProjetoException {
+	public void cadastrarAluno() throws ProjetoException {
 
 		AlunoDAO adao = new AlunoDAO();
-		boolean cadastrou = adao.cadastrarAlunoMysql(aluno);
+		boolean cadastrou = adao.cadastrarAluno(aluno);
 
 		if (cadastrou == true) {
 

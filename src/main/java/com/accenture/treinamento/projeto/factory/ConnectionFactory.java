@@ -13,7 +13,7 @@ public class ConnectionFactory {
     
     private static final String URL = "jdbc:mysql://localhost:3306/mydb";
     private static final String USER = "root";
-    private static final String PASS = "123456";
+    private static final String PASS = "thulio123";
     
     public static Connection getConnection() {
         
