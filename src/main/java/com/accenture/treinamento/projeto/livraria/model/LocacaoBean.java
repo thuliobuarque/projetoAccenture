@@ -1,26 +1,37 @@
 package com.accenture.treinamento.projeto.livraria.model;
 
 import java.sql.Date;
-import com.accenture.treinamento.projeto.portal.model.PessoaBean;
+import java.util.ArrayList;
 
 public class LocacaoBean {
 	
 	private Integer id;
-	private PessoaBean pessoa;
+	private Integer pessoa;
 	private Date dataLocacao;
 	private Date dataEntrega;
-	private LivroBean livro;
+	private ArrayList<Integer> livros;
 	
+	public LocacaoBean(){
+		livros = new ArrayList<>();
+	}
+	
+	public ArrayList<Integer> getLivros() {
+		return livros;
+	}
+	public void setLivros(ArrayList<Integer> livros) {
+		this.livros = livros;
+	}
+
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public PessoaBean getPessoa() {
+	public Integer getPessoa() {
 		return pessoa;
 	}
-	public void setPessoa(PessoaBean pessoa) {
+	public void setPessoa(Integer pessoa) {
 		this.pessoa = pessoa;
 	}
 	public Date getDataLocacao() {
@@ -34,12 +45,6 @@ public class LocacaoBean {
 	}
 	public void setDataEntrega(Date dataEntrega) {
 		this.dataEntrega = dataEntrega;
-	}
-	public LivroBean getLivro() {
-		return livro;
-	}
-	public void setLivro(LivroBean livro) {
-		this.livro = livro;
 	}
 
 	

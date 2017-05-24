@@ -17,13 +17,15 @@ import com.accenture.treinamento.projeto.livraria.model.LocacaoBean;
 * @author Thulio, thayse, thales, caio, priscila, veridiana
 * @since 17/05/2017
 */
-@ManagedBean(name = "MBLocacao")
+@ManagedBean
 @SessionScoped
 public class LocacaoController {
 	// OBJETOS E CLASSES
 	private LocacaoBean locacao;
 	// LISTA
 	private ArrayList<LocacaoBean> listaLocacoes;
+	
+	private ArrayList<LocacaoBean> listaLivros;
 
 	public LocacaoController() {
 
@@ -98,6 +100,10 @@ public class LocacaoController {
 
 	public void setListaLocacoes(ArrayList<LocacaoBean> listaLocacoes) {
 		this.listaLocacoes = listaLocacoes;
+	}
+	
+	public void addLivros(Integer id_livro){
+		
 	}
 
 }
