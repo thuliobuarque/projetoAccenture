@@ -1,19 +1,9 @@
 package com.accenture.treinamento.projeto.portal.controller;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
-import org.primefaces.context.RequestContext;
-
 import com.accenture.treinamento.projeto.exception.ProjetoException;
-import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
-import com.accenture.treinamento.projeto.portal.model.PessoaBean;
 import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
@@ -28,12 +18,14 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
 public class AlunoController {
 
 	// OBJETOS E CLASSES
-	private AlunoBean aluno;
+	private AlunoNegocio alunoNegocio;
 
+	private AlunoBean aluno;
 
 
 	public AlunoController() {
 		// INSTANCIAS
+		alunoNegocio = new AlunoNegocio();
 		aluno = new AlunoBean();
 
 	}
@@ -51,7 +43,7 @@ public class AlunoController {
 	public void cadastrarAluno() throws ProjetoException {
 
 		AlunoNegocio adao = new AlunoNegocio();
-		adao.cadastrarAluno();
+		adao.cadastrarAluno(aluno);
 	
 	}
 
@@ -59,7 +51,7 @@ public class AlunoController {
 	public void alterarAluno() throws ProjetoException {
 
 		AlunoNegocio adao = new AlunoNegocio();
-		adao.alterarAluno();
+		adao.alterarAluno(aluno);
 
 	}
 
@@ -67,7 +59,7 @@ public class AlunoController {
 	public void excluirAluno() throws ProjetoException {
 		
 		AlunoNegocio adao = new AlunoNegocio();
-		adao.excluirAluno();	
+		adao.excluirAluno(aluno);	
 	}
 	
 	public void buscarAlunos() throws ProjetoException {
@@ -77,17 +69,23 @@ public class AlunoController {
         
 	}
 	
-	 public void recoverDataFromSessionAluno() {
-	        aluno = (AlunoBean) FacesContext
-	            .getCurrentInstance().getExternalContext().getSessionMap()
-	            .get("obj_aluno");
-	        
-	    }
+	public void limparDados() {
+	aluno = new AlunoBean();
+	}
+	
 	
     public String logout() {
         SessionUtil.getSession().invalidate();
         return "/pages/comum/login.faces?faces-redirect=true";
     }
+
+	public AlunoNegocio getAlunoNegocio() {
+		return alunoNegocio;
+	}
+
+	public void setAlunoNegocio(AlunoNegocio alunoNegocio) {
+		this.alunoNegocio = alunoNegocio;
+	}
 
 	public AlunoBean getAluno() {
 		return aluno;
@@ -96,7 +94,6 @@ public class AlunoController {
 	public void setAluno(AlunoBean aluno) {
 		this.aluno = aluno;
 	}
-	
-
+    
 
 }

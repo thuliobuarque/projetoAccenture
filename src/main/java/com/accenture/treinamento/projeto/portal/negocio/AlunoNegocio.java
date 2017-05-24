@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
-import com.accenture.treinamento.projeto.portal.model.PessoaBean;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**
@@ -25,8 +22,6 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
 
 public class AlunoNegocio {
 
-	// OBJETOS E CLASSES
-	private AlunoBean aluno;
 
 	// LISTAS
 	private List<AlunoBean> listaAluno;
@@ -38,8 +33,7 @@ public class AlunoNegocio {
 	private String statusAluno;
 
 	public AlunoNegocio() {
-		// INSTANCIAS
-		aluno = new AlunoBean();
+
 
 		// LISTAS
 		listaAluno = new ArrayList<>();
@@ -63,7 +57,7 @@ public class AlunoNegocio {
 
 
 	// METODO DE ADCIONAR ALUNO
-	public void cadastrarAluno() throws ProjetoException {
+	public void cadastrarAluno(AlunoBean aluno) throws ProjetoException {
 
 		AlunoDAO adao = new AlunoDAO();
 		boolean cadastrou = adao.cadastrarAluno(aluno);
@@ -85,7 +79,7 @@ public class AlunoNegocio {
 	}
 
 	// METODO DE ALTERAR ALUNO
-	public void alterarAluno() throws ProjetoException {
+	public void alterarAluno(AlunoBean aluno) throws ProjetoException {
 
 		AlunoDAO adao = new AlunoDAO();
 		boolean alterou = adao.alterarAluno(aluno);
@@ -107,7 +101,7 @@ public class AlunoNegocio {
 	}
 
 	// METODO DE EXCLUIR ALUNO
-	public void excluirAluno() throws ProjetoException {
+	public void excluirAluno(AlunoBean aluno) throws ProjetoException {
 		AlunoDAO adao = new AlunoDAO();
 		boolean excluio = adao.excluirAluno(aluno);
 
@@ -149,13 +143,7 @@ public class AlunoNegocio {
 		}
 
 	}
-	
-	 public void recoverDataFromSessionAluno() {
-	        aluno = (AlunoBean) FacesContext
-	            .getCurrentInstance().getExternalContext().getSessionMap()
-	            .get("obj_aluno");
-	        
-	    }
+
 	
     public String logout() {
         SessionUtil.getSession().invalidate();
@@ -169,19 +157,6 @@ public class AlunoNegocio {
 		listaAluno = null;
 	}
 
-	public void limparDados() {
-		aluno = new AlunoBean();
-		PessoaBean pessoa = new PessoaBean();
-
-	}
-
-	public AlunoBean getAluno() {
-		return aluno;
-	}
-
-	public void setAluno(AlunoBean aluno) {
-		this.aluno = aluno;
-	}
 
 	public List<AlunoBean> getListaAluno() {
 		if (listaAluno == null) {
