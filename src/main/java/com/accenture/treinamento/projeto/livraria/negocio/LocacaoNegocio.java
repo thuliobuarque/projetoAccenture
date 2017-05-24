@@ -1,4 +1,4 @@
-package com.accenture.treinamento.projeto.livraria.controller;
+package com.accenture.treinamento.projeto.livraria.negocio;
 
 import java.util.ArrayList;
 
@@ -17,15 +17,14 @@ import com.accenture.treinamento.projeto.livraria.model.LocacaoBean;
 * @author Thulio, thayse, thales, caio, priscila, veridiana
 * @since 17/05/2017
 */
-@ManagedBean(name = "MBLocacao")
-@SessionScoped
-public class LocacaoController {
+
+public class LocacaoNegocio {
 	// OBJETOS E CLASSES
 	private LocacaoBean locacao;
 	// LISTA
 	private ArrayList<LocacaoBean> listaLocacoes;
 
-	public LocacaoController() {
+	public LocacaoNegocio() {
 
 		// INSTANCIAS
 		locacao = new LocacaoBean();

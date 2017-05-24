@@ -1,4 +1,4 @@
-package com.accenture.treinamento.projeto.livraria.controller;
+package com.accenture.treinamento.projeto.livraria.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +19,14 @@ import com.accenture.treinamento.projeto.livraria.model.AutorBean;
 * @author Thulio, thayse, thales, caio, priscila, veridiana
 * @since 17/05/2017
 */
-@ManagedBean(name = "MBAutor")
-@SessionScoped
-public class AutorController {
+
+public class AutorNegocio {
 
 	private AutorBean autor;
 
 	private List<AutorBean> listaAutor;
 
-	public AutorController() {
+	public AutorNegocio() {
 		autor = new AutorBean();
 
 		listaAutor = new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.accenture.treinamento.projeto.livraria.controller;
+package com.accenture.treinamento.projeto.livraria.negocio;
 
 import java.util.ArrayList;
 
@@ -16,14 +16,13 @@ import com.accenture.treinamento.projeto.livraria.model.ReservaBean;
 * @author Thulio, thayse, thales, caio, priscila, veridiana
 * @since 17/05/2017
 */
-@ManagedBean(name = "MBReserva")
-@SessionScoped
-public class ReservaController {
+
+public class ReservaNegocio {
 	
 	private ReservaBean Reserva;
 	private ArrayList<ReservaBean> listaReservas;
 
-	public ReservaController() {
+	public ReservaNegocio() {
 		
 		Reserva = new ReservaBean();
 		

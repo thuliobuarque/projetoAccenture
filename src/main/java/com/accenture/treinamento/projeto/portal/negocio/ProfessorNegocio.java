@@ -1,4 +1,4 @@
-package com.accenture.treinamento.projeto.livraria.controller;
+package com.accenture.treinamento.projeto.portal.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,60 +11,61 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
-import com.accenture.treinamento.projeto.livraria.dao.AutorDAO;
-import com.accenture.treinamento.projeto.livraria.model.AutorBean;
+import com.accenture.treinamento.projeto.portal.dao.ProfessorDAO;
+import com.accenture.treinamento.projeto.portal.model.ProfessorBean;
+
 
 /**
 *
 * @author Thulio, thayse, thales, caio, priscila, veridiana
 * @since 17/05/2017
 */
-@ManagedBean(name = "MBAutor")
-@SessionScoped
-public class AutorController {
 
-	private AutorBean autor;
 
-	private List<AutorBean> listaAutor;
 
-	public AutorController() {
-		autor = new AutorBean();
+public class ProfessorNegocio {
 
-		listaAutor = new ArrayList<>();
-		listaAutor = null;
+	private ProfessorBean professor;
+	private List<ProfessorBean> listaprofessor;
+	
+	public ProfessorNegocio(){
+		
+		professor = new ProfessorBean();
+
+		listaprofessor = new ArrayList<>();
+		listaprofessor = null;
 	}
 
-	public void cadastrarAutor() {
-
-		AutorDAO adao = new AutorDAO();
-		boolean cadastrou = adao.cadastrarAutor(autor);
+	
+	public void cadastrarProfessor() throws ProjetoException{
+		ProfessorDAO Pdao = new ProfessorDAO();
+		boolean cadastrou = Pdao.cadastrarProfessor(professor);
 
 		if (cadastrou == true) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Autor cadastrado com sucesso!", "Sucesso");
+					"Professor cadastrado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
-			RequestContext.getCurrentInstance().execute("dlgCadAutor.hide();");
+			RequestContext.getCurrentInstance().execute("dlgCadProfessor.hide();");
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
-			RequestContext.getCurrentInstance().execute("dlgCadAutor.hide();");
+			RequestContext.getCurrentInstance().execute("dlgCadProfessor.hide();");
 		}
-
 	}
+	
+	public void alterarProfessor() throws ProjetoException {
 
-	public void alterarAutor() throws ProjetoException {
-
-		AutorDAO adao = new AutorDAO();
-		boolean alterou = adao.alterarAutor(autor);
+		ProfessorDAO Pdao = new ProfessorDAO();
+		boolean alterou = Pdao.alterarProfessor(professor);
 
 		if (alterou == true) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Autor alterado com sucesso!", "Sucesso");
+					"Professor alterado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltAutor.hide();");
@@ -78,12 +79,12 @@ public class AutorController {
 	}
 
 	public void excluirAutor() throws ProjetoException {
-		AutorDAO adao = new AutorDAO();
-		boolean excluiu = adao.excluirAutor(autor);
+		ProfessorDAO Pdao = new ProfessorDAO();
+		boolean excluiu = Pdao.excluirProfessor(professor);
 
 		if (excluiu == true) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Autor excluido com sucesso!", "Sucesso");
+					"Professor excluido com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			// listaLaudo = null;
 			RequestContext.getCurrentInstance().execute(
@@ -97,30 +98,29 @@ public class AutorController {
 					"PF('dialogAtencao').hide();");
 		}
 	}
-
-	public void limparObjeto() {
-		autor = null;
+	
+	public ProfessorBean getProfessor() {
+		return professor;
 	}
 
-	public AutorBean getAutor() {
-		return autor;
+	public void setProfessor(ProfessorBean professor) {
+		this.professor = professor;
 	}
 
-	public void setAutor(AutorBean autor) {
-		this.autor = autor;
-	}
-
-	public List<AutorBean> getListaAutor() {
-		if (listaAutor == null) {
-			AutorDAO adao = new AutorDAO();
-			listaAutor = adao.listaAutor();
-
+	public List<ProfessorBean> getListaprofessor() throws ProjetoException {
+		if (listaprofessor == null) {
+			ProfessorDAO pdao = new ProfessorDAO();
+			listaprofessor = pdao.listaProfessor();
 		}
-		return listaAutor;
+		return listaprofessor;
 	}
 
-	public void setListaAutor(List<AutorBean> listaAutor) {
-		this.listaAutor = listaAutor;
+	public void setListaprofessor(List<ProfessorBean> listaprofessor) {
+		this.listaprofessor = listaprofessor;
 	}
-
+	
+	public void LimparObjeto() {
+		professor = null;
+	}
+	
 }

@@ -22,24 +22,20 @@ public class AlunoDAO implements IAlunoDAO {
 
 		try {
 			conexao = ConnectionFactory.getConnection();
-			PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.setString(1, aluno.getNome().toUpperCase().trim());
 			stmt.setString(2, aluno.getCpf().replaceAll("[^0-9]", ""));
+			stmt.execute();
 			
-			
-			    /*ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
-		        if (rs.next()) {
-		        	 aluno.setId_aluno(rs.getInt("LAST_INSERT_ID()"));
-		        }*/
-			
-			ResultSet rs = stmt.getGeneratedKeys();  
+			    ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
 	            if(rs.next()) { 
-	            	 aluno.setId_aluno(rs.getInt("id_aluno"));
-	            	 String sql2="insert into pessoa (id_pessoa, login, senha) values (?, ?, ?)";
+	            	 aluno.setId_aluno(rs.getInt("LAST_INSERT_ID()"));
+	            	 String sql2="insert into pessoa (id_pessoa, login, senha, perfil) values (?, ?, ?, ?)";
                      stmt = conexao.prepareStatement(sql2);
                      stmt.setInt(1, aluno.getId_aluno());  
                      stmt.setString(2, aluno.getLogin().toUpperCase().trim());
                      stmt.setString(3, aluno.getSenha().toUpperCase().trim());
+                     stmt.setInt(4, 1);
                      stmt.execute();
 	            }
 
@@ -57,35 +53,6 @@ public class AlunoDAO implements IAlunoDAO {
 			}
 		}
 	}
-	
-	
-	public boolean cadastrarTeste(AlunoBean aluno) throws ProjetoException {
-
-		String sql = "insert into pessoa (login, senha) values (?, ?)";
-
-		try {
-			conexao = ConnectionFactory.getConnection();
-			PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			 stmt.setString(1, aluno.getLogin().toUpperCase().trim());
-             stmt.setString(2, aluno.getSenha().toUpperCase().trim());
-             stmt.execute();
-			
-
-			conexao.commit();
-
-			return true;
-		} catch (SQLException ex) {
-			throw new RuntimeException(ex);
-		} finally {
-			try {
-				conexao.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				System.exit(1);
-			}
-		}
-	}
-
 
 	public boolean alterarAluno(AlunoBean aluno)
 			throws ProjetoException {
