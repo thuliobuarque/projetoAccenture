@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+
+		<h:form>
+
+			<p:outputLabel value="Bem-vindo(a) #{MBAlunos.aluno.nome}!"
+				escape="false"
+				style=" font-family: sans-serif;
+                                   font-size: 25px !important;" />
+
+			<p:row>
+				<br />
+
+				<p:outputLabel value="O que você deseja fazer?"
+					style="font-size: 16px !important;" />
+			</p:row>
+
+		</h:form>
+
+		<h:form id="formPrincipal">
+			<center>
+				<div class="row">
+					<div class="col-md-3 text-center">
+						<img class="img-circle"
+							style="border-bottom-style: solid; border-bottom-width: 5px; border-left-width: 5px; border-left-style: solid; border-right-width: 5px; border-right-style: solid; border-top-width: 5px; border-top-style: solid; border-color: #5bc0de"
+							src="../../imgs/dados_cadastrais.png" alt="Gerenciar" />
+
+						<h3>Ver Matricula</h3>
+						<p>Acesse sua Matricula</p>
+						<center>
+							<p>
+								<p:button value="Acessar" disabled="true"
+									style="font-size: 14px !important; width: 200px; "
+									outcome="/pages/cadastros/gerenciarAlunos.faces?faces-redirect=true"
+									styleClass="btn btn-info btn-lg btn-block" />
+							</p>
+						</center>
+
+					</div>
+
+					<div class="col-md-3 text-center">
+						<img class="img-circle"
+							style="border-bottom-style: solid; border-bottom-width: 5px; border-left-width: 5px; border-left-style: solid; border-right-width: 5px; border-right-style: solid; border-top-width: 5px; border-top-style: solid; border-color: #5bc0de"
+							src="../../imgs/portal.png" alt="Portal" />
+
+						<h3>Ver Portal</h3>
+						<p>Acesse o Portal</p>
+						<center>
+							<p>
+								<p:button value="Acessar" disabled="true"
+									style="font-size: 14px !important; width: 200px; "
+									outcome="/pages/cadastros/gerenciarAlunos.faces?faces-redirect=true"
+									styleClass="btn btn-info btn-lg btn-block" />
+							</p>
+						</center>
+
+					</div>
+
+					<div class="col-md-3 text-center">
+						<img class="img-circle"
+							style="border-bottom-style: solid; border-bottom-width: 5px; border-left-width: 5px; border-left-style: solid; border-right-width: 5px; border-right-style: solid; border-top-width: 5px; border-top-style: solid; border-color: #5bc0de"
+							src="../../imgs/biblioteca.png" alt="Biblioteca" />
+
+						<h3>Ver Biblioteca</h3>
+						<p>Acesse a Biblioteca</p>
+						<center>
+							<p>
+								<p:button value="Acessar" disabled="true"
+									style="font-size: 14px !important; width: 200px; "
+									outcome="/pages/cadastros/gerenciarAlunos.faces?faces-redirect=true"
+									styleClass="btn btn-info btn-lg btn-block" />
+							</p>
+						</center>
+
+					</div>
+
+				</div>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
