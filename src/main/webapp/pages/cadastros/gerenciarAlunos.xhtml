@@ -67,8 +67,9 @@
 				</p:panel>
 
 				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
-					id="tabela" style="margin-top:20px;" value="#{MBAlunos.alunoNegocio.listaAluno}"
-					var="tab" rows="10" paginator="true" paginatorPosition="bottom">
+					id="tabela" style="margin-top:20px;"
+					value="#{MBAlunos.alunoNegocio.listaAluno}" var="tab" rows="10"
+					paginator="true" paginatorPosition="bottom">
 
 					<p:column headerText="ID" style="font-weight:bold; width:15%">
 						<h:outputText value="#{tab.id_aluno}" />
@@ -116,36 +117,75 @@
 		<!-- COMEÇO DO DIALOG DE CLIENTE  -->
 		<p:dialog header="CADASTRO DE ALUNO" widgetVar="dlgNovoAluno"
 			appendToBody="true" draggable="false" resizable="false"
-			closable="true" modal="true" width="auto">
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" visible="true" closable="true" modal="true"
+			width="auto">
 			<h:form id="formNovoAluno">
 				<p:growl id="msg" />
 				<p:panel>
+					<p:tabView activeIndex="#{MBAlunos.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome Completo:" />
+								<p:inputText id="nome" value="#{MBAlunos.aluno.nome}" size="40"
+									required="false" placeholder="Digite seu nome completo "
+									requiredMessage="E necessario informar o nome completo">
+								</p:inputText>
 
-					<p:panelGrid columns="2" styleClass="semBorda">
-						<h:outputLabel value="Nome Completo:" />
-						<p:inputText id="nome" value="#{MBAlunos.aluno.nome}" size="40"
-							required="true" placeholder="Digite seu nome completo "
-							requiredMessage="E necessario informar o nome completo">
-						</p:inputText>
+								<h:outputLabel value="CPF:" />
+								<p:inputMask id="cpf" value="#{MBAlunos.aluno.cpf}"
+									maxlength="11" required="false" placeholder="Digite seu cpf"
+									requiredMessage="E necessario informar o cpf"
+									mask="999.999.999-99"></p:inputMask>
 
-						<h:outputLabel value="CPF:" />
-						<p:inputMask id="cpf" value="#{MBAlunos.aluno.cpf}" maxlength="11"
-							required="true" placeholder="Digite seu cpf"
-							requiredMessage="E necessario informar o cpf"
-							mask="999.999.999-99"></p:inputMask>
+								<h:outputLabel value="Login:" />
+								<p:inputText id="login" value="#{MBAlunos.aluno.login}"
+									size="40" required="false" placeholder="Digite um login "
+									requiredMessage="E necessario informar o login">
+								</p:inputText>
 
-						<h:outputLabel value="Login:" />
-						<p:inputText id="login" value="#{MBAlunos.aluno.login}" size="40"
-							required="true" placeholder="Digite um login "
-							requiredMessage="E necessario informar o login">
-						</p:inputText>
+								<h:outputLabel value="Senha:" />
+								<p:password id="senha" value="#{MBAlunos.aluno.senha}" size="40"
+									required="false" requiredMessage="E necessario informar a senha"
+									placeholder="Digite uma senha">
+								</p:password>
+							</p:panelGrid>
 
-						<h:outputLabel value="Senha:" />
-						<p:password id="senha" value="#{MBAlunos.aluno.senha}" size="40"
-							required="true" requiredMessage="E necessario informar a senha"
-							placeholder="Digite uma senha">
-						</p:password>
-					</p:panelGrid>
+						</p:tab>
+
+						<p:tab title="Endereço">
+							<p:outputPanel autoUpdate="true">
+								<p:panelGrid columns="3" styleClass="semBorda">
+									<h:outputText value="CEP: " />
+									<p:inputMask mask="99999-999" value="#{MBAlunos.aluno.cep}" />
+
+									<p:commandButton value="Pesquisar" icon="ui-icon-search"
+										action="#{MBAlunos.encontraCEP}" />
+
+								</p:panelGrid>
+
+								<p:panelGrid columns="2" styleClass="semBorda">
+									<h:outputLabel value="UF: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="5" value="#{MBAlunos.aluno.estado}" />
+
+									<h:outputLabel value="Logradouro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50"
+										value="#{MBAlunos.aluno.tipoLogradouro}" />
+
+									<h:outputLabel value="Cidade: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBAlunos.aluno.cidade}" />
+
+									<h:outputLabel value="Bairro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="25" value="#{MBAlunos.aluno.bairro}" />
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:tab>
+					</p:tabView>
 
 				</p:panel>
 				<center>

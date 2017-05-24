@@ -1,10 +1,13 @@
 package com.accenture.treinamento.projeto.portal.controller;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
+import com.accenture.treinamento.projeto.util.CepWebService;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**
@@ -22,7 +25,7 @@ public class AlunoController {
 
 	private AlunoBean aluno;
 
-
+	 private Integer abaAtiva = 0;
 	public AlunoController() {
 		// INSTANCIAS
 		alunoNegocio = new AlunoNegocio();
@@ -69,6 +72,27 @@ public class AlunoController {
         
 	}
 	
+
+    public void encontraCEP() {
+        CepWebService cepWebService = new CepWebService(aluno.getCep());
+ 
+        if (cepWebService.getResultado() == 1) {
+            aluno.setTipoLogradouro(cepWebService.getTipoLogradouro());
+            aluno.setLogradouro(cepWebService.getLogradouro());
+            aluno.setEstado(cepWebService.getEstado());
+            aluno.setCidade(cepWebService.getCidade());
+            aluno.setBairro(cepWebService.getBairro());
+        } else {
+ 
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Servidor não está respondendo",
+                            "Servidor não está respondendo"));
+        }
+    }
+
+	
 	public void limparDados() {
 	aluno = new AlunoBean();
 	}
@@ -93,6 +117,14 @@ public class AlunoController {
 
 	public void setAluno(AlunoBean aluno) {
 		this.aluno = aluno;
+	}
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
 	}
     
 

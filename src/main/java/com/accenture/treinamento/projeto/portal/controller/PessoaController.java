@@ -40,7 +40,7 @@ public class PessoaController {
 		if (pessoa == null) {
 			FacesContext fct = FacesContext.getCurrentInstance();
 			fct.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Login ou senha inválidos!", "Erro"));
+					"Login ou senha invï¿½lidos!", "Erro"));
 
 			return "";
 		} else {			

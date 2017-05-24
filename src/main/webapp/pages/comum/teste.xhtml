@@ -8,61 +8,43 @@
 
 	<ui:define name="body">
 
-			<p:commandButton value="Novo" icon="novo" 
-				style="margin-top:4px; margin-bottom:10px;"
-				onclick="PF('dlgNovoUsuario').show();" />
-
-
-		<!-- COMEÇO DO DIALOG DE CLIENTE  -->
-		<p:dialog header="CADASTRO DE CLIENTE" widgetVar="dlgNovoUsuario"
-			draggable="false" resizable="false" closable="true" modal="true"
-			width="auto">
-			<h:form id="formNovoUsuario">
-				<p:growl id="msg" />
-				<p:panel>
-
-					<p:panelGrid columns="2" styleClass="semBorda">
-						<h:outputLabel value="Nome Completo:" />
-						<p:inputText id="nome" value="#{MBAlunos.aluno.nome}" size="40"
-							required="true" placeholder="Digite seu nome completo "
-							requiredMessage="E necessario informar o nome completo">
-						</p:inputText>
-
-						<h:outputLabel value="CPF:" />
-						<p:inputMask id="cpf" value="#{MBAlunos.aluno.cpf}" maxlength="11"
-							required="true" placeholder="Digite seu cpf"
-							requiredMessage="E necessario informar o cpf"
-							mask="999.999.999-99"></p:inputMask>
-
-						<h:outputLabel value="Login:" />
-						<p:inputText id="login" value="#{MBAlunos.aluno.login}" size="40"
-							required="true" placeholder="Digite um login "
-							requiredMessage="E necessario informar o login">
-						</p:inputText>
-
-						<h:outputLabel value="Senha:" />
-						<p:password id="senha" value="#{MBAlunos.aluno.senha}" size="40"
-							required="true" requiredMessage="E necessario informar a senha"
-							placeholder="Digite uma senha">
-						</p:password>
-					</p:panelGrid>
-				</p:panel>
-				<center>
-					<p:panelGrid columns="2" styleClass="semBorda">
-						<p:commandButton value="ok" icon="confirmar" ajax="false"
-							action="#{MBAlunos.cadastrarAluno()}"
-							onclick="PF('dlgNovoUsuario').hide();"
-							update=":formNovoUsuario:msg" />
-
-						<p:commandButton value="Cancelar" icon="cancelar"
-							onclick="PF('dlgNovoUsuario').hide();" />
-
-					</p:panelGrid>
-
-				</center>
-			</h:form>
-		</p:dialog>
-
+		<p:dialog appendToBody="true" closable="false" draggable="false"
+        footer="/programandojava.wordpress.com - Visite :)"
+        header="Web Service CEP" maximizable="true" minimizable="true"
+        position="center" resizable="false" showEffect="slide" visible="true">
+ 
+        <h:form id="frmBusca">
+            <h:panelGrid id="pnCEP" columns="3">
+                <h:outputText value="CEP: " />
+                <p:inputMask mask="99999-999" value="#{MBAlunos.aluno.cep}" />
+ 
+                <p:commandButton value="Pesquisar" icon="ui-icon-search"
+                    action="#{MBAlunos.encontraCEP}" update=":frmResultado" />
+            </h:panelGrid>
+        </h:form>
+ 
+        <h:form id="frmResultado">
+            <h:panelGrid id="pnResultado" columns="2">
+                <h:outputLabel value="UF: "
+                    style="font-weight:bold; padding-right: 5px; float: right;" />
+                <p:inputText size="5" value="#{MBAlunos.aluno.estado}" />
+ 
+                <h:outputLabel value="Logradouro: "
+                    style="font-weight:bold; padding-right: 5px; float: right;" />
+                <p:inputText size="50"
+                    value="#{MBAlunos.aluno.tipoLogradouro} #{MBAlunos.aluno.logradouro}" />
+ 
+                <h:outputLabel value="Cidade: "
+                    style="font-weight:bold; padding-right: 5px; float: right;" />
+                <p:inputText size="50" value="#{MBAlunos.aluno.cidade}" />
+ 
+                <h:outputLabel value="Bairro: "
+                    style="font-weight:bold; padding-right: 5px; float: right;" />
+                <p:inputText size="25" value="#{MBAlunos.aluno.bairro}" />
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+		
 	</ui:define>
 </ui:composition>
 </html>

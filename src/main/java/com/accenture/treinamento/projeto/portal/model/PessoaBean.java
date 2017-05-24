@@ -1,10 +1,12 @@
 package com.accenture.treinamento.projeto.portal.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class PessoaBean {
-
+public class PessoaBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Integer id_pessoa;	
 	private String nome;
 	private String cpf;
@@ -15,10 +17,17 @@ public class PessoaBean {
 	private String celular;
 	private String enderc;
 	private Date datanascimento;
-	private Integer genero;	
-	private Integer cep;
+	private Integer genero;		
+
+	private String cep = null;
+
+	private String tipoLogradouro;
+	private String logradouro;
+	private String estado;
 	private String cidade;
 	private String bairro;
+
+
 
 	public PessoaBean(){
 		
@@ -111,14 +120,6 @@ public class PessoaBean {
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
- 
-	public Integer getCep() {
-		return cep;
-	}
-
-	public void setCep(Integer cep) {
-		this.cep = cep;
-	}
 
 	public String getCelular() {
 		return celular;
@@ -134,6 +135,46 @@ public class PessoaBean {
 
 	public void setEmail(String email1) {
 		this.email = email1;
-	}	
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getTipoLogradouro() {
+		return tipoLogradouro;
+	}
+
+	public void setTipoLogradouro(String tipoLogradouro) {
+		this.tipoLogradouro = tipoLogradouro;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+
 
 }
