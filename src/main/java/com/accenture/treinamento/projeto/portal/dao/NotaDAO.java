@@ -12,7 +12,6 @@ import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
-import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
 import com.accenture.treinamento.projeto.portal.model.NotaBean;
 
 import java.sql.PreparedStatement;
