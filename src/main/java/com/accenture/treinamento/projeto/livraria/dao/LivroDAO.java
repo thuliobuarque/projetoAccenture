@@ -15,20 +15,21 @@ public class LivroDAO implements ILivroDAO {
 
 	private Connection conexao = null;
 	
-	public boolean cadastrarObra(LivroBean obra) throws ProjetoException {
+	public boolean cadastrarObra(LivroBean livro) throws ProjetoException {
 		
-		String sql = "insert into acl.obra (titulo,nome,anoPublicacao,editora,resumo,classificacao,quantidade) values (?,?,?,?,?,?,?)";
+		String sql = "insert into livro (titulo,ano_publicacao,editora,resumo,classificacao,quantidade) values (?,?,?,?,?,?)";
 		
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setString(1, obra.getTitulo());
-			stmt.setString(2, obra.getNome());
-			stmt.setDate(3, new java.sql.Date(obra.getAnoPublicacao().getTime()));
-			stmt.setString(4, obra.getEditora());
-			stmt.setString(5, obra.getResumo());
-			stmt.setString(6, obra.getClassificacao());
-			stmt.setInt(7, obra.getQuantidade());
+			stmt.setString(1, livro.getTitulo());
+			stmt.setString(2, livro.getAno_publicacao());
+			stmt.setString(3, livro.getEditora());
+			stmt.setString(4, livro.getResumo());		
+			stmt.setString(5, livro.getClassificacao());
+			stmt.setInt(6, livro.getQuantidade());
+			stmt.setInt(7, livro.getAutor().getId_autor());
+			
 			stmt.execute();
 			
 			conexao.commit();
@@ -45,20 +46,22 @@ public class LivroDAO implements ILivroDAO {
 		
 	}
 	
-	public boolean alterarObra(LivroBean obra)
+	public boolean alterarObra(LivroBean livro)
 			throws ProjetoException {
 		boolean alterou = false;
-		String sql = "update acl.obra set nome ?, where codigo = ?";
+		String sql = "update livro set titulo = ?, ano_publicacao = ?, editora = ?,resumo = ?,classificacao = ?, quantidade = ? where id_livro = ?";
+
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setString(1, obra.getNome());
-			stmt.setDate(2, new java.sql.Date(obra.getAnoPublicacao().getTime()));
-			stmt.setString(3, obra.getEditora());
-			stmt.setString(4, obra.getResumo());
-			stmt.setString(5, obra.getClassificacao());
-			stmt.setInt(6, obra.getQuantidade());
-			stmt.setInt(7, obra.getId());
+			stmt.setString(1, livro.getTitulo());
+			stmt.setString(2, livro.getAno_publicacao());
+			stmt.setString(3, livro.getEditora());
+			stmt.setString(4, livro.getResumo());		
+			stmt.setString(5, livro.getClassificacao());
+			stmt.setInt(6, livro.getQuantidade());
+			stmt.setInt(7, livro.getAutor().getId_autor());
+			
 			stmt.executeUpdate();
 			conexao.commit();
 			
@@ -76,14 +79,14 @@ public class LivroDAO implements ILivroDAO {
 		}
 	}
 	
-	public boolean excluirObra(LivroBean obra)
+	public boolean excluirObra(LivroBean livro)
 			throws ProjetoException {
 		boolean excluir = false;
-		String sql = "delete from acl.obra where codigo = ?";
+		String sql = "delete from livro where id_livro = ?";
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setInt(1, obra.getId());
+			stmt.setInt(1, livro.getId_livro());
 			stmt.executeUpdate();
 
 			conexao.commit();
@@ -104,7 +107,9 @@ public class LivroDAO implements ILivroDAO {
 	
 	public ArrayList<LivroBean> listaObra() throws ProjetoException {
 
-		String sql = "select id , titulo, ano_publicacao, editora, classificacao, quantidade from acl.obra";
+		String sql = "select livro.id_livro, livro.titulo, livro.ano_publicacao, livro.editora, livro.resumo, livro.classificacao, livro.quantidade, autor.id_autor from livro";
+			   sql += "INNER JOIN autor ON livro.id_autor = autor.id_autor";
+
 
 		ArrayList<LivroBean> lista = new ArrayList<>();
 		try {
@@ -115,13 +120,15 @@ public class LivroDAO implements ILivroDAO {
 			while (rs.next()) {
 				LivroBean a = new LivroBean();
 
-				a.setId(rs.getInt("id"));
+				a.setId_livro(rs.getInt("id_livro"));
 				a.setTitulo(rs.getString("titulo"));
-				a.setAnoPublicacao(rs.getDate("anoPublicacao"));
+				a.setAno_publicacao(rs.getString("ano_publicacao"));
 				a.setEditora(rs.getString("editora"));
-				a.setClassificacao(rs.getString("classidicacao"));
+				a.setResumo(rs.getString("resumo"));
+				a.setClassificacao(rs.getString("classificacao"));
 				a.setQuantidade(rs.getInt("quantidade"));	
-
+				a.getAutor().setId_autor(rs.getInt("id_autor"));
+							
 				lista.add(a);
 			}
 			
@@ -141,10 +148,12 @@ public class LivroDAO implements ILivroDAO {
 	
 	@Override
 	public List<LivroBean> searchLivro(String value, Integer type) throws ProjetoException {
-		String sql = "select * from acl.livro ";
+			
+		String sql = "select livro.id_livro, livro.titulo, livro.ano_publicacao, livro.editora, livro.resumo, livro.classificacao, livro.quantidade, autor.id_autor from livro";
+		  
 
 		if (type == 1) {
-			sql += "join acl.autor on livro.id_autor = autor.id_autor where autor.nome like ? order by livro.titulo ";
+			sql += " inner join autor on livro.id_autor = autor.id_autor where autor.nome like ? order by livro.titulo ";
 		} else if (type == 2) {
 			sql += "where livro.ano_publicacao = ? order by livro.titulo ";
 		}
@@ -163,14 +172,17 @@ public class LivroDAO implements ILivroDAO {
 
 			while (rs.next()) {
 				LivroBean lb = new LivroBean();
-				lb.setId(rs.getInt("id_livro"));
-				lb.setNome(rs.getString("titulo"));
-				lb.setAnoPublicacao(rs.getDate("ano_publicacao"));
+				
+
+				lb.setId_livro(rs.getInt("id_livro"));
+				lb.setTitulo(rs.getString("titulo"));
+				lb.setAno_publicacao(rs.getString("ano_publicacao"));
 				lb.setEditora(rs.getString("editora"));
 				lb.setResumo(rs.getString("resumo"));
 				lb.setClassificacao(rs.getString("classificacao"));
-				lb.setQuantidade(rs.getInt("quantidade"));
-				
+				lb.setQuantidade(rs.getInt("quantidade"));	
+				lb.getAutor().setId_autor(rs.getInt("id_autor"));
+							
 				list.add(lb);					
 			}
 		} catch (SQLException ex) {
