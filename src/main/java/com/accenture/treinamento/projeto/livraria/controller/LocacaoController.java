@@ -1,7 +1,7 @@
 package com.accenture.treinamento.projeto.livraria.controller;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -21,8 +21,11 @@ import com.accenture.treinamento.projeto.livraria.negocio.LocacaoNegocio;
 @SessionScoped
 public class LocacaoController {
 	private LocacaoBean locacao;
-	private ArrayList<LocacaoBean> listaLocacoes;
-	private ArrayList<LocacaoBean> listaLivros;
+	private List<LocacaoBean> listaLocacoes;
+	private List<Integer> listaLivros;
+	
+	private Integer tipoBuscaLocacao;
+	private String campoBuscaLocacao;
 
 	public LocacaoController() {
 		locacao = new LocacaoBean();
@@ -33,13 +36,13 @@ public class LocacaoController {
 
 	// SALVA NO BANDO DE DADOS A LOCACAO
 	public void salvarLocacao() throws ProjetoException {
+		listaLocacoes = null;
 		LocacaoNegocio ldao = new LocacaoNegocio();
 
 		if (ldao.salvarLocacao(locacao)) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Locacao adicionada com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaLocacoes = null;
 			listaLivros = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -50,6 +53,7 @@ public class LocacaoController {
 
 	// EDITAR NO BANCO DE DADOS A LOCACAO EXISTENTE
 	public void editarLocacao() throws ProjetoException {
+		listaLocacoes = null;
 		LocacaoNegocio ldao = new LocacaoNegocio();
 
 		if (ldao.editarLocacao(locacao)) {
@@ -67,6 +71,7 @@ public class LocacaoController {
 
 	// REMOVE A LOCACAO DO BANCO DE DADOS
 	public void deletarLocacao() throws ProjetoException {
+		listaLocacoes = null;
 		LocacaoNegocio ldao = new LocacaoNegocio();
 
 		if (ldao.deletarLocacao(locacao)) {
@@ -90,7 +95,7 @@ public class LocacaoController {
 		this.locacao = locacao;
 	}
 
-	public ArrayList<LocacaoBean> getListaLocacoes() throws ProjetoException {
+	public List<LocacaoBean> getListaLocacoes() throws ProjetoException {
 			LocacaoNegocio ldao = new LocacaoNegocio();
 			return listaLocacoes = ldao.getListaLocacoes(listaLocacoes);
 	}
@@ -100,7 +105,19 @@ public class LocacaoController {
 	}
 	
 	public void addLivros(Integer id_livro){
-		
+		listaLivros.add(id_livro);
+	}
+	
+	public void buscarLocacao() throws ProjetoException {
+
+		LocacaoNegocio ldao = new LocacaoNegocio();
+
+		listaLocacoes = ldao.buscarLocacoes(campoBuscaLocacao, tipoBuscaLocacao);
+
+		if (listaLocacoes == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhuma locação encontrada.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 	}
 
 }

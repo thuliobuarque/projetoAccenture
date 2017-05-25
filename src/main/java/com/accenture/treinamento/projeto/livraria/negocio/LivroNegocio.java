@@ -36,13 +36,9 @@ public class LivroNegocio {
 	}
 	
 
-	public List<LivroBean> getListaObra(List<LivroBean> listaObra) throws ProjetoException {
-		if (listaObra == null) {
+	public List<LivroBean> getListaObra() throws ProjetoException {
 			LivroDAO adao = new LivroDAO();
-			listaObra = adao.listaObra();
-
-		}
-		return listaObra;
+			return adao.listaObra();
 	}
 	
 	public List<LivroBean> buscarLivro(String campo, Integer tipo) throws ProjetoException{

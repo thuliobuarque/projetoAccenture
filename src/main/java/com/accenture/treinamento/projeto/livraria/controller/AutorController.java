@@ -106,9 +106,12 @@ public class AutorController {
 		this.autor = autor;
 	}
 
-	public List<AutorBean> getListaAutor() throws ProjetoException {
-		AutorNegocio an = new AutorNegocio();
-		return an.getListaAutor(listaAutor);
+	public List<AutorBean> ListaAutor() throws ProjetoException {
+		if(listaAutor == null){
+			AutorNegocio an = new AutorNegocio();
+			listaAutor = an.getListaAutor();			
+		}
+		return listaAutor;
 	}
 
 	public void setListaAutor(List<AutorBean> listaAutor) {
@@ -122,7 +125,7 @@ public class AutorController {
 		listaAutor = adao.buscarAutor(campoBuscaAutor);
 
 		if (listaAutor == null) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum Aluno encontrada.", "Aviso");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum autor encontrado.", "Aviso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}

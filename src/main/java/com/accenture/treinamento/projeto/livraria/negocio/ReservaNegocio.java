@@ -1,11 +1,6 @@
 package com.accenture.treinamento.projeto.livraria.negocio;
 
-import java.util.ArrayList;
-
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
+import java.util.List;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.ReservaDAO;
 import com.accenture.treinamento.projeto.livraria.model.ReservaBean;
@@ -16,78 +11,26 @@ import com.accenture.treinamento.projeto.livraria.model.ReservaBean;
 */
 
 public class ReservaNegocio {
-	
-	private ReservaBean Reserva;
-	private ArrayList<ReservaBean> listaReservas;
 
-	public ReservaNegocio() {
-		
-		Reserva = new ReservaBean();
-		
-		listaReservas = new ArrayList<>();
-		listaReservas = null;
-	}
-
-	public void salvarReserva() throws ProjetoException {
+	public void salvarReserva(ReservaBean reserva) throws ProjetoException {
 		ReservaDAO retiradadao = new ReservaDAO();
+		retiradadao.saveReserva(reserva);
 
-		if (retiradadao.saveReserva(Reserva)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Reserva adicionada com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
 	}
 
-	public void editarReserva() throws ProjetoException {
+	public void editarReserva(ReservaBean reserva) throws ProjetoException {
 		ReservaDAO retiradadao = new ReservaDAO();
-
-		if (retiradadao.updateReserva(Reserva)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Reserva editada com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante a edicao!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
+		retiradadao.updateReserva(reserva);	
 	}
 
-	public void deletarReserva() throws ProjetoException {
+	public void deletarReserva(ReservaBean reserva) throws ProjetoException {
 		ReservaDAO retiradadao = new ReservaDAO();
-
-		if (retiradadao.removeReserva(Reserva)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Reserva deletada com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o procedimento!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
+		retiradadao.removeReserva(reserva);
 	}
 
-	public ReservaBean getReserva() {
-		return Reserva;
-	}
-
-	public void setReserva(ReservaBean reserva) {
-		this.Reserva = reserva;
-	}
-
-	public ArrayList<ReservaBean> getListaReservas() throws ProjetoException {
-		if (listaReservas == null) {
+	public List<ReservaBean> getListaReservas() throws ProjetoException {
 			ReservaDAO rdao = new ReservaDAO();
-			listaReservas = rdao.listReservas();
-		}
-		return listaReservas;
-	}
-
-	public void setListaReservas(ArrayList<ReservaBean> listaReservas) {
-		this.listaReservas = listaReservas;
+			return rdao.listReservas();
 	}
 
 }

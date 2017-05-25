@@ -37,12 +37,11 @@ public class AutorNegocio {
 		
 	}
 
-	public List<AutorBean> getListaAutor(List<AutorBean> list) throws ProjetoException {
-		if(list == null){
+	public List<AutorBean> getListaAutor() throws ProjetoException {
+		
 			AutorDAO adao = new AutorDAO();
-			list = adao.listaAutor();
-		}
-			return list;
+			return adao.listaAutor();
+		
 	}
 	
 	public List<AutorBean> buscarAutor(String campo) throws ProjetoException{

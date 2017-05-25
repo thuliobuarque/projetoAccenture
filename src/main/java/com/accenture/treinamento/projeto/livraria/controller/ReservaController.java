@@ -1,7 +1,8 @@
 package com.accenture.treinamento.projeto.livraria.controller;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,6 +12,7 @@ import javax.faces.context.FacesContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.ReservaDAO;
 import com.accenture.treinamento.projeto.livraria.model.ReservaBean;
+import com.accenture.treinamento.projeto.livraria.negocio.ReservaNegocio;
 /**
 *
 * @author Thulio, thayse, thales, caio, priscila, veridiana
@@ -21,7 +23,7 @@ import com.accenture.treinamento.projeto.livraria.model.ReservaBean;
 public class ReservaController {
 	
 	private ReservaBean Reserva;
-	private ArrayList<ReservaBean> listaReservas;
+	private List<ReservaBean> listaReservas;
 
 	public ReservaController() {
 		
@@ -81,10 +83,10 @@ public class ReservaController {
 		this.Reserva = reserva;
 	}
 
-	public ArrayList<ReservaBean> getListaReservas() throws ProjetoException {
+	public List<ReservaBean> ListaReservas() throws ProjetoException {
 		if (listaReservas == null) {
-			ReservaDAO rdao = new ReservaDAO();
-			listaReservas = rdao.listReservas();
+			ReservaNegocio rdao = new ReservaNegocio();
+			listaReservas = rdao.getListaReservas();
 		}
 		return listaReservas;
 	}

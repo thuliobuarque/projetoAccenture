@@ -1,6 +1,8 @@
 package com.accenture.treinamento.projeto.livraria.negocio;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.LocacaoDAO;
 import com.accenture.treinamento.projeto.livraria.model.LocacaoBean;
@@ -31,11 +33,16 @@ public class LocacaoNegocio {
 		return ldao.removeLocacao(locacao);
 	}
 
-	public ArrayList<LocacaoBean> getListaLocacoes(ArrayList<LocacaoBean> listaLocacoes) throws ProjetoException {
+	public List<LocacaoBean> getListaLocacoes(List<LocacaoBean> listaLocacoes) throws ProjetoException {
 		if (listaLocacoes == null) {
 			LocacaoDAO ldao = new LocacaoDAO();
 			listaLocacoes = ldao.listLocacoes();
 		}
 		return listaLocacoes;
+	}
+	
+	public List<LocacaoBean> buscarLocacoes(String campo, Integer tipo) throws ProjetoException{
+		LocacaoDAO ldao = new LocacaoDAO();
+		return ldao.searchLocacao(campo, tipo);
 	}
 }

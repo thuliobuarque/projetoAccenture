@@ -17,10 +17,10 @@ import com.accenture.treinamento.projeto.livraria.model.LivroBean;
 import com.accenture.treinamento.projeto.livraria.negocio.LivroNegocio;
 
 /**
-*
-* @author Thulio, thayse, thales, caio, priscila, veridiana
-* @since 17/05/2017
-*/
+ *
+ * @author Thulio, thayse, thales, caio, priscila, veridiana
+ * @since 17/05/2017
+ */
 
 @ManagedBean(name = "MBLivro")
 @SessionScoped
@@ -29,10 +29,10 @@ public class LivroController {
 	private LivroBean obra;
 
 	private List<LivroBean> listaObra;
-	
+
 	private Integer tipoBuscaLivro;
 	private String campoBuscaLivro;
-	
+
 	public LivroController() {
 		obra = new LivroBean();
 
@@ -47,14 +47,13 @@ public class LivroController {
 
 		if (cadastrou == true) {
 
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Obra cadastrado com sucesso!", "Sucesso");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Obra cadastrado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgCadObra.hide();");
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro durante o cadastro!",
+					"Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgCadObra.hide();");
@@ -69,14 +68,13 @@ public class LivroController {
 
 		if (alterou == true) {
 
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Obra alterado com sucesso!", "Sucesso");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Obra alterado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltObra.hide();");
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro durante o cadastro!",
+					"Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltObra.hide();");
@@ -89,33 +87,29 @@ public class LivroController {
 		boolean excluiu = adao.excluirObra(obra);
 
 		if (excluiu == true) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Obra excluido com sucesso!", "Sucesso");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Obra excluido com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-				RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
+			RequestContext.getCurrentInstance().execute("PF('dialogAtencao').hide();");
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante a exclusao!", "Erro");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro durante a exclusao!",
+					"Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
+			RequestContext.getCurrentInstance().execute("PF('dialogAtencao').hide();");
 		}
 	}
-	
+
 	public void buscarLivros() throws ProjetoException {
-		
+
 		LivroNegocio adao = new LivroNegocio();
 
-    		listaObra = adao.buscarLivro(campoBuscaLivro, tipoBuscaLivro);
+		listaObra = adao.buscarLivro(campoBuscaLivro, tipoBuscaLivro);
 
-    		if (listaObra == null) {
-    			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
-    					"Nenhum Aluno encontrada.", "Aviso");
-    			FacesContext.getCurrentInstance().addMessage(null, msg);    			
-    	}
-        
+		if (listaObra == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum livro encontrada.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+
 	}
 
 	public void limparObjeto() {
@@ -130,10 +124,10 @@ public class LivroController {
 		this.obra = obra;
 	}
 
-	public List<LivroBean> getListaObra() throws ProjetoException {
+	public List<LivroBean> ListaObra() throws ProjetoException {
 		if (listaObra == null) {
-			LivroDAO adao = new LivroDAO();
-			listaObra = adao.listaObra();
+			LivroNegocio ln = new LivroNegocio();
+			listaObra = ln.getListaObra();
 
 		}
 		return listaObra;
