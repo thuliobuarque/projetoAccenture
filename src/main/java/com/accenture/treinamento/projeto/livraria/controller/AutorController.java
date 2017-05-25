@@ -13,6 +13,7 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.model.AutorBean;
 import com.accenture.treinamento.projeto.livraria.negocio.AutorNegocio;
+import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 
 /**
  *
@@ -28,6 +29,7 @@ public class AutorController {
 	private List<AutorBean> listaAutor;
 
 	private String campoBuscaAutor;
+	private Integer tipoBuscaAutor;
 
 	public AutorController() {
 		autor = new AutorBean();
@@ -120,6 +122,15 @@ public class AutorController {
 			return listaAutor = an.getListaAutor();			
 
 	}
+	
+	public void limparBuscaDados() {
+		tipoBuscaAutor = 1;
+		campoBuscaAutor = "";
+	}
+	
+	public void limparDados() {
+		autor = new AutorBean();
+		}
 
 	public void setListaAutor(List<AutorBean> listaAutor) {
 		this.listaAutor = listaAutor;
@@ -129,7 +140,7 @@ public class AutorController {
 
 		AutorNegocio adao = new AutorNegocio();
 
-		listaAutor = adao.buscarAutor(campoBuscaAutor);
+		listaAutor = adao.buscarAutor(campoBuscaAutor, tipoBuscaAutor);
 
 		if (listaAutor == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum autor encontrado.", "Aviso");

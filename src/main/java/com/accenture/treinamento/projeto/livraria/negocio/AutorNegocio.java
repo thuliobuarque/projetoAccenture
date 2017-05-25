@@ -45,9 +45,9 @@ public class AutorNegocio {
 		
 	}
 	
-	public List<AutorBean> buscarAutor(String campo) throws ProjetoException{
+	public List<AutorBean> buscarAutor(String campo, int tipo) throws ProjetoException{
 		AutorDAO adao = new AutorDAO();
-		return adao.searchAutor(campo);
+		return adao.searchAutor(campo, tipo);
 	}
 
 }

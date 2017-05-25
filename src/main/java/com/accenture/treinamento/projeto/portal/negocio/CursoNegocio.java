@@ -43,7 +43,7 @@ public class CursoNegocio {
 		return excluir;
 	}
 	
-	public List<CursoBean> getListaFuncionario() throws ProjetoException {
+	public List<CursoBean> getListaCurso() throws ProjetoException {
 		CursoDAO Cdao = new CursoDAO();
 		return Cdao.listaCurso();
 	}
@@ -51,7 +51,7 @@ public class CursoNegocio {
 	
 	public List<CursoBean> buscarCurso(String campo, Integer tipo) throws ProjetoException {
 		CursoDAO Cdao = new CursoDAO();
-		return Cdao.buscarTipoCurso(campo, tipo);
+		return Cdao.(campo, tipo);
 	}
 	
 }

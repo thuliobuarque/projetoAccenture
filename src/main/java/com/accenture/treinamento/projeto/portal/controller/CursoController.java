@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
+import com.accenture.treinamento.projeto.livraria.model.AutorBean;
 import com.accenture.treinamento.projeto.portal.dao.CursoDAO;
 import com.accenture.treinamento.projeto.portal.model.CursoBean;
 import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
@@ -127,6 +128,15 @@ public class CursoController {
 	public CursoBean getAluno() {
 		return curso;
 	}
+	
+	public void limparBuscaDados() {
+		tipoBuscaAutor = 1;
+		campoBuscaAutor = "";
+	}
+	
+	public void limparDados() {
+		autor = new AutorBean();
+		}
 
 	public void setCurso(CursoBean curso) {
 		this.curso = curso;

@@ -131,7 +131,7 @@ public class AutorDAO implements IAutorDAO {
 	}
 	
 	@Override
-	public List<AutorBean> searchAutor(String value) throws ProjetoException {
+	public List<AutorBean> searchAutor(String value, int tipo) throws ProjetoException {
 		String sql = "select * from acl.autor join acl.livro on autor.id_autor = livro.id_autor where autor.nome like ? order by livro.titulo";
 
 		List<AutorBean> list = new ArrayList<>();

@@ -12,6 +12,6 @@ public interface IAutorDAO {
 	public abstract boolean alterarAutor(AutorBean autor) throws ProjetoException;
 	public abstract boolean excluirAutor(AutorBean autor) throws ProjetoException;
 	public ArrayList<AutorBean> listaAutor() throws ProjetoException;
-	public List<AutorBean> searchAutor(String value) throws ProjetoException;
+	public List<AutorBean> searchAutor(String value, int tipo) throws ProjetoException;
 	
 }
