@@ -1,7 +1,4 @@
-/*
-    Author: Emerson Gama & Jerônimo do Nascimento
-    Since: 09/10/2014
-*/
+
 
 /* CSS Reset */
 html, body, div, span, applet, object, iframe,
@@ -571,11 +568,6 @@ li.ui-selectonemenu-item {
     display: none !important;
 }
 
-/*               RODAP�                   */
-/* .clearfix {
-    width: 960px;
-    margin: 0 auto;
-}
 
 .clearfix:after {
     clear: both;
@@ -706,6 +698,15 @@ li.ui-selectonemenu-item {
     background-image: url("../imgs/orderby.png") !important;   	
 }
 
+.ui-icon.professor{
+    background-image: url("../imgs/director.png") !important;   	
+}
+
+.ui-icon.funcionario{
+    background-image: url("../imgs/alterar_usuario.png") !important;   	
+}
+
+
 .ui-icon.historico-ats{
     background-image: url("../imgs/historico_ats.png") !important;   	
 }
@@ -731,7 +732,7 @@ li.ui-selectonemenu-item {
     background-image: url("../imgs/editar24.png") !important;   	
 }
 .ui-icon.newuser{
-    background-image: url("../imgs/newuser.png") !important;   	
+    background-image: url("../imgs/newuser.png") !important;  
 }
 .ui-icon.relatorio{
     background-image: url("../imgs/report2.png") !important;   	
@@ -757,6 +758,23 @@ li.ui-selectonemenu-item {
 .ui-icon.novoProcesso{
     background-image: url("../imgs/novo.png") !important;   	
 }
+
+.ui-icon.reserva{
+    background-image: url("../imgs/menuHistorico.png") !important;   	
+}
+
+.ui-icon.locacao{
+    background-image: url("../imgs/mnuPorData.png") !important;   	
+}
+
+.ui-icon.livro{
+    background-image: url("../imgs/book.png") !important;   	
+}
+.ui-icon.autor{
+    background-image: url("../imgs/editUser.png") !important;   	
+}
+
+
 
 /* --------------------------------------------------------------------------- */
 .ui-icon.anexos-at {

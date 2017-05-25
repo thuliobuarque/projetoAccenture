@@ -80,34 +80,32 @@
 
 			<!-- Navigation -->
 			<p:menubar autoDisplay="true" styleClass="menu">
-				<p:menuitem value="Home"
+				<p:menuitem value="Home" 
 					action="../../comum/principal.faces?faces-redirect=true"
 					icon="home" />
 				<p:submenu label="Cadastros" icon="btcadastro">
 					<p:menuitem value="Aluno" 
-						url="/pages/cadastros/gerenciarAlunos.faces?faces-redirect=true" />
+						url="/pages/cadastros/gerenciarAlunos.faces?faces-redirect=true" icon="newuser" />
 					<p:menuitem value="Professor"
-						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" />
+						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" icon="professor" />
 					<p:menuitem value="Funcionário"
-						url="/pages/cadastros/gerenciarFuncionario.faces?faces-redirect=true" />
+						url="/pages/cadastros/gerenciarFuncionario.faces?faces-redirect=true" icon="funcionario"/>
 
 
 
 				</p:submenu>
 
-				<p:submenu label="Biblioteca">
-				<p:menuitem value="Livro"
-						url="/pages/cadastros/gerenciarLivro.faces?faces-redirect=true" />
+				<p:submenu label="Biblioteca" icon="livro">
+
 					<p:menuitem value="Locação"
-						url="/pages/cadastros/gerenciarLocacao.faces?faces-redirect=true" />
-					<p:menuitem value="Turma"
-						url="/pages/cadastros/gerenciarTurma.faces?faces-redirect=true" />
-					<p:menuitem value="Disciplina"
-						url="/pages/cadastros/gerenciarDisciplina.faces?faces-redirect=true" />
-					<p:menuitem value="Curso"
-						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" />
-					<p:menuitem value="Reserva"
-						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" />
+						url="/pages/cadastros/gerenciarlocacao.faces?faces-redirect=true" icon="locacao"/>
+					<p:menuitem value="Reservar"
+						url="/pages/cadastros/gerenciarReserva.faces?faces-redirect=true" icon="reserva"/>
+					<p:menuitem value="Livros"
+						url="/pages/cadastros/gerenciarLivros.faces?faces-redirect=true"  icon="livro"/>
+					<p:menuitem value="Autor"
+						url="/pages/cadastros/gerenciarAutor.faces?faces-redirect=true"  icon ="autor"/>
+					
 
 				</p:submenu>
 				<p:menuitem value="Sair" style="float:center;"
