@@ -45,9 +45,9 @@ public class NotaNegocio {
 		NotaDAO ndao = new NotaDAO();
 		return ndao.listaNota();
 	}
-	public List<NotaBean> buscarNota(String campo, Integer tipo) throws ProjetoException {
+	public List<NotaBean> buscarNota(String campo) throws ProjetoException {
 		NotaDAO ndao = new NotaDAO();
-		return ndao.buscarNota(campo, tipo)
+		return ndao.buscarNota(campo);
 	}
 	
 	

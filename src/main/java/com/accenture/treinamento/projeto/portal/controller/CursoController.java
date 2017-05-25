@@ -109,7 +109,7 @@ public class CursoController {
 		}
 	}
 	
-    public void buscarCurso() throws ProjetoException {
+    /*public void buscarCurso() throws ProjetoException {
 
 		CursoNegocio Cdao = new CursoNegocio();
 
@@ -119,7 +119,7 @@ public class CursoController {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum curso encontrado.", "Aviso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-    }
+    }*/
 
 	public void LimparObjeto() {
 		curso = null;

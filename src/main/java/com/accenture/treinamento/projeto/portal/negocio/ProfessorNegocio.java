@@ -47,9 +47,10 @@ public class ProfessorNegocio {
 		ProfessorDAO Pdao = new ProfessorDAO();
 		return Pdao.listaProfessor();
 	}
-	public List<ProfessorBean> buscarProfessor(String campo, Integer tipo) throws ProjetoException {
+	
+	/*public List<ProfessorBean> buscarProfessor(String campo, Integer tipo) throws ProjetoException {
 		ProfessorDAO Pdao = new ProfessorDAO();
-		return Pdao.buscarProfessor(campo, tipo);
-	}
+		return Pdao.listaProfessor();
+	}*/
 	
 }

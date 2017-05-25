@@ -54,7 +54,7 @@ public class DisciplinaNegocio {
 	
 	public List<DisciplinaBean> buscarDisciplina(String campo, Integer tipo) throws ProjetoException {
 		DisciplinaDAO Ddao = new DisciplinaDAO();
-		return Ddao.buscarTipoDisciplina(campo, tipo);
+		return Ddao.buscarDisciplina(campo, tipo);
 	}
 	
 	

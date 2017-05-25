@@ -111,7 +111,7 @@ public class ProfessorController {
 		}
 	}
 	
-    public void buscarProfessor() throws ProjetoException {
+   /* public void buscarProfessor() throws ProjetoException {
 
 		ProfessorNegocio Pdao = new ProfessorNegocio();
 
@@ -121,7 +121,7 @@ public class ProfessorController {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum professor encontrado.", "Aviso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-    }
+    }*/
 	
 	public ProfessorBean getProfessor() {
 		return professor;

@@ -49,9 +49,9 @@ public class CursoNegocio {
 	}
 	
 	
-	public List<CursoBean> buscarCurso(String campo, Integer tipo) throws ProjetoException {
+	/*public List<CursoBean> buscarCurso(String campo, Integer tipo) throws ProjetoException {
 		CursoDAO Cdao = new CursoDAO();
 		return Cdao.(campo, tipo);
-	}
+	}*/
 	
 }
