@@ -18,11 +18,13 @@ public class PessoaDAO implements IPessoaDAO {
 
 		this.conexao = ConnectionFactory.getConnection();
 
-		String sql = "select pessoa.login, pessoa.senha, alunos.nome, funcionarios.nome, pessoa.perfil "
-				+ "from acl.pessoa join acl.alunos on pessoa.id_pessoa = alunos.id_pessoa "
-				+ "join acl.professor on pessoa.id_pessoa = professor.id_pessoa "
-				+ "join acl.funcionario on pessoa.id_pessoa = funcionario.id_pessoa "
-				+ "where pessoa.login = ? and pessoa.senha = ?";
+//		String sql = "select pessoa.login, pessoa.senha, aluno.nome, funcionario.nome, pessoa.perfil "
+//				+ "from pessoa join aluno on pessoa.id_pessoa = aluno.id_pessoa "
+//				+ "join professor on pessoa.id_pessoa = professor.id_pessoa "
+//				+ "join funcionario on pessoa.id_pessoa = funcionario.id_pessoa "
+//				+ "where pessoa.login = ? and pessoa.senha = ?";
+		
+		String sql = "select pessoa.login, pessoa.senha from pessoa where pessoa.login = ? and pessoa.senha = ?";
 
 		PessoaBean ub = null;
 
@@ -37,7 +39,7 @@ public class PessoaDAO implements IPessoaDAO {
 				ub = new PessoaBean();
 				ub.setLogin(rs.getString("login"));
 				ub.setSenha(rs.getString("senha"));
-				ub.setNome(rs.getString("nome"));
+				//ub.setNome(rs.getString("nome"));
 			}
 
 			return ub;

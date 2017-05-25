@@ -34,13 +34,13 @@ public class PessoaController {
 		
 	pessoa = new PessoaBean();
 	
-	
 	}
 
 	public String login() throws ProjetoException {
 
 		PessoaNegocio ud = new PessoaNegocio();
 		pessoa = ud.autenticarPessoa(pessoa);
+		
 		if (pessoa == null) {
 			FacesContext fct = FacesContext.getCurrentInstance();
 			fct.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
