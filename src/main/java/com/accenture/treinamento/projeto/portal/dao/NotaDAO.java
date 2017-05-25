@@ -22,14 +22,15 @@ public class NotaDAO implements INotaDAO{
 
 	@Override
 	public boolean cadastrarNota(NotaBean notas) throws ProjetoException {
-		String sql = "insert into nota (nota1, nota2, media, mediafinal) values (?, ?, ?, ?)";
+		String sql = "insert into nota (nota1, nota2, media, nota3, mediafinal) values (?, ?, ?, ?, ?)";
 		try{
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.setFloat(1, notas.getNota1());
 			stmt.setFloat(2, notas.getNota2());
 			stmt.setFloat(3, notas.getMedia());
-			stmt.setFloat(4, notas.getMediafinal());
+			stmt.setFloat(4, notas.getNota3());
+			stmt.setFloat(5, notas.getMediafinal());
 			stmt.execute();
 			conexao.commit();
 			return true;

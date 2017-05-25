@@ -31,11 +31,25 @@ public class NotaController {
 		
 	}
 	public void cadastrarNota() throws ProjetoException {
-
-		NotaNegocio ndao = new NotaNegocio();
-
+			
+		if (nota.getNota1() >= 0){
+			if (nota.getNota2() >= 0) {
+				nota.setMedia(((nota.getNota1()+nota.getNota2())/2));
+				if (nota.getMedia() >= 7) {
+					nota.setMediafinal(nota.getMedia()); 
+					System.out.println("Aprovado");
+				}else if ((nota.getMedia() < 7) && (nota.getMedia()>= 4)){
+					nota.setMediafinal((nota.getMedia()+nota.getNota3())/2);
+					System.out.println("Final");
+				}else {
+					nota.setMediafinal(nota.getMedia());
+					System.out.println("Reprovado");
+				}
+			}
+		}
 		
-		if (ndao.cadastrarNota(nota)) {
+		NotaNegocio ndao = new NotaNegocio();
+		if (ndao.cadastrarNota(nota)) {	
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Aluno cadastrado com sucesso!", "Sucesso");
