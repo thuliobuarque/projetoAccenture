@@ -2,16 +2,10 @@ package com.accenture.treinamento.projeto.portal.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
 import org.primefaces.context.RequestContext;
-
 import com.accenture.treinamento.projeto.exception.ProjetoException;
-import com.accenture.treinamento.projeto.portal.controller.TurmaController;
 import com.accenture.treinamento.projeto.portal.model.TurmaBean;
 import com.accenture.treinamento.projeto.portal.dao.TurmaDAO;
 

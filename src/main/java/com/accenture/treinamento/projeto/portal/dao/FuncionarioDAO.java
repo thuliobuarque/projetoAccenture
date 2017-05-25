@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.model.FuncionarioBean;
 
 public class FuncionarioDAO implements IFuncionarioDAO {
@@ -100,7 +99,7 @@ public class FuncionarioDAO implements IFuncionarioDAO {
 
 		String sql = "select id_funcionario, login, senha, nome, cpf from acl.funcionario order by nome";
 
-		ArrayList<FuncionarioBean> lista = new ArrayList();
+		ArrayList<FuncionarioBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);

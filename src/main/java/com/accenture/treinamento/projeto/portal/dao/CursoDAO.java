@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.model.CursoBean;
 
 public class CursoDAO implements ICursoDAO {
@@ -99,7 +98,7 @@ public class CursoDAO implements ICursoDAO {
 
 		String sql = "select id_curso, codigo_curso, nome_curso, id_disciplina from curso order by nome_curso";
 
-		ArrayList<CursoBean> lista = new ArrayList();
+		ArrayList<CursoBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);

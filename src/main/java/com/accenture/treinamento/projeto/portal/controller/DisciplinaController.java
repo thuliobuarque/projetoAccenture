@@ -12,7 +12,6 @@ import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
-import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.dao.DisciplinaDAO;
 
 /**
@@ -96,7 +95,7 @@ public class DisciplinaController {
 		if (excluir == true) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Disciplina excluída com sucesso!", "Sucesso");
+					"Disciplina excluï¿½da com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			// listaLaudo = null;
 			RequestContext.getCurrentInstance().execute(

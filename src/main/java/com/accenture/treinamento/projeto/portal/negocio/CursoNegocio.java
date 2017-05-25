@@ -5,16 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
 import org.primefaces.context.RequestContext;
-
 import com.accenture.treinamento.projeto.exception.ProjetoException;
-import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.dao.CursoDAO;
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.model.CursoBean;
 
 /**

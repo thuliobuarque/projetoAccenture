@@ -1,7 +1,5 @@
 package com.accenture.treinamento.projeto.portal.model;
 
-import java.sql.Clob;
-
 public class DisciplinaBean {
 	
 	private int id_disciplina;

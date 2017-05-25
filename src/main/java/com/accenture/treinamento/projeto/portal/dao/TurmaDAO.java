@@ -9,9 +9,7 @@ import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
-import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
 import com.accenture.treinamento.projeto.portal.model.TurmaBean;
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 
 
 /**
@@ -106,7 +104,7 @@ public class TurmaDAO implements ITurmaDAO {
 
 		String sql = "select id_turma, codigo_turma, id_aluno from turma order by codigo_turma";
 
-		ArrayList<TurmaBean> lista = new ArrayList();
+		ArrayList<TurmaBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);

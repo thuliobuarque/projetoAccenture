@@ -9,11 +9,7 @@ import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
-import com.accenture.treinamento.projeto.portal.model.ProfessorBean;
-import com.accenture.treinamento.projeto.portal.model.TurmaBean;
-
 
 public class DisciplinaDAO implements IDisciplinaDAO {
 
@@ -115,7 +111,7 @@ public class DisciplinaDAO implements IDisciplinaDAO {
 				+ "inner join professor on (professor.id_professor = disciplina.id_professor) "
 				+ "inner join turma on (turma.id_turma = disciplina.id_turma) order by disciplina.nome";
 
-		ArrayList<DisciplinaBean> lista = new ArrayList();
+		ArrayList<DisciplinaBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);

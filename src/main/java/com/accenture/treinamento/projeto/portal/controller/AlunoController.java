@@ -1,22 +1,14 @@
 package com.accenture.treinamento.projeto.portal.controller;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-
 import org.primefaces.context.RequestContext;
-
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.util.CepWebService;
-import com.accenture.treinamento.projeto.util.ClientRest;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**

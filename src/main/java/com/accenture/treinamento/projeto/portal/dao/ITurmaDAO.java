@@ -10,7 +10,7 @@ public interface ITurmaDAO {
 	public abstract boolean cadastrarTurma(TurmaBean turma) throws ProjetoException;
 	public abstract boolean alterarTurma(TurmaBean turma) throws ProjetoException;
 	public abstract boolean excluirTurma(TurmaBean turma) throws ProjetoException;
-	public abstract List listaTurma() throws ProjetoException;
+	public abstract List<TurmaBean> listaTurma() throws ProjetoException;
 	public List<TurmaBean> buscarTurma(String valor, Integer tipo)throws ProjetoException;
 }
 		

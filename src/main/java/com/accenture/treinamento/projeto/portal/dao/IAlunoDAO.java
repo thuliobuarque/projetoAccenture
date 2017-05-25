@@ -10,7 +10,7 @@ public interface IAlunoDAO {
 	public abstract boolean cadastrarAluno(AlunoBean usuario) throws ProjetoException;
 	public abstract boolean alterarAluno(AlunoBean usuario) throws ProjetoException;
 	public abstract boolean excluirAluno(AlunoBean usuario) throws ProjetoException;
-	public abstract List listaAluno() throws ProjetoException;
+	public abstract List<AlunoBean> listaAluno() throws ProjetoException;
 
 
 }

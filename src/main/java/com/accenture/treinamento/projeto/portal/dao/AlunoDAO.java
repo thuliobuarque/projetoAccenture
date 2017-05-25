@@ -12,7 +12,6 @@ import java.util.List;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
-import com.mysql.jdbc.Statement;
 
 public class AlunoDAO implements IAlunoDAO {
 
@@ -130,7 +129,7 @@ public class AlunoDAO implements IAlunoDAO {
 
 		String sql = "select id_aluno, nome, cpf from aluno order by nome";
 
-		ArrayList<AlunoBean> lista = new ArrayList();
+		ArrayList<AlunoBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);

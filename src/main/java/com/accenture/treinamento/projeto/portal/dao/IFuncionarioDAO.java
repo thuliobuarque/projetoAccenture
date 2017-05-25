@@ -10,7 +10,7 @@ public interface IFuncionarioDAO {
 	public abstract boolean cadastrarFuncionario(FuncionarioBean funcionario) throws ProjetoException;
 	public abstract boolean alterarFuncionario(FuncionarioBean funcionario) throws ProjetoException;
 	public abstract boolean excluirFuncionario(FuncionarioBean funcionario) throws ProjetoException;
-	public abstract List listaFuncionario() throws ProjetoException;
+	public abstract List<FuncionarioBean> listaFuncionario() throws ProjetoException;
 
 
 }

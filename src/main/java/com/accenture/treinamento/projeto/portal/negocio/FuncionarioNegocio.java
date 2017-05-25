@@ -2,12 +2,8 @@ package com.accenture.treinamento.projeto.portal.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
