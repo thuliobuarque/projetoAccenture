@@ -16,17 +16,15 @@ public class CursoDAO implements ICursoDAO {
 	private Connection conexao = null;
 
 	public boolean cadastrarCurso(CursoBean curso) throws ProjetoException {
-
-		String sql = "insert into acl.curso (id, codigoCurso, nomeCurso) values (?, ?, ?)";
-
+     
+		String sql = "insert into curso(codigo_curso, nome_curso) values (?, ?)";
+		//curso.getDisciplina.SetId_disciplina (fk n funcionou id_disciplina apenas)
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setInt(1, curso.getId());
-			stmt.setString(2, curso.getCodigoCurso());
-			stmt.setString(3, curso.getNomeCurso());
-			// stmt.setString(4, curso.getDisciplina());
-
+			stmt.setString(1, curso.getcodigo_curso());
+			stmt.setString(2, curso.getNome_curso());
+		
 			stmt.execute();
 
 			conexao.commit();
@@ -46,14 +44,14 @@ public class CursoDAO implements ICursoDAO {
 
 	public boolean alterarCurso(CursoBean curso) throws ProjetoException {
 		boolean alterou = false;
-		String sql = "update acl.curso set codigoCurso = ?, nomeCurso = ? where id = ?";
+		String sql = "update curso set codigo_curso = '99988', nome_curso = 'historia' where id_curso = 4";
+		
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setString(1, curso.getCodigoCurso());
-			stmt.setString(2, curso.getNomeCurso());
-			stmt.setInt(3, curso.getId());
-			// stmt.setString(4, curso.getDisciplina());
+			stmt.setString(1, curso.getcodigo_curso());
+			stmt.setString(2, curso.getNome_curso());
+		
 
 			stmt.executeUpdate();
 			conexao.commit();
@@ -74,11 +72,11 @@ public class CursoDAO implements ICursoDAO {
 
 	public boolean excluirCurso(CursoBean curso) throws ProjetoException {
 		boolean excluir = false;
-		String sql = "delete from acl.cursos where id = ?";
+		String sql = "delete from curso where id_curso = ?";
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setInt(1, curso.getId());
+			stmt.setInt(1, curso.getId_curso());
 			stmt.executeUpdate();
 
 			conexao.commit();
@@ -99,7 +97,7 @@ public class CursoDAO implements ICursoDAO {
 
 	public ArrayList<CursoBean> listaCurso() {
 
-		String sql = "select id, codigoCurso, nomeCurso from acl.curso order by nomeCurso";
+		String sql = "select id_curso, codigo_curso, nome_curso, id_disciplina from curso order by nome_curso";
 
 		ArrayList<CursoBean> lista = new ArrayList();
 		try {
@@ -110,11 +108,11 @@ public class CursoDAO implements ICursoDAO {
 			while (rs.next()) {
 				CursoBean c = new CursoBean();
 
-				c.setId(rs.getInt("id"));
-				c.setCodigoCurso(rs.getString("codigoCurso"));
+				c.setId_curso(rs.getInt("id_curso"));
+				c.setCodigo_curso(rs.getString("codigo_curso"));
 				c.setNomeCurso(rs.getString("nomeCurso"));
-				// a.setDisciplina(rs.getString("disciplina"));
-
+				c.getDisciplina().setId_disciplina(rs.getInt("id_disciplina"));
+				 
 				lista.add(c);
 			}
 		} catch (SQLException ex) {
