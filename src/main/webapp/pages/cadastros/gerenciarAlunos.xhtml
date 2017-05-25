@@ -26,7 +26,7 @@
 						style="font-size:12px !important;">
 						<p:outputPanel id="pnlprincipal">
 							<p:outputLabel value="Pesquisar por: " />
-							<p:selectOneMenu value="#{MBAlunos.alunoNegocio.tipoBuscaAluno}"
+							<p:selectOneMenu value="#{MBAlunos.tipoBuscaAluno}"
 								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
 
 								<f:selectItem itemLabel="Nome" itemValue="1" />
@@ -39,7 +39,7 @@
 							<p:inputText id="campoBuscanome" size="35"
 								style="height:28px;margin-top:-6px;margin-left:16px;"
 								value="#{MBAlunos.alunoNegocio.campoBuscaAluno}"
-								rendered="#{MBAlunos.alunoNegocio.tipoBuscaAluno == 1}"
+								rendered="#{MBAlunos.tipoBuscaAluno == 1}"
 								placeholder="Informe o nome" />
 
 							<!-- <p:inputMask mask="999.999.999-99" id="campoBuscacpf" 
@@ -57,7 +57,7 @@
 
 							<p:commandButton icon="limpar" id="limp" value="Limpar"
 								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
-								action="#{MBAlunos.alunoNegocio.limparBuscaDados()}"
+								action="#{MBAlunos.limparBuscaDados()}"
 								style="margin-left:20px;height:40px;width:80px;">
 								<p:tooltip value="Limpar Busca" for="limp" />
 							</p:commandButton>
@@ -68,7 +68,7 @@
 
 				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
 					id="tabela" style="margin-top:20px;"
-					value="#{MBAlunos.alunoNegocio.listaAluno}" var="tab" rows="10"
+					value="#{MBAlunos.listaAluno}" var="tab" rows="10"
 					paginator="true" paginatorPosition="bottom">
 
 					<p:column headerText="ID" style="font-weight:bold; width:15%">

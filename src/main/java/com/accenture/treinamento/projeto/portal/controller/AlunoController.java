@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +30,7 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
 @ViewScoped
 public class AlunoController {
 
-	
+	private List<AlunoBean> listaAluno;
 	private AlunoNegocio alunoNegocio;
 	private AlunoBean aluno;
 	
@@ -79,21 +80,50 @@ public class AlunoController {
 	public void alterarAluno() throws ProjetoException {
 
 		AlunoNegocio adao = new AlunoNegocio();
-		adao.alterarAluno(aluno);
+		
+		if (adao.alterarAluno(aluno)) {
+
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Aluno alterado com sucesso!", "Sucesso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+		} else {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Ocorreu um erro durante o cadastro!", "Erro");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+		}
 
 	}
 
 	public void excluirAluno() throws ProjetoException {
 		
 		AlunoNegocio adao = new AlunoNegocio();
-		adao.excluirAluno(aluno);	
+	
+		
+		if (adao.excluirAluno(aluno)) {
+
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Aluno excluido com sucesso!", "Sucesso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+		} else {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Ocorreu um erro durante o cadastro!", "Erro");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+		}
+		
 	}
 	
-	public void buscarAlunos() throws ProjetoException {
-		
-		AlunoNegocio adao = new AlunoNegocio();
-        adao.buscarAlunos();
-        
+	
+	public void limparBuscaDados() {
+		tipoBuscaAluno = 1;
+		campoBuscaAluno = "";
 	}
 		
 
@@ -118,9 +148,9 @@ public class AlunoController {
     
     public void buscarAluno() throws ProjetoException {
 
-		AlunoNegocio adao = new AlnunoNegocio();
+		AlunoNegocio adao = new AlunoNegocio();
 
-		listaAluno = adao.buscarAutor(campoBuscaAluno, tipoBuscaAluno);
+		listaAluno = adao.buscarAluno(campoBuscaAluno, tipoBuscaAluno);
 
 		if (listaAluno == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum aluno encontrado.", "Aviso");
@@ -178,6 +208,20 @@ public class AlunoController {
 	public void setTipoBuscaAluno(Integer tipoBuscaAluno) {
 		this.tipoBuscaAluno = tipoBuscaAluno;
 	}
+
+	public List<AlunoBean> getListaAluno() {
+		if (listaAluno == null) {
+			AlunoNegocio adao = new AlunoNegocio();
+			listaAluno = adao.listaAluno();
+		}
+		return listaAluno;
+	}
+
+	public void setListaAluno(List<AlunoBean> listaAluno) {
+		this.listaAluno = listaAluno;
+	}
+	
+	
     
 
 }
