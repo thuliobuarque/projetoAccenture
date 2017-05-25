@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+
+			<p:commandButton value="Novo Professor" icon="novo"
+				style="margin-top:20px;height:40px;width:80px;"
+				actionListener="#{MBProfessors.limparDados()}"
+				onclick="PF('dlgNovoProfessor').show();"
+				update=":formNovoProfessor, :frmmensagem:growl" process=":formNovoProfessor" />
+
+			<h:form id="frmmensagem">
+
+				<p:growl id="growl" showDetail="false" />
+				<p:panel header="Gerenciar Professors"
+					style="margin-top:50px; height:auto; width:auto; background-color: #F5F5F5; border: 3px solid gray;">
+					<h:panelGrid columns="8" styleClass="semBorda"
+						style="font-size:12px !important;">
+						<p:outputPanel id="pnlprincipal">
+							<p:outputLabel value="Pesquisar por: " />
+							<p:selectOneMenu value="#{MBProfessors.professorNegocio.tipoBuscaProfessor}"
+								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
+
+								<f:selectItem itemLabel="Nome" itemValue="1" />
+								
+
+
+								<p:ajax event="change" update=":frmmensagem:pnlprincipal" />
+							</p:selectOneMenu>
+
+							<p:inputText id="campoBuscanome" size="35"
+								style="height:28px;margin-top:-6px;margin-left:16px;"
+								value="#{MBProfessors.professorNegocio.campoBuscaProfessor}"
+								rendered="#{MBProfessors.professorNegocio.tipoBuscaProfessor == 1}"
+								placeholder="Informe o nome" />
+
+						
+							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
+								style="height:40px;width:80px;margin-left:10px"
+								action="#{MBProfessors.buscarProfessors()}"
+								update=":frmmensagem:tabela, :frmmensagem:growl">
+								<p:tooltip value="Buscar" for="botaoBusca" />
+							</p:commandButton>
+
+							<p:commandButton icon="limpar" id="limp" value="Limpar"
+								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
+								action="#{MBProfessors.professorNegocio.limparBuscaDados()}"
+								style="margin-left:20px;height:40px;width:80px;">
+								<p:tooltip value="Limpar Busca" for="limp" />
+							</p:commandButton>
+
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
+					id="tabela" style="margin-top:20px;"
+					value="#{MBProfessors.professorNegocio.listaProfessor}" var="tab" rows="10"
+					paginator="true" paginatorPosition="bottom">
+
+					<p:column headerText="ID" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.id_professor}" />
+					</p:column>
+
+					<p:column headerText="Nome" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.nome}" />
+					</p:column>
+
+					<p:column headerText="CPF" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.cpf}" />
+					</p:column>
+
+					<p:column headerText="Ações" width="8%">
+						<center>
+							<p:splitButton icon="confirmar">
+								<p:menuitem value="Alterar" icon="alterar-dados"
+									onclick="PF('dlgAltProfessor').show()"
+									process="@this, :formAltProfessor"
+									update=":formAltProfessor:pnlAltProfessor">
+
+									<f:setPropertyActionListener value="#{tab}"
+										target="#{MBProfessors.professor}" />
+
+
+								</p:menuitem>
+
+								<p:menuitem value="Excluir" icon="trash"
+									onclick="PF('dialogAtencao').show()">
+
+									<f:setPropertyActionListener value="#{tab.id_professor}"
+										target="#{MBProfessors.professor.id_professor}" />
+								</p:menuitem>
+							</p:splitButton>
+						</center>
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+		
+		<p:dialog header="CADASTRO DE ALUNO" widgetVar="dlgNovoProfessor"
+			appendToBody="true" draggable="false" resizable="false"
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" closable="true" modal="true" width="auto">
+			<h:form id="formNovoProfessor">
+				<p:growl id="msg" />
+				<p:panel>
+					<p:tabView activeIndex="#{MBProfessors.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais Professor">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome Completo:" />
+								<p:inputText id="nome" value="#{MBProfessors.professor.nome}" size="40"
+									required="false" placeholder="Digite o nome completo "
+									requiredMessage="E necessario informar o nome completo">
+								</p:inputText>
+								
+								<h:outputLabel value="Titulaçã0:" />
+								<p:inputText id="titulacao" value="#{MBProfessors.professor.titulacao}" size="40"
+									required="false" placeholder="Digite a Titulação do Professor"
+									requiredMessage="E necessario informar a titulação do Professor">
+								</p:inputText>
+								
+								<h:outputLabel value="CPF:" />
+								<p:inputMask id="cpf" value="#{MBProfessors.professor.cpf}"
+									maxlength="11" required="false" placeholder="Digite seu cpf"
+									requiredMessage="E necessario informar o cpf"
+									mask="999.999.999-99"></p:inputMask>
+
+								<h:outputLabel value="Login:" />
+								<p:inputText id="login" value="#{MBProfessors.professor.login}"
+									size="40" required="false" placeholder="Digite um login "
+									requiredMessage="E necessario informar o login">
+								</p:inputText>
+
+								<h:outputLabel value="Senha:" />
+								<p:password id="senha" value="#{MBProfessors.professor.senha}" size="40"
+									required="false"
+									requiredMessage="E necessario informar a senha"
+									placeholder="Digite uma senha">
+								</p:password>
+
+								<h:outputLabel value="Email:" />
+								<p:inputText id="email" value="#{MBProfessors.professor.email}" placeholder="Digite seu email "
+									required="true" requiredMessage="E necessario informar o email">
+									<f:validateRegex
+										pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+								</p:inputText>
+
+								<h:outputLabel value="Data de Nascimento:" />
+								<p:calendar pattern="dd/MM/yyyy" mask="true" id="nascimento"
+									yearRange="-111:+39" navigator="true" pages="1" showOn="button"
+									size="12" value="#{MBProfessors.professor.datanascimento}" locale="pt"
+									required="true" 
+									requiredMessage="Informe sua data de nascimento " />
+
+								<h:outputLabel value="Celular:" />
+								<p:inputMask id="celular" value="#{MBProfessors.professor.celular}"
+									required="true" mask="(99)99999-9999" placeholder="Digite seu celular "
+									requiredMessage="E necessario informar o celular">
+								</p:inputMask>
+
+								<h:outputLabel value="Sexo:" />
+								<p:selectOneMenu value="#{MBProfessors.professor.genero}" id="genero">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Masculino" itemValue="m" />
+									<f:selectItem itemLabel="Feminino" itemValue="f" />
+
+								</p:selectOneMenu>
+
+
+							</p:panelGrid>
+
+						</p:tab>
+
+						<p:tab title="Endereço">
+							<p:outputPanel autoUpdate="true">
+								<p:panelGrid columns="3" styleClass="semBorda">
+									<h:outputText value="CEP: " />
+									<p:inputMask mask="99999-999" value="#{MBProfessors.professor.cep}" />
+
+									<p:commandButton value="Pesquisar" icon="ui-icon-search"
+										action="#{MBProfessors.encontraCEP}" disabled="true" />
+
+								</p:panelGrid>
+
+								<p:panelGrid columns="2" styleClass="semBorda">
+									<h:outputLabel value="UF: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="5" value="#{MBProfessors.professor.estado}" maxlength="2" />
+
+									<h:outputLabel value="Logradouro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBProfessors.professor.tipoLogradouro}" />
+
+									<h:outputLabel value="Cidade: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBProfessors.professor.cidade}" />
+
+									<h:outputLabel value="Bairro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="25" value="#{MBProfessors.professor.bairro}" />
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:tab>
+					</p:tabView>
+
+				</p:panel>
+				<center>
+					<p:panelGrid columns="2" styleClass="semBorda">
+						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
+							action="#{MBProfessors.cadastrarProfessor()}"
+							style="height:40px;width:80px;"
+							oncomplete="PF('dlgNovoProfessor').hide();"
+							update=":formNovoProfessor:msg" />
+
+						<p:commandButton value="Cancelar" icon="cancelar"
+							style="height:40px;width:80px;"
+							onclick="PF('dlgNovoProfessor').hide();" />
+
+					</p:panelGrid>
+
+				</center>
+			</h:form>
+		</p:dialog>
+
+
+
+		<p:dialog header="Alterar Professor" widgetVar="dlgAltProfessor"
+			draggable="false" resizable="false" closable="true" modal="true"
+			width="auto">
+
+			<h:form id="formAltProfessor">
+				<p:growl id="msg" />
+				<p:panel id="pnlAltProfessor">
+					<p:tabView activeIndex="#{MBProfessors.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome Completo:" />
+								<p:inputText id="nome" value="#{MBProfessors.professor.nome}" size="40"
+									required="false" placeholder="Digite o nome completo do Professor "
+									requiredMessage="E necessario informar o nome completo do Professor">
+								</p:inputText>
+
+								<h:outputLabel value="CPF:" />
+								<p:inputMask id="cpf" value="#{MBProfessors.professor.cpf}"
+									maxlength="11" required="false" placeholder="Digite o cpf do professor"
+									requiredMessage="E necessario informar o cpf"
+									mask="999.999.999-99"></p:inputMask>
+
+								<h:outputLabel value="Login:" />
+								<p:inputText id="login" value="#{MBProfessors.professor.login}"
+									size="40" required="false" placeholder="Digite um login "
+									requiredMessage="E necessario informar o login">
+								</p:inputText>
+
+								<h:outputLabel value="Senha:" />
+								<p:password id="senha" value="#{MBProfessors.professor.senha}" size="40"
+									required="false"
+									requiredMessage="E necessario informar a senha"
+									placeholder="Digite uma senha">
+								</p:password>
+
+								<h:outputLabel value="Email:" />
+								<p:inputText id="email" value="#{MBProfessors.professor.email}" placeholder="Digite seu email "
+									required="true" requiredMessage="E necessario informar o email">
+									<f:validateRegex
+										pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+								</p:inputText>
+
+								<h:outputLabel value="Data de Nascimento:" />
+								<p:calendar pattern="dd/MM/yyyy" mask="true" id="nascimento"
+									yearRange="-111:+39" navigator="true" pages="1" showOn="button"
+									size="12" value="#{MBProfessors.professor.datanascimento}" locale="pt"
+									required="true" 
+									requiredMessage="Informe sua data de nascimento " />
+
+								<h:outputLabel value="Celular:" />
+								<p:inputMask id="celular" value="#{MBProfessors.professor.celular}"
+									required="true" mask="(99)99999-9999" placeholder="Digite seu celular "
+									requiredMessage="E necessario informar o celular">
+								</p:inputMask>
+
+								<h:outputLabel value="Sexo:" />
+								<p:selectOneMenu value="#{MBProfessors.professor.genero}" id="genero">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Masculino" itemValue="m" />
+									<f:selectItem itemLabel="Feminino" itemValue="f" />
+
+								</p:selectOneMenu>
+
+
+							</p:panelGrid>
+
+						</p:tab>
+
+						<p:tab title="Endereço">
+							<p:outputPanel autoUpdate="true">
+								<p:panelGrid columns="3" styleClass="semBorda">
+									<h:outputText value="CEP: " />
+									<p:inputMask mask="99999-999" value="#{MBProfessors.professor.cep}" />
+
+									<p:commandButton value="Pesquisar" icon="ui-icon-search"
+										action="#{MBProfessors.encontraCEP}" disabled="true" />
+
+								</p:panelGrid>
+
+								<p:panelGrid columns="2" styleClass="semBorda">
+									<h:outputLabel value="UF: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="5" value="#{MBProfessors.professor.estado}" maxlength="2" />
+
+									<h:outputLabel value="Logradouro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBProfessors.professor.tipoLogradouro}" />
+
+									<h:outputLabel value="Cidade: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBProfessors.professor.cidade}" />
+
+									<h:outputLabel value="Bairro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="25" value="#{MBProfessors.professor.bairro}" />
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:tab>
+					</p:tabView>
+
+					<center>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<p:commandButton value="ok" icon="confirmar" ajax="false"
+								action="#{MBProfessors.alterarProfessor()}"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltProfessor').hide();" update=":formAltProfessor:msg" />
+
+							<p:commandButton value="Cancelar" icon="cancelar"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltProfessor').hide();" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+		<!-- FIM DO DIALOG DE EDITAR ALUNO  -->
+
+		<!-- COMEÇO DO DIALOG DE EXCLUIR ALUNO  -->
+		<p:dialog widgetVar="dialogAtencao" modal="true" header="Atenção"
+			resizable="false">
+
+			<h:form id="dlgexcluir">
+				<h:panelGrid columns="1">
+
+
+					<div class="alert alert-warning" role="alert">Deseja excluir
+						este Professor?</div>
+
+				</h:panelGrid>
+
+
+
+				<center>
+
+					<p:commandButton value="Sim" action="#{MBProfessors.excluirProfessor()}"
+						icon="ui-icon-check" style="font-size:14px;"
+						update=":frmmensagem:tabela" ajax="false">
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="PF('dialogAtencao').hide();"
+						icon="ui-icon-closethick" style="font-size:14px;margin-left:5px;"></p:commandButton>
+
+				</center>
+
+
+			</h:form>
+		</p:dialog>
+		
+
+
+	</ui:define>
+</ui:composition>
+</html>

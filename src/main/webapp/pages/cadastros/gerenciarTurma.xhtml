@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+
+			<p:commandButton value="Novo Turma" icon="novo"
+				style="margin-top:20px;height:40px;width:80px;"
+				actionListener="#{MBTurma.limparDados()}"
+				onclick="PF('dlgNovoTurma').show();"
+				update=":formNovoTurma, :frmmensagem:growl" process=":formNovoTurma" />
+
+			<h:form id="frmmensagem">
+
+				<p:growl id="growl" showDetail="false" />
+				<p:panel header="Gerenciar Turma"
+					style="margin-top:50px; height:auto; width:auto; background-color: #F5F5F5; border: 3px solid gray;">
+					<h:panelGrid columns="8" styleClass="semBorda"
+						style="font-size:12px !important;">
+						<p:outputPanel id="pnlprincipal">
+							<p:outputLabel value="Pesquisar por: " />
+							<p:selectOneMenu value="#{MBTurma.turmaNegocio.tipoBuscaTurma}"
+								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
+
+								<f:selectItem itemLabel="Nome" itemValue="1" />
+
+
+								<p:ajax event="change" update=":frmmensagem:pnlprincipal" />
+							</p:selectOneMenu>
+
+							<p:inputText id="campoBuscaturma" size="35"
+								style="height:28px;margin-top:-6px;margin-left:16px;"
+								value="#{MBTurma.turmaNegocio.campoBuscaTurma}"
+								rendered="#{MBTurma.turmaNegocio.tipoBuscaTurma == 1}"
+								placeholder="Informe o codigo da Turma" />
+
+							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
+								style="height:40px;width:80px;margin-left:10px"
+								action="#{MBTurma.buscarTurma()}"
+								update=":frmmensagem:tabela, :frmmensagem:growl">
+								<p:tooltip value="Buscar" for="botaoBusca" />
+							</p:commandButton>
+
+							<p:commandButton icon="limpar" id="limp" value="Limpar"
+								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
+								action="#{MBTurma.turmaNegocio.limparBuscaDados()}"
+								style="margin-left:20px;height:40px;width:80px;">
+								<p:tooltip value="Limpar Busca" for="limp" />
+							</p:commandButton>
+
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
+					id="tabela" style="margin-top:20px;"
+					value="#{MBTurma.turmaNegocio.listaTurma}" var="tab" rows="10"
+					paginator="true" paginatorPosition="bottom">
+
+					<p:column headerText="ID" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.id_turma}" />
+					</p:column>
+
+					<p:column headerText="Codigo Turma" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.nome}" />
+					</p:column>
+					
+				
+
+					<p:column headerText="Ações" width="8%">
+						<center>
+							<p:splitButton icon="confirmar">
+								<p:menuitem value="Alterar" icon="alterar-dados"
+									onclick="PF('dlgAltTurma').show()"
+									process="@this, :formAltTurma"
+									update=":formAltTurma:pnlAltTurma">
+
+									<f:setPropertyActionListener value="#{tab}"
+										target="#{MBTurma.turma}" />
+
+
+								</p:menuitem>
+
+								<p:menuitem value="Excluir" icon="trash"
+									onclick="PF('dialogAtencao').show()">
+
+									<f:setPropertyActionListener value="#{tab.id_turma}"
+										target="#{MBDisciplibas.turma}" />
+								</p:menuitem>
+							</p:splitButton>
+						</center>
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+		
+		<p:dialog header="CADASTRO DE TURMA" widgetVar="dlgNovoTurma"
+			appendToBody="true" draggable="false" resizable="false"
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" closable="true" modal="true" width="auto">
+			<h:form id="formNovoTurma">
+				<p:growl id="msg" />
+				<p:panel>
+					<p:tabView activeIndex="#{MBTurma.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Turma">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Código Turma :" />
+								<p:inputText id="codigo_turma" value="#{Turma.turma.codigo_turma}" size="40"
+									required="false" placeholder="Digite o codigo da Turma "
+									requiredMessage="E necessario informar o codigo da Turma">
+								</p:inputText>
+								
+								<h:outputLabel value="Alunos:" />
+								<p:inputText id="alunos" value="#{MBTurma.turma.alunos}" size="40"
+									required="false" placeholder="Informe o aluno "
+									requiredMessage="E necessario informar a aluno">
+								</p:inputText>
+								
+								
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+				</p:panel>
+				<center>
+					<p:panelGrid columns="2" styleClass="semBorda">
+						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
+							action="#{MBTurma.cadastrarTurma()}"
+							style="height:40px;width:80px;"
+							oncomplete="PF('dlgNovoTurma').hide();"
+							update=":formNovoTurma:msg" />
+
+						<p:commandButton value="Cancelar" icon="cancelar"
+							style="height:40px;width:80px;"
+							onclick="PF('dlgNovoTurma').hide();" />
+
+					</p:panelGrid>
+
+				</center>
+			</h:form>
+		</p:dialog>
+
+
+		>
+		<p:dialog header="Alterar Turma" widgetVar="dlgAltTurma"
+			draggable="false" resizable="false" closable="true" modal="true"
+			width="auto">
+
+			<h:form id="formAltTurma">
+				<p:growl id="msg" />
+				<p:panel id="pnlAltTurma">
+					<p:tabView activeIndex="#{MBTurma.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Código Turma :" />
+								<p:inputText id="codigo_turma" value="#{Turma.turma.codigo_turma}" size="40"
+									required="false" placeholder="Digite o codigo da Turma "
+									requiredMessage="E necessario informar o codigo da Turma">
+								</p:inputText>
+								
+								<h:outputLabel value="Alunos:" />
+								<p:inputText id="alunos" value="#{MBTurma.turma.alunos}" size="40"
+									required="false" placeholder="Informe o aluno "
+									requiredMessage="E necessario informar a aluno">
+								</p:inputText>
+								
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+					<center>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<p:commandButton value="ok" icon="confirmar" ajax="false"
+								action="#{MBTurma.alterarTurma()}"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltTurma').hide();" update=":formAltTurma:msg" />
+
+							<p:commandButton value="Cancelar" icon="cancelar"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltTurma').hide();" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog widgetVar="dialogAtencao" modal="true" header="Atenção"
+			resizable="false">
+
+			<h:form id="dlgexcluir">
+				<h:panelGrid columns="1">
+
+
+					<div class="alert alert-warning" role="alert">Deseja excluir
+						esta Turma?</div>
+
+				</h:panelGrid>
+
+
+
+				<center>
+
+					<p:commandButton value="Sim" action="#{MBTurma.excluirTurma()}"
+						icon="ui-icon-check" style="font-size:14px;"
+						update=":frmmensagem:tabela" ajax="false">
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="PF('dialogAtencao').hide();"
+						icon="ui-icon-closethick" style="font-size:14px;margin-left:5px;"></p:commandButton>
+
+				</center>
+
+
+			</h:form>
+		</p:dialog>
+	
+
+	</ui:define>
+</ui:composition>
+</html>

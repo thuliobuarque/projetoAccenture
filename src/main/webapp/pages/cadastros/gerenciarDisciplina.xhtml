@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+
+			<p:commandButton value="Novo Disciplina" icon="novo"
+				style="margin-top:20px;height:40px;width:80px;"
+				actionListener="#{MBDisciplina.limparDados()}"
+				onclick="PF('dlgNovoDisciplina').show();"
+				update=":formNovoDisciplina, :frmmensagem:growl" process=":formNovoDisciplina" />
+
+			<h:form id="frmmensagem">
+
+				<p:growl id="growl" showDetail="false" />
+				<p:panel header="Gerenciar Disciplina"
+					style="margin-top:50px; height:auto; width:auto; background-color: #F5F5F5; border: 3px solid gray;">
+					<h:panelGrid columns="8" styleClass="semBorda"
+						style="font-size:12px !important;">
+						<p:outputPanel id="pnlprincipal">
+							<p:outputLabel value="Pesquisar por: " />
+							<p:selectOneMenu value="#{MBDisciplina.disciplinaNegocio.tipoBuscaDisciplina}"
+								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
+
+								<f:selectItem itemLabel="Nome" itemValue="1" />
+
+
+								<p:ajax event="change" update=":frmmensagem:pnlprincipal" />
+							</p:selectOneMenu>
+
+							<p:inputText id="campoBuscadisciplina" size="35"
+								style="height:28px;margin-top:-6px;margin-left:16px;"
+								value="#{MBDisciplina.disciplinaNegocio.campoBuscaDisciplina}"
+								rendered="#{MBDisciplina.disciplinaNegocio.tipoBuscaDisciplina == 1}"
+								placeholder="Informe o nome" />
+
+							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
+								style="height:40px;width:80px;margin-left:10px"
+								action="#{MBDisciplina.buscarDisciplina()}"
+								update=":frmmensagem:tabela, :frmmensagem:growl">
+								<p:tooltip value="Buscar" for="botaoBusca" />
+							</p:commandButton>
+
+							<p:commandButton icon="limpar" id="limp" value="Limpar"
+								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
+								action="#{MBDisciplina.disciplinaNegocio.limparBuscaDados()}"
+								style="margin-left:20px;height:40px;width:80px;">
+								<p:tooltip value="Limpar Busca" for="limp" />
+							</p:commandButton>
+
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
+					id="tabela" style="margin-top:20px;"
+					value="#{MBDisciplina.disciplinaNegocio.listaDisciplina}" var="tab" rows="10"
+					paginator="true" paginatorPosition="bottom">
+
+					<p:column headerText="ID" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.id_disciplina}" />
+					</p:column>
+
+					<p:column headerText="Nome" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.nome}" />
+					</p:column>
+					
+					<p:column headerText="Carga Horária" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.carga_horaria}" />
+					</p:column>
+
+					<p:column headerText="Ações" width="8%">
+						<center>
+							<p:splitButton icon="confirmar">
+								<p:menuitem value="Alterar" icon="alterar-dados"
+									onclick="PF('dlgAltDisciplina').show()"
+									process="@this, :formAltDisciplina"
+									update=":formAltDisciplina:pnlAltDisciplina">
+
+									<f:setPropertyActionListener value="#{tab}"
+										target="#{MBDisciplina.disciplina}" />
+
+
+								</p:menuitem>
+
+								<p:menuitem value="Excluir" icon="trash"
+									onclick="PF('dialogAtencao').show()">
+
+									<f:setPropertyActionListener value="#{tab.id_disciplina}"
+										target="#{MBDisciplibas.disciplina}" />
+								</p:menuitem>
+							</p:splitButton>
+						</center>
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+		
+		<p:dialog header="CADASTRO DE DISCIPLINA" widgetVar="dlgNovoDisciplina"
+			appendToBody="true" draggable="false" resizable="false"
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" closable="true" modal="true" width="auto">
+			<h:form id="formNovoDisciplina">
+				<p:growl id="msg" />
+				<p:panel>
+					<p:tabView activeIndex="#{MBDisciplina.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Disciplina">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome :" />
+								<p:inputText id="nome" value="#{Disciplina.disciplina.nome}" size="40"
+									required="false" placeholder="Digite o nome da disciplina "
+									requiredMessage="E necessario informar o nome da disciplina">
+								</p:inputText>
+								
+								<h:outputLabel value="Carga Horaria:" />
+								<p:inputText id="carha_horaria" value="#{MBDisciplina.disciplina.carga_horaria}" size="40"
+									required="false" placeholder="Digite a Carga Horaria "
+									requiredMessage="E necessario informar a Carga Horaria">
+								</p:inputText>
+								
+								<h:outputLabel value="Professor :" />
+								<p:inputText id="professor" value="#{MBDisciplina.disciplina.professor}" size="40"
+									required="false" placeholder="Digite o Professor"
+									requiredMessage="E necessario informar o Professor">
+								</p:inputText>
+								
+									<h:outputLabel value="Professor :" />
+								<p:inputText id="turma" value="#{MBDisciplina.disciplina.turma}" size="40"
+									required="false" placeholder="Digite a turma"
+									requiredMessage="E necessario informar o turma">
+								</p:inputText>
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+				</p:panel>
+				<center>
+					<p:panelGrid columns="2" styleClass="semBorda">
+						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
+							action="#{MBDisciplina.cadastrarDisciplina()}"
+							style="height:40px;width:80px;"
+							oncomplete="PF('dlgNovoDisciplina').hide();"
+							update=":formNovoDisciplina:msg" />
+
+						<p:commandButton value="Cancelar" icon="cancelar"
+							style="height:40px;width:80px;"
+							onclick="PF('dlgNovoDisciplina').hide();" />
+
+					</p:panelGrid>
+
+				</center>
+			</h:form>
+		</p:dialog>
+
+
+		>
+		<p:dialog header="Alterar Disciplina" widgetVar="dlgAltDisciplina"
+			draggable="false" resizable="false" closable="true" modal="true"
+			width="auto">
+
+			<h:form id="formAltDisciplina">
+				<p:growl id="msg" />
+				<p:panel id="pnlAltDisciplina">
+					<p:tabView activeIndex="#{MBDisciplina.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome :" />
+								<p:inputText id="nome" value="#{Disciplina.disciplina.nome}" size="40"
+									required="false" placeholder="Digite o nome da disciplina "
+									requiredMessage="E necessario informar o nome da disciplina">
+								</p:inputText>
+								
+								<h:outputLabel value="Carga Horaria:" />
+								<p:inputText id="carha_horaria" value="#{MBDisciplina.disciplina.carga_horaria}" size="40"
+									required="false" placeholder="Digite a Carga Horaria "
+									requiredMessage="E necessario informar a Carga Horaria">
+								</p:inputText>
+								
+								<h:outputLabel value="Professor :" />
+								<p:inputText id="professor" value="#{MBDisciplina.disciplina.professor}" size="40"
+									required="false" placeholder="Digite o Professor"
+									requiredMessage="E necessario informar o Professor">
+								</p:inputText>
+								
+									<h:outputLabel value="Professor :" />
+								<p:inputText id="turma" value="#{MBDisciplina.disciplina.turma}" size="40"
+									required="false" placeholder="Digite a turma"
+									requiredMessage="E necessario informar o turma">
+								</p:inputText>
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+					<center>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<p:commandButton value="ok" icon="confirmar" ajax="false"
+								action="#{MBDisciplina.alterarDisciplina()}"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltDisciplina').hide();" update=":formAltDisciplina:msg" />
+
+							<p:commandButton value="Cancelar" icon="cancelar"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltDisciplina').hide();" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog widgetVar="dialogAtencao" modal="true" header="Atenção"
+			resizable="false">
+
+			<h:form id="dlgexcluir">
+				<h:panelGrid columns="1">
+
+
+					<div class="alert alert-warning" role="alert">Deseja excluir
+						esta Disciplina?</div>
+
+				</h:panelGrid>
+
+
+
+				<center>
+
+					<p:commandButton value="Sim" action="#{MBDisciplina.excluirDisciplina()}"
+						icon="ui-icon-check" style="font-size:14px;"
+						update=":frmmensagem:tabela" ajax="false">
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="PF('dialogAtencao').hide();"
+						icon="ui-icon-closethick" style="font-size:14px;margin-left:5px;"></p:commandButton>
+
+				</center>
+
+
+			</h:form>
+		</p:dialog>
+	
+
+	</ui:define>
+</ui:composition>
+</html>
