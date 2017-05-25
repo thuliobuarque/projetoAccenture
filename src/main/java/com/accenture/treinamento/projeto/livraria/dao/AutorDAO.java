@@ -99,7 +99,7 @@ public class AutorDAO implements IAutorDAO {
 	}
 	
 	public ArrayList<AutorBean> listaAutor() throws ProjetoException {
-
+		System.out.println("entrou aqui 3");
 		String sql = "select id_autor, nome from autor order by nome";
 
 		ArrayList<AutorBean> lista = new ArrayList<>();

@@ -8,6 +8,14 @@ public class LivroBean {
 	
 
 	private int id_livro;
+	private String titulo;
+	private String ano_publicacao;
+	private String editora;
+	private String resumo;
+	private String classificacao;
+	private int quantidade;
+	private AutorBean autor;
+	
 	public int getId_livro() {
 		return id_livro;
 	}
@@ -56,13 +64,7 @@ public class LivroBean {
 	public void setAutor(AutorBean autor) {
 		this.autor = autor;
 	}
-	private String titulo;
-	private String ano_publicacao;
-	private String editora;
-	private String resumo;
-	private String classificacao;
-	private int quantidade;
-	private AutorBean autor;
+
 }
 	
 	

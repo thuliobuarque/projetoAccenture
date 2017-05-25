@@ -113,6 +113,13 @@ public class AutorController {
 		}
 		return listaAutor;
 	}
+	
+	public List<AutorBean> ListaAutores() throws ProjetoException {
+	System.out.println("entrou aqui");
+			AutorNegocio an = new AutorNegocio();
+			return listaAutor = an.getListaAutor();			
+
+	}
 
 	public void setListaAutor(List<AutorBean> listaAutor) {
 		this.listaAutor = listaAutor;

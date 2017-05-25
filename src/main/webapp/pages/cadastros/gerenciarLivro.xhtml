@@ -13,7 +13,7 @@
 
 			<p:commandButton value="Novo Livro" icon="novo"
 				style="margin-top:20px;height:40px;width:80px;"
-				actionListener="#{MBLivro.limparDados()}"
+				actionListener="#{MBLivro.limparObjeto()}"
 				onclick="PF('dlgNovoLivro').show();"
 				update=":formNovoLivro, :frmmensagem:growl" process=":formNovoLivro" />
 
@@ -43,7 +43,7 @@
 
 							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
 								style="height:40px;width:80px;margin-left:10px"
-								action="#{MBLivro.buscarLivro()}"
+								action="#{MBLivro.buscarLivros()}"
 								update=":frmmensagem:tabela, :frmmensagem:growl">
 								<p:tooltip value="Buscar" for="botaoBusca" />
 							</p:commandButton>
@@ -60,7 +60,7 @@
 				</p:panel>
 
 				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
-					id="tabela" style="margin-top:20px;" value="#{MBLivro.listaLivro}"
+					id="tabela" style="margin-top:20px;" value="#{MBLivro.ListaObra()}"
 					var="tab" rows="10" paginator="true" paginatorPosition="bottom">
 
 					<p:column headerText="ID" style="font-weight:bold; width:15%">
@@ -106,7 +106,7 @@
 									update=":formAltLivro:pnlAltLivro">
 
 									<f:setPropertyActionListener value="#{tab}"
-										target="#{MBLivro.livro}" />
+										target="#{MBLivro.obra}" />
 
 
 								</p:menuitem>
@@ -115,7 +115,7 @@
 									onclick="PF('dialogAtencao').show()">
 
 									<f:setPropertyActionListener value="#{tab.id_livro}"
-										target="#{MBLivro.livro.id_livro}" />
+										target="#{MBLivro.obra.id_livro}" />
 								</p:menuitem>
 							</p:splitButton>
 						</center>
@@ -141,48 +141,48 @@
 							<p:panelGrid columns="2" styleClass="semBorda">
 
 								<h:outputLabel value="Titulo:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.titulo}" size="40"
+								<p:inputText value="#{MBLivro.obra.titulo}" size="40"
 									required="false" placeholder="Digite seu titulo "
 									requiredMessage="E necessario informar o titulo">
 								</p:inputText>
 
 								<h:outputLabel value="Ano Publicação:" />
-								<p:inputText id="ano" value="#{MBLivro.livro.ano_publicacao}"
-									size="40" required="false"
-									placeholder="Digite seu ano da publicação "
+								<p:inputText value="#{MBLivro.obra.ano_publicacao}" size="40"
+									required="false" placeholder="Digite seu ano da publicação "
 									requiredMessage="E necessario informar o ano da publicação">
 								</p:inputText>
 
 								<h:outputLabel value="Editora:" />
-								<p:inputText id="editora" value="#{MBLivro.livro.editora}"
-									size="40" required="false" placeholder="Digite a editora "
+								<p:inputText value="#{MBLivro.obra.editora}" size="40"
+									required="false" placeholder="Digite a editora "
 									requiredMessage="E necessario informar a editora">
 								</p:inputText>
 
 								<h:outputLabel value="Resumo:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.resumo}" size="40"
+								<p:inputText value="#{MBLivro.obra.resumo}" size="40"
 									required="false" placeholder="Digite um resumo "
 									requiredMessage="E necessario informar o resumo">
 								</p:inputText>
 
 								<h:outputLabel value="Classificacao:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.classificacao}"
-									size="40" required="false"
-									placeholder="Digite uma classificação "
+								<p:inputText value="#{MBLivro.obra.classificacao}" size="40"
+									required="false" placeholder="Digite uma classificação "
 									requiredMessage="E necessario informar a classificacao">
 								</p:inputText>
 
 								<h:outputLabel value="Quantidade:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.quantidade}"
-									size="40" required="false" placeholder="Digite uma quantidade "
+								<p:inputText value="#{MBLivro.obra.quantidade}" size="40"
+									required="false" placeholder="Digite uma quantidade "
 									requiredMessage="E necessario informar a quantidade">
 								</p:inputText>
 
-								<p:selectOneMenu value="#{MBLivro.livro.id_autor}" filter="true"
-									filterMatchMode="contains" style="width:480px;">
+
+								<h:outputLabel value="Autor:" />
+								<p:selectOneMenu value="#{MBLivro.obra.id_livro}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
 
 									<f:selectItem itemLabel="NENHUM" itemValue="0" />
-									<f:selectItems value="#{MBAutor.listaAutores}" var="ep"
+									<f:selectItems value="#{MBAutor.ListaAutores()}" var="ep"
 										itemLabel="#{ep.nome}" itemValue="#{ep.id_autor}" />
 								</p:selectOneMenu>
 
@@ -196,7 +196,7 @@
 				<center>
 					<p:panelGrid columns="2" styleClass="semBorda">
 						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
-							action="#{MBLivro.cadastrarLivro()}"
+							action="#{MBLivro.cadastrarObra()}"
 							style="height:40px;width:80px;"
 							oncomplete="PF('dlgNovoLivro').hide();"
 							update=":formNovoLivro:msg" />
@@ -224,48 +224,46 @@
 							<p:panelGrid columns="2" styleClass="semBorda">
 
 								<h:outputLabel value="Titulo:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.titulo}" size="40"
+								<p:inputText value="#{MBLivro.obra.titulo}" size="40"
 									required="false" placeholder="Digite seu titulo "
 									requiredMessage="E necessario informar o titulo">
 								</p:inputText>
 
 								<h:outputLabel value="Ano Publicação:" />
-								<p:inputText id="ano" value="#{MBLivro.livro.ano_publicacao}"
-									size="40" required="false"
-									placeholder="Digite seu ano da publicação "
+								<p:inputText value="#{MBLivro.obra.ano_publicacao}" size="40"
+									required="false" placeholder="Digite seu ano da publicação "
 									requiredMessage="E necessario informar o ano da publicação">
 								</p:inputText>
 
 								<h:outputLabel value="Editora:" />
-								<p:inputText id="editora" value="#{MBLivro.livro.editora}"
-									size="40" required="false" placeholder="Digite a editora "
+								<p:inputText value="#{MBLivro.obra.editora}" size="40"
+									required="false" placeholder="Digite a editora "
 									requiredMessage="E necessario informar a editora">
 								</p:inputText>
 
 								<h:outputLabel value="Resumo:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.resumo}" size="40"
+								<p:inputText value="#{MBLivro.obra.resumo}" size="40"
 									required="false" placeholder="Digite um resumo "
 									requiredMessage="E necessario informar o resumo">
 								</p:inputText>
 
 								<h:outputLabel value="Classificacao:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.classificacao}"
-									size="40" required="false"
-									placeholder="Digite uma classificação "
+								<p:inputText value="#{MBLivro.obra.classificacao}" size="40"
+									required="false" placeholder="Digite uma classificação "
 									requiredMessage="E necessario informar a classificacao">
 								</p:inputText>
 
 								<h:outputLabel value="Quantidade:" />
-								<p:inputText id="nome" value="#{MBLivro.livro.quantidade}"
-									size="40" required="false" placeholder="Digite uma quantidade "
+								<p:inputText value="#{MBLivro.obra.quantidade}" size="40"
+									required="false" placeholder="Digite uma quantidade "
 									requiredMessage="E necessario informar a quantidade">
 								</p:inputText>
 
-								<p:selectOneMenu value="#{MBLivro.livro.id_autor}" filter="true"
-									filterMatchMode="contains" style="width:480px;">
+								<p:selectOneMenu value="#{MBLivro.obra.id_livro}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
 
 									<f:selectItem itemLabel="NENHUM" itemValue="0" />
-									<f:selectItems value="#{MBAutor.listaAutores}" var="ep"
+									<f:selectItems value="#{MBAutor.ListaAutores()}" var="ep"
 										itemLabel="#{ep.nome}" itemValue="#{ep.id_autor}" />
 								</p:selectOneMenu>
 
@@ -277,7 +275,7 @@
 					<center>
 						<p:panelGrid columns="2" styleClass="semBorda">
 							<p:commandButton value="ok" icon="confirmar" ajax="false"
-								action="#{MBLivro.alterarLivro()}"
+								action="#{MBLivro.alterarObra()}"
 								style="height:40px;width:80px;"
 								onclick="PF('dlgAltLivro').hide();" update=":formAltLivro:msg" />
 

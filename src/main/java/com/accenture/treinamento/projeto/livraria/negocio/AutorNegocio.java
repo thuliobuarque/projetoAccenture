@@ -1,5 +1,6 @@
 package com.accenture.treinamento.projeto.livraria.negocio;
 import java.util.List;
+
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.AutorDAO;
 import com.accenture.treinamento.projeto.livraria.model.AutorBean;
@@ -38,7 +39,7 @@ public class AutorNegocio {
 	}
 
 	public List<AutorBean> getListaAutor() throws ProjetoException {
-		
+		System.out.println("entrou aqui 2");
 			AutorDAO adao = new AutorDAO();
 			return adao.listaAutor();
 		

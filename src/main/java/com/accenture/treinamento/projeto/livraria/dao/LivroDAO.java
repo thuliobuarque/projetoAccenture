@@ -17,7 +17,7 @@ public class LivroDAO implements ILivroDAO {
 	
 	public boolean cadastrarObra(LivroBean livro) throws ProjetoException {
 		
-		String sql = "insert into livro (titulo,ano_publicacao,editora,resumo,classificacao,quantidade) values (?,?,?,?,?,?)";
+		String sql = "insert into livro (titulo,ano_publicacao,editora,resumo,classificacao,quantidade, id_autor) values (?,?,?,?,?,?,?)";
 		
 		try {
 			conexao = ConnectionFactory.getConnection();
@@ -28,7 +28,7 @@ public class LivroDAO implements ILivroDAO {
 			stmt.setString(4, livro.getResumo());		
 			stmt.setString(5, livro.getClassificacao());
 			stmt.setInt(6, livro.getQuantidade());
-			stmt.setInt(7, livro.getAutor().getId_autor());
+			stmt.setInt(7, 10);
 			
 			stmt.execute();
 			
@@ -107,8 +107,9 @@ public class LivroDAO implements ILivroDAO {
 	
 	public ArrayList<LivroBean> listaObra() throws ProjetoException {
 
-		String sql = "select livro.id_livro, livro.titulo, livro.ano_publicacao, livro.editora, livro.resumo, livro.classificacao, livro.quantidade, autor.id_autor from livro";
-			   sql += "INNER JOIN autor ON livro.id_autor = autor.id_autor";
+		String sql = "select livro.id_livro, livro.titulo, livro.ano_publicacao, livro.editora, livro.resumo, "
+				+ "livro.classificacao, livro.quantidade, autor.id_autor from livro";
+			   sql += " INNER JOIN autor ON livro.id_autor = autor.id_autor";
 
 
 		ArrayList<LivroBean> lista = new ArrayList<>();

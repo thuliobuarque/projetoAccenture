@@ -1,7 +1,6 @@
 package com.accenture.treinamento.projeto.livraria.controller;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -32,12 +31,17 @@ public class LivroController {
 
 	private Integer tipoBuscaLivro;
 	private String campoBuscaLivro;
+	
+	 private Integer abaAtiva = 0;
 
 	public LivroController() {
 		obra = new LivroBean();
 
 		listaObra = new ArrayList<>();
 		listaObra = null;
+		
+		tipoBuscaLivro = 1;
+		campoBuscaLivro = "";
 	}
 
 	public void cadastrarObra() throws ProjetoException {
@@ -115,6 +119,11 @@ public class LivroController {
 	public void limparObjeto() {
 		obra = null;
 	}
+	
+	public void limparBuscaDados() {
+		tipoBuscaLivro = 1;
+		campoBuscaLivro = "";
+	}
 
 	public LivroBean getObra() {
 		return obra;
@@ -136,5 +145,37 @@ public class LivroController {
 	public void setListaObra(List<LivroBean> listaObra) {
 		this.listaObra = listaObra;
 	}
+
+	public Integer getTipoBuscaLivro() {
+		return tipoBuscaLivro;
+	}
+
+	public void setTipoBuscaLivro(Integer tipoBuscaLivro) {
+		this.tipoBuscaLivro = tipoBuscaLivro;
+	}
+
+	public String getCampoBuscaLivro() {
+		return campoBuscaLivro;
+	}
+
+	public void setCampoBuscaLivro(String campoBuscaLivro) {
+		this.campoBuscaLivro = campoBuscaLivro;
+	}
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
+	}
+
+	public List<LivroBean> getListaObra() {
+		return listaObra;
+	}
+
+	
+	
+	
 
 }
