@@ -1,4 +1,9 @@
 package com.accenture.treinamento.projeto.portal.model;
+/**
+*
+* @author Thulio, thayse, thales, caio, priscila, veridiana
+* @since 17/05/2017
+*/
 
 public class NotaBean {
 	private Integer id_nota;

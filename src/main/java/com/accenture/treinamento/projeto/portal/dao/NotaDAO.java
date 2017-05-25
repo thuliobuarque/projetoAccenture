@@ -1,5 +1,9 @@
 package com.accenture.treinamento.projeto.portal.dao;
-
+/**
+*
+* @author Thulio, thayse, thales, caio, priscila, veridiana
+* @since 17/05/2017
+*/
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
