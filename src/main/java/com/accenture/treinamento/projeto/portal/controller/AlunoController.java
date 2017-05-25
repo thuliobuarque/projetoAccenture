@@ -1,18 +1,25 @@
 package com.accenture.treinamento.projeto.portal.controller;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+
 import org.primefaces.context.RequestContext;
+
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.util.CepWebService;
+import com.accenture.treinamento.projeto.util.ClientRest;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**
- *
  * @author Thulio, thayse, thales, caio, priscila, veridiana
  * @since 17/05/2017
  */
@@ -21,14 +28,13 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
 @ViewScoped
 public class AlunoController {
 
-	// OBJETOS E CLASSES
+	
 	private AlunoNegocio alunoNegocio;
-
 	private AlunoBean aluno;
-
-	 private Integer abaAtiva = 0;
+	private Integer abaAtiva = 0;
+	 
 	public AlunoController() {
-		// INSTANCIAS
+		
 		alunoNegocio = new AlunoNegocio();
 		aluno = new AlunoBean();
 
@@ -41,9 +47,6 @@ public class AlunoController {
 	
 	}
 	
-
-
-	// METODO DE ADCIONAR ALUNO
 	public void cadastrarAluno() throws ProjetoException, MalformedURLException {
 
 		AlunoNegocio adao = new AlunoNegocio();
@@ -66,7 +69,6 @@ public class AlunoController {
 	
 	}
 
-	// METODO DE ALTERAR ALUNO
 	public void alterarAluno() throws ProjetoException {
 
 		AlunoNegocio adao = new AlunoNegocio();
@@ -74,7 +76,6 @@ public class AlunoController {
 
 	}
 
-	// METODO DE EXCLUIR ALUNO
 	public void excluirAluno() throws ProjetoException {
 		
 		AlunoNegocio adao = new AlunoNegocio();

@@ -13,9 +13,9 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.FuncionarioDAO;
 import com.accenture.treinamento.projeto.portal.model.FuncionarioBean;
+import com.accenture.treinamento.projeto.portal.negocio.FuncionarioNegocio;
 
 /**
- *
  * @author Thulio, thayse, thales, caio, priscila, veridiana
  * @since 17/05/2017
  */
@@ -24,47 +24,38 @@ import com.accenture.treinamento.projeto.portal.model.FuncionarioBean;
 @ViewScoped
 public class FuncionarioController {
 
-	// OBJETOS E CLASSES
 	private FuncionarioBean funcionario;
-
-	// LISTAS
 	private List<FuncionarioBean> listaFuncionario;
-	
-	// BUSCAS
 	private String tipo;
 	private Integer tipoBuscaFuncionario;
 	private String campoBuscaFuncionario;
 	private String statusFuncionario;
 
 	public FuncionarioController() {
-		// INSTANCIAS
+
 		funcionario = new FuncionarioBean();
 
-		// LISTAS
 		listaFuncionario = new ArrayList<>();
 		listaFuncionario = null;
 		
-		// BUSCA
 		tipo = "";
 		tipoBuscaFuncionario = 1;
 		campoBuscaFuncionario = "";
 		statusFuncionario = "P";
-
 	}
 
-	// METODO DE ADCIONAR FUNCIONARIO
-	public void cadastrarAluno() throws ProjetoException {
+	public void cadastrarFuncionario() throws ProjetoException {
 
-		FuncionarioDAO adao = new FuncionarioDAO();
-		boolean cadastrou = adao.cadastrarFuncionario(funcionario);
-
-		if (cadastrou == true) {
+		FuncionarioNegocio adao = new FuncionarioNegocio();
+		
+		if (adao.cadastrarFuncionario(funcionario)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Funcionario cadastrado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaFuncionario = null;
+	
 			RequestContext.getCurrentInstance().execute("dlgCadFuncionario.hide();");
+			listaFuncionario = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
@@ -74,19 +65,18 @@ public class FuncionarioController {
 		}
 	}
 
-	// METODO DE ALTERAR Funcionario
 	public void alterarFuncionario() throws ProjetoException {
 
-		FuncionarioDAO adao = new FuncionarioDAO();
-		boolean alterou = adao.alterarFuncionario(funcionario);
+		FuncionarioNegocio adao = new FuncionarioNegocio();
 
-		if (alterou == true) {
+		if (adao.alterarFuncionario(funcionario)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Funcionario alterado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaFuncionario = null;
+
 			RequestContext.getCurrentInstance().execute("dlgAltFuncionario.hide();");
+			listaFuncionario = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
@@ -96,19 +86,19 @@ public class FuncionarioController {
 		}
 	}
 
-	// METODO DE EXCLUIR Funcionario
 	public void excluirFuncionario() throws ProjetoException {
-		FuncionarioDAO adao = new FuncionarioDAO();
-		boolean excluio = adao.excluirFuncionario(funcionario);
+		
+		FuncionarioNegocio adao = new FuncionarioNegocio();
 
-		if (excluio == true) {
+		if (adao.excluirFuncionario(funcionario)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Funcionario excluido com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaFuncionario = null;
+	
 			RequestContext.getCurrentInstance().execute(
 					"PF('dialogAtencao').hide();");
+			listaFuncionario = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante a exclusao!", "Erro");
@@ -124,7 +114,7 @@ public class FuncionarioController {
 		List<FuncionarioBean> listaAux = null;
 		listaFuncionario = new ArrayList<>();
 
-		FuncionarioDAO adao = new FuncionarioDAO();
+		FuncionarioNegocio adao = new FuncionarioNegocio();
 
 		listaAux = adao.buscarTipoFuncionario(campoBuscaFuncionario, tipoBuscaFuncionario);
 
@@ -139,14 +129,7 @@ public class FuncionarioController {
 		}
 
 	}
-	
-	 public void recoverDataFromSessionAluno() {
-		 funcionario = (FuncionarioBean) FacesContext
-	            .getCurrentInstance().getExternalContext().getSessionMap()
-	            .get("obj_funcionario");
-	        
-	    }
-	
+		
 	public void limparBuscaDados() {
 		tipoBuscaFuncionario = 1;
 		campoBuscaFuncionario = "";
@@ -158,8 +141,6 @@ public class FuncionarioController {
 		funcionario = new FuncionarioBean();
 
 	}
-
-
 
 	public FuncionarioBean getFuncionario() {
 		return funcionario;
@@ -202,8 +183,9 @@ public class FuncionarioController {
 	}
 
 	public List<FuncionarioBean> getListaFuncionario() {
+		
 		if (listaFuncionario == null) {
-			FuncionarioDAO adao = new FuncionarioDAO();
+			FuncionarioNegocio adao = new FuncionarioNegocio();
 			listaFuncionario = adao.listaFuncionario();
 		}
 		return listaFuncionario;

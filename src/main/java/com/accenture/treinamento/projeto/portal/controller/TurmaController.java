@@ -13,6 +13,7 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.controller.TurmaController;
 import com.accenture.treinamento.projeto.portal.model.TurmaBean;
+import com.accenture.treinamento.projeto.portal.negocio.TurmaNegocio;
 import com.accenture.treinamento.projeto.portal.dao.TurmaDAO;
 
 /**
@@ -42,16 +43,16 @@ public class TurmaController {
 
 	public void cadastrarTurma() throws ProjetoException {
 
-		TurmaDAO Tdao = new TurmaDAO();
-		boolean cadastrou = Tdao.cadastrarTurma(turma);
-
-		if (cadastrou == true) {
+		TurmaNegocio Tdao = new TurmaNegocio();
+		
+		if (Tdao.cadastrarTurma(turma)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Turma cadastrada com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgCadTurma.hide();");
+			listaTurma = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
@@ -61,19 +62,18 @@ public class TurmaController {
 		}
 	}
 
-	// METODO DE ALTERAR TURMA
 	public void alterarTurma() throws ProjetoException {
 
-		TurmaDAO Tdao = new TurmaDAO();
-		boolean alterou = Tdao.alterarTurma(turma);
-
-		if (alterou == true) {
+		TurmaNegocio Tdao = new TurmaNegocio();
+		
+		if (Tdao.alterarTurma(turma)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Turma alterada com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltTurma.hide();");
+			listaTurma = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
@@ -83,19 +83,18 @@ public class TurmaController {
 		}
 	}
 
-	// METODO DE EXCLUIR ALUNO
 	public void excluirTurma() throws ProjetoException {
-		TurmaDAO Tdao = new TurmaDAO();
-		boolean excluir = Tdao.excluirTurma(turma);
-
-		if (excluir == true) {
+		TurmaNegocio Tdao = new TurmaNegocio();
+		
+		if (Tdao.excluirTurma(turma)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Turma excluída com sucesso!", "Sucesso");
+					"Turma excluï¿½da com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			// listaLaudo = null;
 			RequestContext.getCurrentInstance().execute(
 					"PF('dialogAtencao').hide();");
+			listaTurma = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante a exclusao!", "Erro");
@@ -120,7 +119,7 @@ public class TurmaController {
 
 	public List<TurmaBean> getListaTurma() {
 		if (listaTurma == null) {
-			TurmaDAO tdao = new TurmaDAO();
+			TurmaNegocio tdao = new TurmaNegocio();
 			listaTurma = tdao.listaTurma();
 		}
 		return listaTurma;

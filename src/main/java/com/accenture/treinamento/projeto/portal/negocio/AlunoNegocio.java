@@ -28,10 +28,9 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
 
 public class AlunoNegocio {
 
-	// LISTAS
+	
 	private List<AlunoBean> listaAluno;
 
-	// BUSCAS
 	private String tipo;
 	private Integer tipoBuscaAluno;
 	private String campoBuscaAluno;
@@ -51,14 +50,12 @@ public class AlunoNegocio {
 
 	}
 
-	// METODO DE AUTENTICAR ALUNO
 	public String loginTeste() throws ProjetoException {
 
 		return "/pages/comum/principal.faces?faces-redirect=true";
 
 	}
 
-	// METODO DE ADCIONAR ALUNO
 	public boolean cadastrarAluno(AlunoBean aluno) throws ProjetoException,
 			MalformedURLException {
 		String numero = gerarNumero();
@@ -71,49 +68,17 @@ public class AlunoNegocio {
 
 	}
 
-	// METODO DE ALTERAR ALUNO
-	public void alterarAluno(AlunoBean aluno) throws ProjetoException {
+	public boolean alterarAluno(AlunoBean aluno) throws ProjetoException {
 
 		AlunoDAO adao = new AlunoDAO();
 		boolean alterou = adao.alterarAluno(aluno);
-
-		if (alterou == true) {
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Aluno alterado com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaAluno = null;
-			RequestContext.getCurrentInstance().execute("dlgAltAluno.hide();");
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute("dlgAltAluno.hide();");
-		}
+		return alterou;
 	}
 
-	// METODO DE EXCLUIR ALUNO
-	public void excluirAluno(AlunoBean aluno) throws ProjetoException {
+	public boolean excluirAluno(AlunoBean aluno) throws ProjetoException {
 		AlunoDAO adao = new AlunoDAO();
-		boolean excluio = adao.excluirAluno(aluno);
-
-		if (excluio == true) {
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Aluno excluido com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaAluno = null;
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante a exclusao!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
-		}
+		boolean excluir = adao.excluirAluno(aluno);
+		return excluir;
 	}
 
 	public String gerarNumero() throws MalformedURLException {

@@ -14,9 +14,9 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.CursoDAO;
 import com.accenture.treinamento.projeto.portal.model.CursoBean;
+import com.accenture.treinamento.projeto.portal.negocio.CursoNegocio;
 
 /**
- *
  * @author Thulio, Thayse, Thales, Caio, Priscila, Veridiana
  * @since 17/05/2017
  */
@@ -25,87 +25,78 @@ import com.accenture.treinamento.projeto.portal.model.CursoBean;
 @SessionScoped
 public class CursoController {
 
-	// OBJETOS E CLASSES
 	private CursoBean curso;
 
-	// LISTAS
+	
 	private List<CursoBean> listaCurso;
 
 	public CursoController() {
-		// INSTANCIAS
+
 		curso = new CursoBean();
 
-		// LISTAS
 		listaCurso = new ArrayList<>();
 		listaCurso = null;
-
 	}
 
-	
-	// METODO DE ADCIONAR CURSO
 	public void cadastrarCurso() throws ProjetoException {
 
-		CursoDAO Cdao = new CursoDAO();
-		boolean cadastrou = Cdao.cadastrarCurso(curso);
+		CursoNegocio Cdao = new CursoNegocio();
 
-		if (cadastrou == true) {
+		if (Cdao.cadastrarCurso(curso)) {
 
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Aluno cadastrado com sucesso!", "Sucesso");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Aluno cadastrado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
+			listaCurso = null;
+
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro durante o cadastro!",
+					"Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
 		}
 	}
 
-	// METODO DE ALTERAR CURSO
 	public void alterarCurso() throws ProjetoException {
 
-		CursoDAO Cdao = new CursoDAO();
-		boolean alterou = Cdao.alterarCurso(curso);
+		CursoNegocio Cdao = new CursoNegocio();
 
-		if (alterou == true) {
+		if (Cdao.alterarCurso(curso)) {
 
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Curso alterado com sucesso!", "Sucesso");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Curso alterado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltAluno.hide();");
+			listaCurso = null;
+			
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro durante o cadastro!",
+					"Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltAluno.hide();");
 		}
 	}
 
-	// METODO DE EXCLUIR Curso
 	public void excluirCurso() throws ProjetoException {
-		CursoDAO Cdao = new CursoDAO();
-		boolean excluir = Cdao.excluirCurso(curso);
 
-		if (excluir == true) {
+		CursoNegocio Cdao = new CursoNegocio();
 
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Curso excluido com sucesso!", "Sucesso");
+		if (Cdao.excluirCurso(curso)) {
+
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Curso excluido com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			// listaLaudo = null;
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
+
+			RequestContext.getCurrentInstance().execute("PF('dialogAtencao').hide();");
+			listaCurso = null;
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante a exclusao!", "Erro");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocorreu um erro durante a exclusao!",
+					"Erro");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
+			RequestContext.getCurrentInstance().execute("PF('dialogAtencao').hide();");
 		}
 	}
 
@@ -123,7 +114,7 @@ public class CursoController {
 
 	public List<CursoBean> getListaCurso() {
 		if (listaCurso == null) {
-			CursoDAO adao = new CursoDAO();
+			CursoNegocio adao = new CursoNegocio();
 			listaCurso = adao.listaCurso();
 		}
 		return listaCurso;

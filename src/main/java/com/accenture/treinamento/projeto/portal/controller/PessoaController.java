@@ -1,17 +1,23 @@
 package com.accenture.treinamento.projeto.portal.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import com.accenture.treinamento.projeto.exception.ProjetoException;
-import com.accenture.treinamento.projeto.portal.dao.PessoaDAO;
-import com.accenture.treinamento.projeto.portal.model.PessoaBean;
 
+import org.primefaces.context.RequestContext;
+
+import com.accenture.treinamento.projeto.exception.ProjetoException;
+import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
+import com.accenture.treinamento.projeto.portal.dao.PessoaDAO;
+import com.accenture.treinamento.projeto.portal.model.AlunoBean;
+import com.accenture.treinamento.projeto.portal.model.PessoaBean;
+import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**
- *
  * @author Thulio, thayse, thales, caio, priscila, veridiana
  * @since 17/05/2017
  */
@@ -25,15 +31,14 @@ public class PessoaController {
 		pessoa = new PessoaBean();
 	}
 
-	// METODO DE AUTENTICAR ALUNO
 	public String login() throws ProjetoException {
 
-		PessoaDAO ud = new PessoaDAO();
+		PessoaNegocio ud = new PessoaNegocio();
 		pessoa = ud.autenticarPessoa(pessoa);
 		if (pessoa == null) {
 			FacesContext fct = FacesContext.getCurrentInstance();
 			fct.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Login ou senha inv�lidos!", "Erro"));
+					"Login ou senha inválidos!", "Erro"));
 
 			return "";
 		} else {			
@@ -48,9 +53,5 @@ public class PessoaController {
 	public void setPessoa(PessoaBean pessoa) {
 		this.pessoa = pessoa;
 	}
-
-	
-	
-	
 
 }
