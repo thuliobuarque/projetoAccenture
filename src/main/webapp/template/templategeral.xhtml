@@ -84,13 +84,33 @@
 					action="../../comum/principal.faces?faces-redirect=true"
 					icon="home" />
 				<p:submenu label="Cadastros" icon="btcadastro">
-					<p:menuitem value="Alunos"
+					<p:menuitem value="Aluno" 
 						url="/pages/cadastros/gerenciarAlunos.faces?faces-redirect=true" />
+					<p:menuitem value="Professor"
+						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" />
+					<p:menuitem value="Funcionário"
+						url="/pages/cadastros/gerenciarFuncionario.faces?faces-redirect=true" />
+
+
 
 				</p:submenu>
-				
+
+				<p:submenu label="Biblioteca">
+
+					<p:menuitem value="Locação"
+						url="/pages/cadastros/gerenciarLocacao.faces?faces-redirect=true" />
+					<p:menuitem value="Turma"
+						url="/pages/cadastros/gerenciarTurma.faces?faces-redirect=true" />
+					<p:menuitem value="Disciplina"
+						url="/pages/cadastros/gerenciarDisciplina.faces?faces-redirect=true" />
+					<p:menuitem value="Curso"
+						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" />
+					<p:menuitem value="Reserva"
+						url="/pages/cadastros/gerenciarProfessor.faces?faces-redirect=true" />
+
+				</p:submenu>
 				<p:menuitem value="Sair" style="float:center;"
-						action="#{MBAlunos.logout()}" ajax="false" icon="btlogout" />
+					action="#{MBAlunos.logout()}" ajax="false" icon="btlogout" />
 
 			</p:menubar>
 		</h:form> <ui:insert name="body" /> </main>
