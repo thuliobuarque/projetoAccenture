@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
@@ -105,7 +106,7 @@ public class LivroDAO implements ILivroDAO {
 
 		String sql = "select id , titulo, ano_publicacao, editora, classificacao, quantidade from acl.obra";
 
-		ArrayList<LivroBean> lista = new ArrayList();
+		ArrayList<LivroBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);
@@ -136,5 +137,53 @@ public class LivroDAO implements ILivroDAO {
 			}
 		}
 		return lista;
+	}
+	
+	@Override
+	public List<LivroBean> searchLivro(String value, Integer type) throws ProjetoException {
+		String sql = "select * from acl.livro ";
+
+		if (type == 1) {
+			sql += "join acl.autor on livro.id_autor = autor.id_autor where autor.nome like ? order by livro.titulo ";
+		} else if (type == 2) {
+			sql += "where livro.ano_publicacao = ? order by livro.titulo ";
+		}
+		List<LivroBean> list = new ArrayList<>();
+
+		try {
+			conexao = ConnectionFactory.getConnection();
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			if (type == 1) {
+				stmt.setString(1, value);
+			}
+			if (type == 2) {
+				stmt.setString(1, value);
+			}
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				LivroBean lb = new LivroBean();
+				lb.setId(rs.getInt("id_livro"));
+				lb.setNome(rs.getString("titulo"));
+				lb.setAnoPublicacao(rs.getDate("ano_publicacao"));
+				lb.setEditora(rs.getString("editora"));
+				lb.setResumo(rs.getString("resumo"));
+				lb.setClassificacao(rs.getString("classificacao"));
+				lb.setQuantidade(rs.getInt("quantidade"));
+				
+				list.add(lb);					
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// throw new RuntimeException(ex); //
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return list;
 	}
 }

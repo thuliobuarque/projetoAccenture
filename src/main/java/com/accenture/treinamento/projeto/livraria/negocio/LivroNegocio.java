@@ -1,15 +1,9 @@
 package com.accenture.treinamento.projeto.livraria.negocio;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.LivroDAO;
 import com.accenture.treinamento.projeto.livraria.model.LivroBean;
-import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 
 /**
 *
@@ -41,26 +35,6 @@ public class LivroNegocio {
 		return excluiu;
 	}
 	
-	public void buscarAlunos() throws ProjetoException {
-
-		List<LivroBean> listaAux = null;
-		listaAluno = new ArrayList<>();
-
-		AlunoDAO adao = new AlunoDAO();
-
-		listaAux = adao.buscarTipoAluno(campoBuscaAluno, tipoBuscaAluno);
-
-		if (listaAux != null && listaAux.size() > 0) {
-			// listaAss = null;
-			listaAluno = listaAux;
-		} else {
-			// listaAss = null;
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Nenhum Aluno encontrada.", "Aviso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-
-	}
 
 	public List<LivroBean> getListaObra(List<LivroBean> listaObra) throws ProjetoException {
 		if (listaObra == null) {
@@ -70,6 +44,10 @@ public class LivroNegocio {
 		}
 		return listaObra;
 	}
-
-
+	
+	public List<LivroBean> buscarLivro(String campo, Integer tipo) throws ProjetoException{
+		LivroDAO ldao = new LivroDAO();
+		return ldao.searchLivro(campo, tipo);
+		
+	}
 }

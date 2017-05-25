@@ -15,7 +15,6 @@ import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.LivroDAO;
 import com.accenture.treinamento.projeto.livraria.model.LivroBean;
 import com.accenture.treinamento.projeto.livraria.negocio.LivroNegocio;
-import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 
 /**
 *
@@ -30,7 +29,11 @@ public class LivroController {
 	private LivroBean obra;
 
 	private List<LivroBean> listaObra;
-
+	
+	private String tipo;
+	private Integer tipoBuscaLivro;
+	private String campoBuscaLivro;
+	
 	public LivroController() {
 		obra = new LivroBean();
 
@@ -39,7 +42,7 @@ public class LivroController {
 	}
 
 	public void cadastrarObra() throws ProjetoException {
-
+		listaObra = null;
 		LivroDAO adao = new LivroDAO();
 		boolean cadastrou = adao.cadastrarObra(obra);
 
@@ -61,7 +64,7 @@ public class LivroController {
 	}
 
 	public void alterarObra() throws ProjetoException {
-
+		listaObra = null;
 		LivroDAO adao = new LivroDAO();
 		boolean alterou = adao.alterarObra(obra);
 
@@ -82,6 +85,7 @@ public class LivroController {
 	}
 
 	public void excluirObra() throws ProjetoException {
+		listaObra = null;
 		LivroDAO adao = new LivroDAO();
 		boolean excluiu = adao.excluirObra(obra);
 
@@ -104,7 +108,14 @@ public class LivroController {
 	public void buscarLivros() throws ProjetoException {
 		
 		LivroNegocio adao = new LivroNegocio();
-        adao.buscarLivro();
+
+    		listaObra = adao.buscarLivro(campoBuscaLivro, tipoBuscaLivro);
+
+    		if (listaObra == null) {
+    			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
+    					"Nenhum Aluno encontrada.", "Aviso");
+    			FacesContext.getCurrentInstance().addMessage(null, msg);    			
+    	}
         
 	}
 
