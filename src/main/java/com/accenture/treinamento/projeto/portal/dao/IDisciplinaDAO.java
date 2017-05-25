@@ -11,4 +11,6 @@ public interface IDisciplinaDAO {
 	public abstract boolean alterarDisciplina(DisciplinaBean disciplina) throws ProjetoException;
 	public abstract boolean excluirDisciplina(DisciplinaBean disciplina) throws ProjetoException;
 	public abstract List listaDisciplina() throws ProjetoException;
+	public List<DisciplinaBean> buscarDisciplina(String valor, Integer tipo)throws ProjetoException ;
+
 }

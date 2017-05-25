@@ -128,7 +128,7 @@ public class DisciplinaDAO implements IDisciplinaDAO {
 				d.setNome(rs.getString("nome"));
 				d.setCarga_horaria(rs.getInt("carga_horaria"));
 				d.getProfessor().setNome(rs.getString("nome"));
-				d.getTurma().setCodigoTurma(rs.getString("codigo_turma"));
+				d.getTurma().setCodigo_turma(rs.getString("codigo_turma"));
                 
 				lista.add(d);
 			}
