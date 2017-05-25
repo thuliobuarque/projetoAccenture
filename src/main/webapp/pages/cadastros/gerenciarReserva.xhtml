@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+
+			<p:commandButton value="Novo Reserva" icon="novo"
+				style="margin-top:20px;height:40px;width:80px;"
+				actionListener="#{MBReserva.limparDados()}"
+				onclick="PF('dlgNovoReserva').show();"
+				update=":formNovoReserva, :frmmensagem:growl"
+				process=":formNovoReserva" />
+
+			<h:form id="frmmensagem">
+
+				<p:growl id="growl" showDetail="false" />
+				<p:panel header="Gerenciar Reserva"
+					style="margin-top:50px; height:auto; width:auto; background-color: #F5F5F5; border: 3px solid gray;">
+					<h:panelGrid columns="8" styleClass="semBorda"
+						style="font-size:12px !important;">
+						<p:outputPanel id="pnlprincipal">
+							<p:outputLabel value="Pesquisar por: " />
+							<p:selectOneMenu value="#{MBReserva.tipoBuscaReserva}"
+								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
+
+								<f:selectItem itemLabel="Nome" itemValue="1" />
+
+
+								<p:ajax event="change" update=":frmmensagem:pnlprincipal" />
+							</p:selectOneMenu>
+
+							<p:inputText id="campoBuscaautor" size="35"
+								style="height:28px;margin-top:-6px;margin-left:16px;"
+								value="#{MBReserva.campoBuscaReserva}"
+								rendered="#{MBReserva.tipoBuscaReserva == 1}"
+								placeholder="Informe o nome" />
+
+							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
+								style="height:40px;width:80px;margin-left:10px"
+								action="#{MBReserva.buscarReserva()}"
+								update=":frmmensagem:tabela, :frmmensagem:growl">
+								<p:tooltip value="Buscar" for="botaoBusca" />
+							</p:commandButton>
+
+							<p:commandButton icon="limpar" id="limp" value="Limpar"
+								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
+								action="#{MBReserva.limparBuscaDados()}"
+								style="margin-left:20px;height:40px;width:80px;">
+								<p:tooltip value="Limpar Busca" for="limp" />
+							</p:commandButton>
+
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
+					id="tabela" style="margin-top:20px;"
+					value="#{MBReserva.listaReserva}" var="tab" rows="10"
+					paginator="true" paginatorPosition="bottom">
+
+					<p:column headerText="ID" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.id_livro}" />
+					</p:column>
+
+					<p:column headerText="Perfil" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.titulo}" />
+					</p:column>
+
+					<p:column headerText="Data Retirada"
+						style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.data_retirada}" />
+					</p:column>
+
+					<p:column headerText="Ações" width="8%">
+						<center>
+							<p:splitButton icon="confirmar">
+								<p:menuitem value="Alterar" icon="alterar-dados"
+									onclick="PF('dlgAltReserva').show()"
+									process="@this, :formAltReserva"
+									update=":formAltReserva:pnlAltReserva">
+
+									<f:setPropertyActionListener value="#{tab}"
+										target="#{MBReserva.reserva}" />
+
+
+								</p:menuitem>
+
+								<p:menuitem value="Excluir" icon="trash"
+									onclick="PF('dialogAtencao').show()">
+
+									<f:setPropertyActionListener value="#{tab.id_reserva}"
+										target="#{MBReserva.reserva.id_reserva}" />
+								</p:menuitem>
+							</p:splitButton>
+						</center>
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+		<p:dialog header="CADASTRO DE RESERVA" widgetVar="dlgNovoReserva"
+			appendToBody="true" draggable="false" resizable="false"
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" closable="true" modal="true" width="auto">
+			<h:form id="formNovoReserva">
+				<p:growl id="msg" />
+				<p:panel>
+					<p:tabView activeIndex="#{MBReserva.abaAtiva}"
+						style="height:460px;" styleClass="semBorda">
+						<p:tab title="Dados do Livro">
+							<p:panelGrid columns="2" styleClass="semBorda">
+
+
+								<p:selectOneMenu value="#{MBReserva.reserva.livro.id_livro}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBLivro.listaLivro}" var="ep"
+										itemLabel="#{ep.titulo}" itemValue="#{ep.id_livro}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{MBReserva.reserva.aluno.id_aluno}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBAlunos.listaAluno}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_aluno}" />
+								</p:selectOneMenu>
+
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+				</p:panel>
+				<center>
+					<p:panelGrid columns="2" styleClass="semBorda">
+						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
+							action="#{MBReserva.cadastrarReserva()}"
+							style="height:40px;width:80px;"
+							oncomplete="PF('dlgNovoReserva').hide();"
+							update=":formNovoReserva:msg" />
+
+						<p:commandButton value="Cancelar" icon="cancelar"
+							style="height:40px;width:80px;"
+							onclick="PF('dlgNovoReserva').hide();" />
+
+					</p:panelGrid>
+
+				</center>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog header="Alterar Reserva" widgetVar="dlgAltReserva"
+			draggable="false" resizable="false" closable="true" modal="true"
+			width="auto">
+
+			<h:form id="formAltReserva">
+				<p:growl id="msg" />
+				<p:panel id="pnlAltReserva">
+					<p:tabView activeIndex="#{MBReserva.abaAtiva}"
+						style="height:460px;" styleClass="semBorda">
+						<p:tab title="Dados da Reserva">
+							<p:panelGrid columns="2" styleClass="semBorda">
+
+
+								<p:selectOneMenu value="#{MBReserva.reserva.livro.id_livro}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBLivro.listaLivro}" var="ep"
+										itemLabel="#{ep.titulo}" itemValue="#{ep.id_livro}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{MBReserva.reserva.aluno.id_aluno}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBAlunos.listaAluno}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_aluno}" />
+								</p:selectOneMenu>
+
+
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+					<center>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<p:commandButton value="ok" icon="confirmar" ajax="false"
+								action="#{MBReserva.alterarReserva()}"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltReserva').hide();" update=":formAltReserva:msg" />
+
+							<p:commandButton value="Cancelar" icon="cancelar"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltReserva').hide();" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dialogAtencao" modal="true" header="Atenção"
+			resizable="false">
+
+			<h:form id="dlgexcluir">
+				<h:panelGrid columns="1">
+
+
+					<div class="alert alert-warning" role="alert">Deseja excluir
+						este Aluno?</div>
+
+				</h:panelGrid>
+
+
+
+				<center>
+
+					<p:commandButton value="Sim" action="#{MBReserva.excluirReserva()}"
+						icon="ui-icon-check" style="font-size:14px;"
+						update=":frmmensagem:tabela" ajax="false">
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="PF('dialogAtencao').hide();"
+						icon="ui-icon-closethick" style="font-size:14px;margin-left:5px;"></p:commandButton>
+
+				</center>
+
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>
+</html>
