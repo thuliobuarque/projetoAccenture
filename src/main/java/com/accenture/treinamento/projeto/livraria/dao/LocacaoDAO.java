@@ -17,13 +17,14 @@ public class LocacaoDAO implements ILocacaoDAO {
 
 	@Override
 	public boolean saveLocacao(LocacaoBean locacao) throws ProjetoException {
-		String query = "INSERT INTO acl.locacao (id_pessoa, data_locacao, data_devolucao) values (?, ?, ?)";
+		String query = "INSERT INTO locacao (data_locacao, data_devolucao) values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement ps = conexao.prepareStatement(query);
-			ps.setDate(1, new Date(locacao.getDataLocacao().getTime()));
-			ps.setDate(2,new Date(locacao.getDataEntrega().getTime()));
+			ps.setDate(1, new Date(locacao.getData_locacao().getTime()));
+			ps.setDate(2,new Date(locacao.getData_devolucao().getTime()));
+			
 			ps.execute();
 
 			conexao.commit();
@@ -42,13 +43,13 @@ public class LocacaoDAO implements ILocacaoDAO {
 
 	@Override
 	public boolean updateLocacao(LocacaoBean locacao) throws ProjetoException {
-		String query = "UPDATE acl.locacao set d_locacao = ?, d_entrega = ?";
+		String query = "UPDATE locacao set data_locacao = ?, data_devolucao = ? WHERE id_locacao = ?";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement ps = conexao.prepareStatement(query);
-			ps.setDate(1, new Date(locacao.getDataLocacao().getTime()));
-			ps.setDate(2, new Date(locacao.getDataEntrega().getTime()));
+			ps.setDate(1, new Date(locacao.getData_locacao().getTime()));
+			ps.setDate(2, new Date(locacao.getData_devolucao().getTime()));
 			ps.executeUpdate();
 
 			conexao.commit();
@@ -71,13 +72,13 @@ public class LocacaoDAO implements ILocacaoDAO {
 		// LOCALIZA AS OBRAS DA LOCACAO NO BANCO E ADICIONA A QUANTIDADE
 		// RETIRADA PARA A LOCACAO
 		// DELETA A LOCACAO DO BANCO
-		String query = "DELETE acl.locacao WHERE d_locacao = ?, d_entrega = ?";
+		String query = "DELETE locacao WHERE id_locacao = ?, d_entrega = ?";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement ps = conexao.prepareStatement(query);
-			ps.setDate(1, new Date(locacao.getDataLocacao().getTime()));
-			ps.setDate(2, new Date(locacao.getDataEntrega().getTime()));
+			ps.setDate(1, new Date(locacao.getData_locacao().getTime()));
+			ps.setDate(2, new Date(locacao.getData_devolucao().getTime()));
 			ps.executeUpdate();
 
 			conexao.commit();
@@ -98,7 +99,7 @@ public class LocacaoDAO implements ILocacaoDAO {
 	public ArrayList<LocacaoBean> listLocacoes() throws ProjetoException {
 		ArrayList<LocacaoBean> locacoes = new ArrayList<>();
 
-		String query = "SELECT * FROM acl.locacao";
+		String query = "SELECT * FROM locacao";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
@@ -107,9 +108,9 @@ public class LocacaoDAO implements ILocacaoDAO {
 			while (rs.next()) {
 				LocacaoBean locacao = new LocacaoBean();
 
-				locacao.setId(rs.getInt("id_locacao"));
-				locacao.setDataLocacao(rs.getDate("data_locacao"));
-				locacao.setDataEntrega(rs.getDate("data_devolucao"));
+				locacao.setId_locacao(rs.getInt("id_locacao"));
+				locacao.setData_locacao(rs.getDate("data_locacao"));
+				locacao.setData_devolucao(rs.getDate("data_devolucao"));
 				locacoes.add(locacao);
 			}
 		} catch (SQLException e) {
@@ -156,6 +157,7 @@ public class LocacaoDAO implements ILocacaoDAO {
 				lb.setDataEntrega(rs.getDate("data_devolucao"));
 				PreparedStatement stmt2 = conexao.prepareStatement("SELECT id_livro FROM acl.locacao WHERE id_locacao = ?");
 				stmt2.setInt(1, rs.getInt("id_locacao"));
+				stmt2.setDate(2, new Date(locacao.getData_locacao().getTime()));
 				ResultSet rs2 = stmt2.executeQuery();
 				while(rs2.next()){
 					auxLivros.add(rs2.getInt("id_livro"));
