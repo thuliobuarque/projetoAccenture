@@ -4,6 +4,7 @@ import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.dao.AutorDAO;
 import com.accenture.treinamento.projeto.livraria.model.AutorBean;
 
+
 /**
 *
 * @author Thulio, thayse, thales, caio, priscila, veridiana
@@ -36,12 +37,17 @@ public class AutorNegocio {
 		
 	}
 
-	public List<AutorBean> getListaAutor(List<AutorBean> list) {
+	public List<AutorBean> getListaAutor(List<AutorBean> list) throws ProjetoException {
 		if(list == null){
 			AutorDAO adao = new AutorDAO();
 			list = adao.listaAutor();
 		}
 			return list;
+	}
+	
+	public List<AutorBean> buscarAutor(String campo) throws ProjetoException{
+		AutorDAO adao = new AutorDAO();
+		return adao.searchAutor(campo);
 	}
 
 }

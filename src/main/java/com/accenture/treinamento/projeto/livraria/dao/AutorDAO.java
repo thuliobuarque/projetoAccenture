@@ -5,10 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
 import com.accenture.treinamento.projeto.livraria.model.AutorBean;
+import com.accenture.treinamento.projeto.livraria.model.LivroBean;
+
 
 
 
@@ -95,11 +98,11 @@ public class AutorDAO implements IAutorDAO {
 		}
 	}
 	
-	public ArrayList<AutorBean> listaAutor() {
+	public ArrayList<AutorBean> listaAutor() throws ProjetoException {
 
 		String sql = "select id_autor, nome from autor order by nome";
 
-		ArrayList<AutorBean> lista = new ArrayList();
+		ArrayList<AutorBean> lista = new ArrayList<>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);
@@ -115,8 +118,7 @@ public class AutorDAO implements IAutorDAO {
 			}
 			
 		} catch (SQLException ex) {
-			
-			throw new RuntimeException(ex);
+			throw new ProjetoException(ex);
 		} finally {
 			try {
 				conexao.close();
@@ -127,4 +129,37 @@ public class AutorDAO implements IAutorDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public List<AutorBean> searchAutor(String value) throws ProjetoException {
+		String sql = "select * from acl.autor join acl.livro on autor.id_autor = livro.id_autor where autor.nome like ? order by livro.titulo";
+
+		List<AutorBean> list = new ArrayList<>();
+
+		try {
+			conexao = ConnectionFactory.getConnection();
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			stmt.setString(1, "%" + value.toUpperCase().trim() + "%");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				AutorBean ab = new AutorBean();
+				
+				
+				list.add(ab);					
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// throw new RuntimeException(ex); //
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return list;
+	}
+
 }

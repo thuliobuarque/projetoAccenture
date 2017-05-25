@@ -154,10 +154,10 @@ public class LivroDAO implements ILivroDAO {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			if (type == 1) {
-				stmt.setString(1, value);
+				stmt.setString(1, "%" + value.toUpperCase().trim() + "%");
 			}
 			if (type == 2) {
-				stmt.setString(1, value);
+				stmt.setInt(1, Integer.parseInt(value));
 			}
 			ResultSet rs = stmt.executeQuery();
 

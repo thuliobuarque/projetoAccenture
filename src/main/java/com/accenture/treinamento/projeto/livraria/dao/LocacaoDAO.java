@@ -140,10 +140,10 @@ public class LocacaoDAO implements ILocacaoDAO {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			if (type == 1) {
-				stmt.setString(1, value);
+				stmt.setString(1, "%" + value.toUpperCase().trim() + "%");
 			}
 			if (type == 2) {
-				stmt.setString(1, value);
+				stmt.setString(1, "%" + value.toUpperCase().trim() + "%");
 			}
 
 			ResultSet rs = stmt.executeQuery();

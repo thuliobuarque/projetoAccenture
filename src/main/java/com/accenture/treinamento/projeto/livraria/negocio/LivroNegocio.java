@@ -48,6 +48,5 @@ public class LivroNegocio {
 	public List<LivroBean> buscarLivro(String campo, Integer tipo) throws ProjetoException{
 		LivroDAO ldao = new LivroDAO();
 		return ldao.searchLivro(campo, tipo);
-		
 	}
 }

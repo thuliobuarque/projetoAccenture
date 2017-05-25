@@ -30,7 +30,6 @@ public class LivroController {
 
 	private List<LivroBean> listaObra;
 	
-	private String tipo;
 	private Integer tipoBuscaLivro;
 	private String campoBuscaLivro;
 	
