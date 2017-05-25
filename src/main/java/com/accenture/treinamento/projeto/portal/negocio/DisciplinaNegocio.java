@@ -28,6 +28,13 @@ public class DisciplinaNegocio {
 
 	// LISTAS
 	private List<DisciplinaBean> listaDisciplina;
+	
+	// BUSCAS
+		private String tipo;
+		private Integer tipoBuscaDisciplina;
+		private String campoBuscaDisciplina;
+		private String statusDisciplina;
+
 
 	public DisciplinaNegocio() {
 		// INSTANCIAS
@@ -36,6 +43,12 @@ public class DisciplinaNegocio {
 		// LISTAS
 		listaDisciplina = new ArrayList<>();
 		listaDisciplina = null;
+
+		// BUSCA
+				tipo = "";
+				tipoBuscaDisciplina = 1;
+				campoBuscaDisciplina = "";
+				statusDisciplina = "P";
 
 	}
 
@@ -108,6 +121,31 @@ public class DisciplinaNegocio {
 			RequestContext.getCurrentInstance().execute(
 					"PF('dialogAtencao').hide();");
 		}
+	}
+	
+	public void buscarDisciplina() throws ProjetoException{
+		
+		List<DisciplinaBean> listaAux = null;
+		listaDisciplina = new ArrayList<>();
+		
+		DisciplinaDAO dDao = new DisciplinaDAO();
+		
+		listaAux = dDao.buscarTurma(campoBuscaAluno, tipoBuscaAluno);
+
+		if (listaAux != null && listaAux.size() > 0) {
+			// listaAss = null;
+			listaDisciplina = listaAux;
+		} else {
+			// listaAss = null;
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Nenhuma Turma encontrada.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+
+	}
+
+		
+		
 	}
 
 	public void LimparObjeto() {

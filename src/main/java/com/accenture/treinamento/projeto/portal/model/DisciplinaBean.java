@@ -1,16 +1,20 @@
 package com.accenture.treinamento.projeto.portal.model;
 
+import java.sql.Clob;
+
 public class DisciplinaBean {
 	
-	private int id;
+	private int id_disciplina;
 	private String nome;
-	private int cargaHoraria;
+	private int carga_horaria;
 	private ProfessorBean professor;
-	public int getId() {
-		return id;
+	private TurmaBean turma;
+	
+	public int getId_disciplina() {
+		return id_disciplina;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId_disciplina(int id_disciplina) {
+		this.id_disciplina = id_disciplina;
 	}
 	public String getNome() {
 		return nome;
@@ -18,11 +22,11 @@ public class DisciplinaBean {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public int getCargaHoraria() {
-		return cargaHoraria;
+	public int getCarga_horaria() {
+		return carga_horaria;
 	}
-	public void setCargaHoraria(int cargaHoraria) {
-		this.cargaHoraria = cargaHoraria;
+	public void setCarga_horaria(int carga_horaria) {
+		this.carga_horaria = carga_horaria;
 	}
 	public ProfessorBean getProfessor() {
 		return professor;
@@ -30,6 +34,14 @@ public class DisciplinaBean {
 	public void setProfessor(ProfessorBean professor) {
 		this.professor = professor;
 	}
+	public TurmaBean getTurma() {
+		return turma;
+	}
+	public void setTurma(TurmaBean turma) {
+		this.turma = turma;
+	}
+	
+	
 	
 	
 	
