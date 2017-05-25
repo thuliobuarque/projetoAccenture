@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
 import com.accenture.treinamento.projeto.livraria.model.LocacaoBean;
+import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
 
 public class LocacaoDAO implements ILocacaoDAO {
 
@@ -17,14 +19,16 @@ public class LocacaoDAO implements ILocacaoDAO {
 
 	@Override
 	public boolean saveLocacao(LocacaoBean locacao) throws ProjetoException {
-		String query = "INSERT INTO locacao (data_locacao, data_devolucao) values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+		
+		String query = "INSERT INTO locacao (data_locacao, data_devolucao, status) values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ? )";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement ps = conexao.prepareStatement(query);
 			ps.setDate(1, new Date(locacao.getData_locacao().getTime()));
 			ps.setDate(2,new Date(locacao.getData_devolucao().getTime()));
-			
+			ps.setString(3, locacao.getStatus()); //Char pegou como float
+					
 			ps.execute();
 
 			conexao.commit();
@@ -43,13 +47,16 @@ public class LocacaoDAO implements ILocacaoDAO {
 
 	@Override
 	public boolean updateLocacao(LocacaoBean locacao) throws ProjetoException {
-		String query = "UPDATE locacao set data_locacao = ?, data_devolucao = ? WHERE id_locacao = ?";
+		
+		String query = "UPDATE locacao set data_locacao = current_timestamp(), data_devolucao = ?, status = ? WHERE id_locacao = ?";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement ps = conexao.prepareStatement(query);
 			ps.setDate(1, new Date(locacao.getData_locacao().getTime()));
 			ps.setDate(2, new Date(locacao.getData_devolucao().getTime()));
+			ps.setString(3, locacao.getStatus()); //Char pegou como float
+			
 			ps.executeUpdate();
 
 			conexao.commit();
@@ -72,13 +79,14 @@ public class LocacaoDAO implements ILocacaoDAO {
 		// LOCALIZA AS OBRAS DA LOCACAO NO BANCO E ADICIONA A QUANTIDADE
 		// RETIRADA PARA A LOCACAO
 		// DELETA A LOCACAO DO BANCO
-		String query = "DELETE locacao WHERE id_locacao = ?, d_entrega = ?";
-
+		String query = "DELETE FROM locacao WHERE id_locacao = ?";
+		
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement ps = conexao.prepareStatement(query);
 			ps.setDate(1, new Date(locacao.getData_locacao().getTime()));
 			ps.setDate(2, new Date(locacao.getData_devolucao().getTime()));
+			ps.setString(3, locacao.getStatus());
 			ps.executeUpdate();
 
 			conexao.commit();
@@ -111,6 +119,11 @@ public class LocacaoDAO implements ILocacaoDAO {
 				locacao.setId_locacao(rs.getInt("id_locacao"));
 				locacao.setData_locacao(rs.getDate("data_locacao"));
 				locacao.setData_devolucao(rs.getDate("data_devolucao"));
+				locacao.getAluno().setId_aluno(rs.getInt("id_aluno"));
+				locacao.getProfessor().setId_professor(rs.getInt("id_professor"));
+				locacao.getLivro().setId_livro(rs.getInt("id_livro"));
+				locacao.setStatus(rs.getString("status"));
+				
 				locacoes.add(locacao);
 			}
 		} catch (SQLException e) {
@@ -125,8 +138,11 @@ public class LocacaoDAO implements ILocacaoDAO {
 		return locacoes;
 	}
 
+	
+	/*
 	@Override
 	public List<LocacaoBean> searchLocacao(String value, Integer type) throws ProjetoException {
+		
 		String sql = "select * from acl.locacao ";
 
 		if (type == 1) {
@@ -178,4 +194,59 @@ public class LocacaoDAO implements ILocacaoDAO {
 		}
 		return list;
 	}
-}
+}*/
+	
+	@Override
+	public List<LocacaoBean> searchLocacao(String value, Integer type) throws ProjetoException {
+		
+			String sql = "select l.data_locacao, l.data_devolucao, aluno.id_aluno, professor.id_professor, livro.id_livro, status from   locacao as l"
+			+ "inner join  Aluno On (l.id_aluno = aluno.id_aluno)"
+			+ "inner join  Professor On( l.id_professor = professor.id_professor)"
+			+ "inner join  livro On (l.id_livro = livro.id_livro)";
+					
+					
+		if (type == 1) {
+			sql += " locacao.data_locacao like ? order by locacao.data_locacao ";
+		}
+
+		List<LocacaoBean> lista = new ArrayList<>();
+
+		try {
+			conexao = ConnectionFactory.getConnection();
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			if (type == 1) {
+				stmt.setString(1, "%" + value.toUpperCase() + "%");
+			}
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				LocacaoBean c = new LocacaoBean();
+
+				
+				c.setId_locacao(rs.getInt("id_locacao"));
+				c.setData_locacao(rs.getDate("data_locacao"));
+				c.setData_devolucao(rs.getDate("data_devolucao"));
+				c.getAluno().setId_aluno(rs.getInt("id_aluno"));
+				c.getProfessor().setId_professor(rs.getInt("id_professor"));
+				c.getLivro().setId_livro(rs.getInt("id_livro"));
+				c.setStatus(rs.getString("id_livro"));
+				lista.add(c);
+
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// throw new RuntimeException(ex); //
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return lista;
+	}
+
+	
+}	
