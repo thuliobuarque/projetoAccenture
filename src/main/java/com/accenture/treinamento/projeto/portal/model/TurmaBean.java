@@ -2,21 +2,22 @@ package com.accenture.treinamento.projeto.portal.model;
 
 public class TurmaBean {
 	
-	private int id;
-	private String codigoTurma;
+	private int id_turma;
+	private String codigo_turma;
 	private AlunoBean alunos;
 	
-	public int getId() {
-		return id;
+	public int getId_turma() {
+		return id_turma;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId_turma(int id_turma) {
+		this.id_turma = id_turma;
 	}
-	public String getCodigoTurma() {
-		return codigoTurma;
+	
+	public String getCodigo_turma() {
+		return codigo_turma;
 	}
-	public void setCodigoTurma(String codigoTurma) {
-		this.codigoTurma = codigoTurma;
+	public void setCodigo_turma(String codigo_turma) {
+		this.codigo_turma = codigo_turma;
 	}
 	public AlunoBean getAlunos() {
 		return alunos;

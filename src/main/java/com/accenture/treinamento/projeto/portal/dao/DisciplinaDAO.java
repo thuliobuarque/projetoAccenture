@@ -105,13 +105,15 @@ public class DisciplinaDAO implements IDisciplinaDAO {
 		}
 	}
 	
+	      
+	
 	
 
 	public ArrayList<DisciplinaBean> listaDisciplina() {
 
 		String sql = "select disciplina.id_disciplina, disciplina.nome, disciplina.carga_horaria, professor.nome, turma.codigo_turma from disciplina "
-				+ "join professor on (id_professor.professor = id_professor.disciplina) "
-				+ "join turma on (id_turma.turma = id_turma.disciplina) order by disciplina.nome";
+				+ "inner join professor on (professor.id_professor = disciplina.id_professor) "
+				+ "inner join turma on (turma.id_turma = disciplina.id_turma) order by disciplina.nome";
 
 		ArrayList<DisciplinaBean> lista = new ArrayList();
 		try {
@@ -126,7 +128,7 @@ public class DisciplinaDAO implements IDisciplinaDAO {
 				d.setNome(rs.getString("nome"));
 				d.setCarga_horaria(rs.getInt("carga_horaria"));
 				d.getProfessor().setNome(rs.getString("nome"));
-				d.getTurma().setCodigoTurma(rs.getString("codigo_turma"));
+				d.getTurma().setCodigo_turma(rs.getString("codigo_turma"));
                 
 				lista.add(d);
 			}
@@ -143,50 +145,52 @@ public class DisciplinaDAO implements IDisciplinaDAO {
 		return lista;
 	}
 	
-	public List<DisciplinaBean> buscarTurma(String codigo) throws ProjetoException {
-  		
-      	
-  		 String sql = "select disciplina.id_disciplina, disciplina.nome, disciplina.carga_horaria, professor.nome, turma.codigo_turma from disciplina "
-				+ "join professor on (id_professor.professor = id_professor.disciplina) "
-				+ "join turma on (id_turma.turma = id_turma.disciplina) where";
-  		
-  		List<DisciplinaBean> lista = new ArrayList<>();
-  	
-  		try {
-  			conexao = ConnectionFactory.getConnection();
-  			PreparedStatement stmt = conexao.prepareStatement(sql);
-  			
-  			ResultSet rs = stmt.executeQuery();
+	public List<DisciplinaBean> buscarDisciplina(String valor, Integer tipo)
+			throws ProjetoException {
 
-  			while (rs.next()) {
-  				
-  				DisciplinaBean d = new DisciplinaBean();
+		String sql = "select disciplina.id_disciplina, disciplina.nome, disciplina.carga_horaria, professor.nome, turma.codigo_turma from disciplina "
+				+ "inner join professor on (professor.id_professor = disciplina.id_professor) "
+				+ "inner join turma on (turma.id_turma = disciplina.id_turma) order by disciplina.nome";
 
-  				d.setId_disciplina(rs.getInt("id_disciplina"));
-				d.setNome(rs.getString("nome"));
-				d.setCargaHoraria(rs.getInt("carga_horaria"));
-				d.setProfessor((ProfessorBean) rs.getClob("id_professor"));
-				d.setId_turma((TurmaBean) rs.getClob("id_turma"));
-						
+		if (tipo == 1) {
+			sql += " disciplina.nome like ? order by disciplina.nome ";
+		}
 
+		List<DisciplinaBean> lista = new ArrayList<>();
 
-  				lista.add(d);
+		try {
+			conexao = ConnectionFactory.getConnection();
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			if (tipo == 1) {
+				stmt.setString(1, "%" + valor.toUpperCase() + "%");
+			}
 
-  			}
-  		} catch (SQLException ex) {
-  			ex.printStackTrace();
-  			// throw new RuntimeException(ex); //
-  		} finally {
-  			try {
-  				conexao.close();
-  			} catch (Exception ex) {
-  				ex.printStackTrace();
-  				System.exit(1);
-  			}
-  		}
-  		return lista;
-  	}
+			ResultSet rs = stmt.executeQuery();
 
+			while (rs.next()) {
+				DisciplinaBean c = new DisciplinaBean();
+
+				c.setId_disciplina(rs.getInt("id_disciplina"));
+				c.setNome(rs.getString("nome"));
+				c.setCarga_horaria(rs.getInt("carga_horaria"));
+				c.getProfessor().setId_professor(rs.getInt("id_professor"));
+				c.getTurma().setId_turma(rs.getInt("id_turma"));
+				lista.add(c);
+
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// throw new RuntimeException(ex); //
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return lista;
+	}
 }
 
 
