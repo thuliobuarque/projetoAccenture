@@ -130,22 +130,22 @@ public class CursoController {
 	}
 	
 	public void limparBuscaDados() {
-		tipoBuscaAutor = 1;
-		campoBuscaAutor = "";
+		tipoBuscaCurso = 1;
+		campoBuscaCurso = "";
 	}
 	
 	public void limparDados() {
-		autor = new AutorBean();
+		curso = new CursoBean();
 		}
 
 	public void setCurso(CursoBean curso) {
 		this.curso = curso;
 	}
 
-	public List<CursoBean> getListaCurso() {
+	public List<CursoBean> getListaCurso() throws ProjetoException {
 		if (listaCurso == null) {
 			CursoNegocio adao = new CursoNegocio();
-			listaCurso = adao.listaCurso();
+			listaCurso = adao.getListaCurso();
 		}
 		return listaCurso;
 	}

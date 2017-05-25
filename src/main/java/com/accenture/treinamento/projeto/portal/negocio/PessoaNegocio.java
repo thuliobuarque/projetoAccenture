@@ -32,7 +32,7 @@ public class PessoaNegocio {
 	}
 
 	// METODO DE AUTENTICAR ALUNO
-	public String login() throws ProjetoException {
+	public String autenticarPessoa() throws ProjetoException {
 
 		PessoaDAO ud = new PessoaDAO();
 		pessoa = ud.autenticarPessoa(pessoa);

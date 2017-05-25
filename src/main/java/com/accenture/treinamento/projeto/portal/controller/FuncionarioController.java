@@ -177,11 +177,11 @@ public class FuncionarioController {
 		this.statusFuncionario = statusFuncionario;
 	}
 
-	public List<FuncionarioBean> getListaFuncionario() {
+	public List<FuncionarioBean> getListaFuncionario() throws ProjetoException {
 		
 		if (listaFuncionario == null) {
 			FuncionarioNegocio adao = new FuncionarioNegocio();
-			listaFuncionario = adao.listaFuncionario();
+			listaFuncionario = adao.getListaFuncionario();
 		}
 		return listaFuncionario;
 	}

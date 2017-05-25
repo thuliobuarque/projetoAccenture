@@ -15,6 +15,7 @@ import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.dao.PessoaDAO;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.model.PessoaBean;
+import com.accenture.treinamento.projeto.portal.negocio.PessoaNegocio;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**

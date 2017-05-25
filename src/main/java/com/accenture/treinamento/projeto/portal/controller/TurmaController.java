@@ -139,10 +139,10 @@ public class TurmaController {
 		this.turma = turma;
 	}
 
-	public List<TurmaBean> getListaTurma() {
+	public List<TurmaBean> getListaTurma() throws ProjetoException {
 		if (listaTurma == null) {
 			TurmaNegocio tdao = new TurmaNegocio();
-			listaTurma = tdao.listaTurma();
+			listaTurma = tdao.getListaTurma();
 		}
 		return listaTurma;
 	}

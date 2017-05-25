@@ -134,7 +134,7 @@ public class ProfessorController {
 	public List<ProfessorBean> getListaprofessor() throws ProjetoException {
 		if (listaprofessor == null) {
 			ProfessorNegocio Pdao = new ProfessorNegocio();
-			listaprofessor = Pdao.listaProfessor();
+			listaprofessor = Pdao.getListaProfessor();
 		}
 		return listaprofessor;
 	}

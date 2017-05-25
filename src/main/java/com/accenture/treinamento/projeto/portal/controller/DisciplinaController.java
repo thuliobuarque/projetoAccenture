@@ -134,19 +134,11 @@ public class DisciplinaController {
 		disciplina = null;
 	}
 
-	public DisciplinaNegocio getDisciplina() {
-		return disciplina;
-	}
-
-	public void setDisciplina(DisciplinaNegocio disciplina) {
-		this.disciplina = disciplina;
-	}
-
-	public List<DisciplinaBean> getListaDisciplina() {
+	public List<DisciplinaBean> getListaDisciplina() throws ProjetoException {
 		
 		if (listaDisciplina == null) {
 			DisciplinaNegocio Ddao = new DisciplinaNegocio();
-			listaDisciplina = Ddao.listaDisciplina();
+			listaDisciplina = Ddao.getListaDisciplina();
 		}
 		return listaDisciplina;
 	}
