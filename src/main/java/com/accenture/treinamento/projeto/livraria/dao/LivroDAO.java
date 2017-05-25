@@ -10,11 +10,11 @@ import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
 import com.accenture.treinamento.projeto.livraria.model.LivroBean;
 
-public class ObraDAO implements IObraDAO {
+public class LivroDAO implements ILivroDAO {
 
 	private Connection conexao = null;
 	
-	public boolean cadastrarObra(LivroBean obra) {
+	public boolean cadastrarObra(LivroBean obra) throws ProjetoException {
 		
 		String sql = "insert into acl.obra (titulo,nome,anoPublicacao,editora,resumo,classificacao,quantidade) values (?,?,?,?,?,?,?)";
 		
@@ -33,13 +33,12 @@ public class ObraDAO implements IObraDAO {
 			conexao.commit();
 			return true;
 		} catch (SQLException ex) {
-			throw new RuntimeException(ex);
+			throw new ProjetoException(ex);
 		} finally {
 			try {
 				conexao.close();
 			} catch (Exception ex) {
-				ex.printStackTrace();
-				System.exit(1);
+				throw new ProjetoException(ex);
 			}
 		}
 		
@@ -65,12 +64,12 @@ public class ObraDAO implements IObraDAO {
 			alterou = true;
 			return alterou;
 		} catch (SQLException ex) {
-			throw new RuntimeException(ex);
+			throw new ProjetoException(ex);
 		} finally {
 			try {
 				conexao.close();
 			} catch (Exception e2) {
-				e2.printStackTrace();
+				throw new ProjetoException(e2);
 			}
 			
 		}
@@ -92,17 +91,17 @@ public class ObraDAO implements IObraDAO {
 
 			return excluir;
 		} catch (SQLException ex) {
-			throw new RuntimeException(ex);
+			throw new ProjetoException(ex);
 		} finally {
 			try {
 				conexao.close();
 			} catch (Exception e2) {
-				e2.printStackTrace();
+				throw new ProjetoException(e2);
 			}
 		}
 	}
 	
-	public ArrayList<LivroBean> listaObra() {
+	public ArrayList<LivroBean> listaObra() throws ProjetoException {
 
 		String sql = "select id , titulo, ano_publicacao, editora, classificacao, quantidade from acl.obra";
 
@@ -127,7 +126,7 @@ public class ObraDAO implements IObraDAO {
 			
 		} catch (SQLException ex) {
 			
-			throw new RuntimeException(ex);
+			throw new ProjetoException(ex);
 		} finally {
 			try {
 				conexao.close();

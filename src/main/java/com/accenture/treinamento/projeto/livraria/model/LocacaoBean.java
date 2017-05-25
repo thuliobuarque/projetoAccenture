@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class LocacaoBean {
 	
-	private Integer id;
+	private Integer id_locacao;
 	private Integer pessoa;
-	private Date dataLocacao;
-	private Date dataEntrega;
+	private Date data_locacao;
+	private Date data_devolucao;
 	private ArrayList<Integer> livros;
 	
 	public LocacaoBean(){
@@ -22,31 +22,36 @@ public class LocacaoBean {
 		this.livros = livros;
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getId_locacao() {
+		return id_locacao;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+
+	public void setId_locacao(Integer id_locacao) {
+		this.id_locacao = id_locacao;
 	}
+
 	public Integer getPessoa() {
 		return pessoa;
 	}
+
 	public void setPessoa(Integer pessoa) {
 		this.pessoa = pessoa;
 	}
-	public Date getDataLocacao() {
-		return dataLocacao;
-	}
-	public void setDataLocacao(Date dataLocacao) {
-		this.dataLocacao = dataLocacao;
-	}
-	public Date getDataEntrega() {
-		return dataEntrega;
-	}
-	public void setDataEntrega(Date dataEntrega) {
-		this.dataEntrega = dataEntrega;
+
+	public Date getData_locacao() {
+		return data_locacao;
 	}
 
-	
+	public void setData_locacao(Date data_locacao) {
+		this.data_locacao = data_locacao;
+	}
+
+	public Date getData_devolucao() {
+		return data_devolucao;
+	}
+
+	public void setData_devolucao(Date data_devolucao) {
+		this.data_devolucao = data_devolucao;
+	}
 
 }

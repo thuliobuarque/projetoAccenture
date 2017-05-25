@@ -19,7 +19,7 @@ public class AutorDAO implements IAutorDAO {
 	
 	public boolean cadastrarAutor(AutorBean autor) {
 		
-		String sql = "insert into mydb.autor (nome) values (?)";
+		String sql = "insert into autor (nome) values (?)";
 		
 		try {
 			conexao = ConnectionFactory.getConnection();
@@ -45,12 +45,14 @@ public class AutorDAO implements IAutorDAO {
 	public boolean alterarAutor(AutorBean autor)
 			throws ProjetoException {
 		boolean alterou = false;
-		String sql = "update mydb.autor set nome ?, where codigo = ?";
+		String sql = "update autor set nome = ? where id_autor = ?";
+		
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setString(1, autor.getNome());
-			stmt.setInt(2, autor.getCodigo());
+			stmt.setInt(1, autor.getId_autor());
+			stmt.setString(2, autor.getNome());
+			
 			stmt.executeUpdate();
 			conexao.commit();
 			
@@ -71,11 +73,11 @@ public class AutorDAO implements IAutorDAO {
 	public boolean excluirAutor(AutorBean autor)
 			throws ProjetoException {
 		boolean excluir = false;
-		String sql = "delete from acl.autor where codigo = ?";
+		String sql = "delete from autor where id_autor = ?";
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setInt(1, autor.getCodigo());
+			stmt.setInt(1, autor.getId_autor());
 			stmt.executeUpdate();
 
 			conexao.commit();
@@ -96,7 +98,7 @@ public class AutorDAO implements IAutorDAO {
 	
 	public ArrayList<AutorBean> listaAutor() {
 
-		String sql = "select codigo, nome from acl.autor order by nome";
+		String sql = "select id_autor, nome from autor order by nome";
 
 		ArrayList<AutorBean> lista = new ArrayList();
 		try {
@@ -107,7 +109,7 @@ public class AutorDAO implements IAutorDAO {
 			while (rs.next()) {
 				AutorBean a = new AutorBean();
 
-				a.setCodigo(rs.getInt("codigo"));
+				a.setId_autor(rs.getInt("id_autor"));
 				a.setNome(rs.getString("nome"));
 
 				lista.add(a);

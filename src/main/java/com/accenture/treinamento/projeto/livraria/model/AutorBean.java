@@ -3,15 +3,16 @@ package com.accenture.treinamento.projeto.livraria.model;
 public class AutorBean {
 
 	
-	private Integer codigo;
+	private Integer id_autor;
 	private String nome;
 	
 	
-	public Integer getCodigo() {
-		return codigo;
+	
+	public Integer getId_autor() {
+		return id_autor;
 	}
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setId_autor(Integer id_autor) {
+		this.id_autor = id_autor;
 	}
 	public String getNome() {
 		return nome;
