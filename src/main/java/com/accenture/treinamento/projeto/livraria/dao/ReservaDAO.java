@@ -127,7 +127,7 @@ public class ReservaDAO implements IReservaDAO {
 		if (type == 1) {
 			sql += "join acl.livro on reserva.id_livro = livro.id_livro where livro.nome like ? order by reserva.data_reserva ";
 		} else if (type == 2) {
-			sql += "where livro.ano_publicacao = ? order by livro.titulo ";
+			sql += "join acl.livro on reserva.id_livro = livro.id_livro where reserva.data_reserva = ? order by livro.titulo ";
 		}
 		List<ReservaBean> list = new ArrayList<>();
 
@@ -144,8 +144,8 @@ public class ReservaDAO implements IReservaDAO {
 
 			while (rs.next()) {
 				ReservaBean lb = new ReservaBean();
-				lb.setId(rs.getInt("id_livro"));
-				
+				lb.setId(rs.getInt("id_reserva"));
+				lb.setLivro1(rs.getInt("id_livro"));
 				
 				list.add(lb);					
 			}
