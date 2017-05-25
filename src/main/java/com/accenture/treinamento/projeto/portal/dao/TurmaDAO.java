@@ -5,9 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
+import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
 import com.accenture.treinamento.projeto.portal.model.TurmaBean;
+import com.accenture.treinamento.projeto.portal.model.AlunoBean;
+
 
 /**
  *
@@ -21,12 +26,13 @@ public class TurmaDAO implements ITurmaDAO {
 
 	public boolean cadastrarTurma(TurmaBean turma) throws ProjetoException {
 
-		String sql = "insert into acl.turma (codigoturma) values (?)";
+		String sql = "insert into turma (codigo_turma, id_aluno) values (?,?)";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setString(1, turma.getCodigoTurma());
+			stmt.setString(1, turma.getCodigo_turma());
+			stmt.setInt(2, turma.getAlunos().getId_aluno());
 			stmt.execute();
 
 			conexao.commit();
@@ -46,12 +52,13 @@ public class TurmaDAO implements ITurmaDAO {
 
 	public boolean alterarTurma(TurmaBean turma) throws ProjetoException {
 		boolean alterou = false;
-		String sql = "update acl.turma set codigoturma = ? where idturma = ?";
+		String sql = "update turma set codigo_turma = ? where id_turma = ?";
+	
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setString(1, turma.getCodigoTurma());
-			stmt.setInt(2, turma.getId());
+			stmt.setString(1, turma.getCodigo_turma());
+			stmt.setInt(2, turma.getAlunos().getId_aluno());
 			stmt.executeUpdate();
 			conexao.commit();
 
@@ -71,11 +78,12 @@ public class TurmaDAO implements ITurmaDAO {
 
 	public boolean excluirTurma(TurmaBean turma) throws ProjetoException {
 		boolean excluir = false;
-		String sql = "delete from acl.alunos where idalunos = ?";
+		String sql = "delete from turma where id_turma = ?";
+		
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
-			stmt.setInt(1, turma.getId());
+			stmt.setInt(1, turma.getId_turma());
 			stmt.executeUpdate();
 
 			conexao.commit();
@@ -96,7 +104,7 @@ public class TurmaDAO implements ITurmaDAO {
 
 	public ArrayList<TurmaBean> listaTurma() {
 
-		String sql = "select idturma, codigoturma from acl.turma order by codigoturma";
+		String sql = "select id_turma, codigo_turma, id_aluno from turma order by codigo_turma";
 
 		ArrayList<TurmaBean> lista = new ArrayList();
 		try {
@@ -107,10 +115,11 @@ public class TurmaDAO implements ITurmaDAO {
 			while (rs.next()) {
 				TurmaBean t = new TurmaBean();
 
-				t.setId(rs.getInt("idturma"));
-				t.setCodigoTurma(rs.getString("codigoturma"));
-				// t.setAlunos(rs.getString("senha"));
-
+				t.setId_turma(rs.getInt("id_turma"));
+				t.setCodigo_turma(rs.getString("codigo_turma"));
+			    t.getAlunos().setId_aluno(rs.getInt("id_aluno"));
+			    
+			  
 				lista.add(t);
 			}
 		} catch (SQLException ex) {
@@ -126,4 +135,48 @@ public class TurmaDAO implements ITurmaDAO {
 		return lista;
 	}
 
+	public List<TurmaBean> buscarTurma(String valor, Integer tipo)
+			throws ProjetoException {
+		
+		String sql = "select id_turma, codigo_turma, id_aluno from turma order by codigo_turma";
+
+		if (tipo == 1) {
+			sql += " turma.codigo_turma like ? order by turma.codigo_turma ";
+		}
+
+		List<TurmaBean> lista = new ArrayList<>();
+
+		try {
+			conexao = ConnectionFactory.getConnection();
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			if (tipo == 1) {
+				stmt.setString(1, "%" + valor.toUpperCase() + "%");
+			}
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				TurmaBean c = new TurmaBean();
+
+				c.setId_turma(rs.getInt("id_turma"));
+				c.setCodigo_turma(rs.getString("codigo_turma"));
+				c.getAlunos().setId_aluno(rs.getInt("id_aluno"));
+				
+				lista.add(c);
+
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// throw new RuntimeException(ex); //
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return lista;
+	}
+	
 }
