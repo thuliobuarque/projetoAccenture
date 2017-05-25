@@ -28,9 +28,12 @@ public class FuncionarioController {
 	private FuncionarioBean funcionario;
 	private List<FuncionarioBean> listaFuncionario;
 	private String tipo;
+	
 	private Integer tipoBuscaFuncionario;
 	private String campoBuscaFuncionario;
 	private String statusFuncionario;
+	
+	private Integer abaAtiva = 0;
 
 	public FuncionarioController() {
 
@@ -114,7 +117,7 @@ public class FuncionarioController {
 
 		FuncionarioNegocio adao = new FuncionarioNegocio();
 
-		listaFuncionario = adao.buscarFuncionario(campoBuscaFuncionario);
+		listaFuncionario = adao.buscarFuncionario(campoBuscaFuncionario, tipoBuscaFuncionario);
 
 		if (listaFuncionario == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum funcionário encontrado.", "Aviso");
@@ -185,6 +188,14 @@ public class FuncionarioController {
 
 	public void setListaFuncionario(List<FuncionarioBean> listaFuncionario) {
 		this.listaFuncionario = listaFuncionario;
+	}
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
 	}
 
 	

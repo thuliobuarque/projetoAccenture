@@ -30,7 +30,10 @@ public class ProfessorController {
 
 	private ProfessorBean professor;
 	private List<ProfessorBean> listaprofessor;
+	
 	private String campoBuscaProfessor;
+	private Integer tipoBuscaProfessor;
+	private Integer abaAtiva = 0;
 	
 	public ProfessorController(){
 		
@@ -38,6 +41,9 @@ public class ProfessorController {
 
 		listaprofessor = new ArrayList<>();
 		listaprofessor = null;
+		
+		tipoBuscaProfessor = 1;
+		campoBuscaProfessor = "";
 	}
 
 	
@@ -109,7 +115,7 @@ public class ProfessorController {
 
 		ProfessorNegocio Pdao = new ProfessorNegocio();
 
-		listaprofessor = Pdao.buscarProfessor(campoBuscaProfessor);
+		listaprofessor = Pdao.buscarProfessor(campoBuscaProfessor, tipoBuscaProfessor);
 
 		if (listaprofessor == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum professor encontrado.", "Aviso");
@@ -140,5 +146,37 @@ public class ProfessorController {
 	public void LimparObjeto() {
 		professor = null;
 	}
+
+
+	public String getCampoBuscaProfessor() {
+		return campoBuscaProfessor;
+	}
+
+
+	public void setCampoBuscaProfessor(String campoBuscaProfessor) {
+		this.campoBuscaProfessor = campoBuscaProfessor;
+	}
+
+
+	public Integer getTipoBuscaProfessor() {
+		return tipoBuscaProfessor;
+	}
+
+
+	public void setTipoBuscaProfessor(Integer tipoBuscaProfessor) {
+		this.tipoBuscaProfessor = tipoBuscaProfessor;
+	}
+
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
+	}
+	
+	
 	
 }

@@ -29,9 +29,11 @@ public class DisciplinaController {
 	private DisciplinaBean disciplina;
 	private List<DisciplinaBean> listaDisciplina;
 	private String tipo;
+	
 	private Integer tipoBuscaDisciplina;
 	private String campoBuscaDisciplina;
 	private String statusDisciplina;
+	private Integer abaAtiva = 0;
 
 	
 	public DisciplinaController() {
@@ -120,7 +122,7 @@ public class DisciplinaController {
 
 			DisciplinaNegocio Ddao = new DisciplinaNegocio();
 
-			listaDisciplina = Ddao.buscarDisciplina(campoBuscaDisciplina);
+			listaDisciplina = Ddao.buscarDisciplina(campoBuscaDisciplina, tipoBuscaDisciplina);
 
 			if (listaDisciplina == null) {
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhuma disciplina encontrada.", "Aviso");
@@ -151,6 +153,50 @@ public class DisciplinaController {
 
 	public void setListaDisciplina(List<DisciplinaBean> listaDisciplina) {
 		this.listaDisciplina = listaDisciplina;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public Integer getTipoBuscaDisciplina() {
+		return tipoBuscaDisciplina;
+	}
+
+	public void setTipoBuscaDisciplina(Integer tipoBuscaDisciplina) {
+		this.tipoBuscaDisciplina = tipoBuscaDisciplina;
+	}
+
+	public String getCampoBuscaDisciplina() {
+		return campoBuscaDisciplina;
+	}
+
+	public void setCampoBuscaDisciplina(String campoBuscaDisciplina) {
+		this.campoBuscaDisciplina = campoBuscaDisciplina;
+	}
+
+	public String getStatusDisciplina() {
+		return statusDisciplina;
+	}
+
+	public void setStatusDisciplina(String statusDisciplina) {
+		this.statusDisciplina = statusDisciplina;
+	}
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
+	}
+
+	public void setDisciplina(DisciplinaBean disciplina) {
+		this.disciplina = disciplina;
 	}
 
 }

@@ -27,8 +27,13 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
 public class PessoaController {
 
 	private PessoaBean pessoa;
+	
+	
 	public PessoaController() {
-		pessoa = new PessoaBean();
+		
+	pessoa = new PessoaBean();
+	
+	
 	}
 
 	public String login() throws ProjetoException {

@@ -32,12 +32,18 @@ public class AlunoController {
 	
 	private AlunoNegocio alunoNegocio;
 	private AlunoBean aluno;
+	
+	private String campoBuscaAluno;
+	private Integer tipoBuscaAluno;
 	private Integer abaAtiva = 0;
 	 
 	public AlunoController() {
 		
 		alunoNegocio = new AlunoNegocio();
 		aluno = new AlunoBean();
+		
+		tipoBuscaAluno = 1;
+		campoBuscaAluno = "";
 
 	}
 
@@ -114,7 +120,7 @@ public class AlunoController {
 
 		AlunoNegocio adao = new AlnunoNegocio();
 
-		listaAluno = adao.buscarAutor(campoBuscaAluno);
+		listaAluno = adao.buscarAutor(campoBuscaAluno, tipoBuscaAluno);
 
 		if (listaAluno == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum aluno encontrado.", "Aviso");
@@ -155,6 +161,22 @@ public class AlunoController {
 
 	public void setAbaAtiva(Integer abaAtiva) {
 		this.abaAtiva = abaAtiva;
+	}
+
+	public String getCampoBuscaAluno() {
+		return campoBuscaAluno;
+	}
+
+	public void setCampoBuscaAluno(String campoBuscaAluno) {
+		this.campoBuscaAluno = campoBuscaAluno;
+	}
+
+	public Integer getTipoBuscaAluno() {
+		return tipoBuscaAluno;
+	}
+
+	public void setTipoBuscaAluno(Integer tipoBuscaAluno) {
+		this.tipoBuscaAluno = tipoBuscaAluno;
 	}
     
 

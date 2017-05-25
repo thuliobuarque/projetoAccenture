@@ -30,6 +30,10 @@ public class CursoController {
 
 	
 	private List<CursoBean> listaCurso;
+	
+	private String campoBuscaCurso;
+	private Integer tipoBuscaCurso;
+	private Integer abaAtiva = 0;
 
 	public CursoController() {
 
@@ -37,6 +41,9 @@ public class CursoController {
 
 		listaCurso = new ArrayList<>();
 		listaCurso = null;
+		
+		tipoBuscaCurso = 1;
+		campoBuscaCurso = "";
 	}
 
 	public void cadastrarCurso() throws ProjetoException {
@@ -105,7 +112,7 @@ public class CursoController {
 
 		CursoNegocio Cdao = new CursoNegocio();
 
-		listaCurso = Cdao.buscarCurso(campoBuscaCurso);
+		listaCurso = Cdao.buscarCurso(campoBuscaCurso, tipoBuscaCurso);
 
 		if (listaCurso == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum curso encontrado.", "Aviso");
@@ -136,5 +143,39 @@ public class CursoController {
 	public void setListaAluno(List<CursoBean> listaCurso) {
 		this.listaCurso = listaCurso;
 	}
+
+	public String getCampoBuscaCurso() {
+		return campoBuscaCurso;
+	}
+
+	public void setCampoBuscaCurso(String campoBuscaCurso) {
+		this.campoBuscaCurso = campoBuscaCurso;
+	}
+
+	public Integer getTipoBuscaCurso() {
+		return tipoBuscaCurso;
+	}
+
+	public void setTipoBuscaCurso(Integer tipoBuscaCurso) {
+		this.tipoBuscaCurso = tipoBuscaCurso;
+	}
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
+	}
+
+	public CursoBean getCurso() {
+		return curso;
+	}
+
+	public void setListaCurso(List<CursoBean> listaCurso) {
+		this.listaCurso = listaCurso;
+	}
+	
+	
 
 }

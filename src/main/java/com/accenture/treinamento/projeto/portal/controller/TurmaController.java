@@ -30,8 +30,12 @@ public class TurmaController {
 	private TurmaBean turma;
 
 	private List<TurmaBean> listaTurma;
+
 	
+	//AQUI ESSAS VARIAVEIS
 	private String campoBuscaTurma;
+	private Integer tipoBuscaTurma;
+	private Integer abaAtiva = 0;
 
 	public TurmaController() {
 
@@ -40,6 +44,10 @@ public class TurmaController {
 
 		listaTurma = new ArrayList<>();
 		listaTurma = null;
+		
+		// ESSAS AQUI
+		tipoBuscaTurma = 1;
+		campoBuscaTurma = "";
 
 	}
 
@@ -111,7 +119,7 @@ public class TurmaController {
 
 		TurmaNegocio Tdao = new TurmaNegocio();
 
-		listaTurma = Tdao.buscarTurma(campoBuscaTurma);
+		listaTurma = Tdao.buscarTurma(campoBuscaTurma, tipoBuscaTurma);
 
 		if (listaTurma == null) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhuma turma encontrada.", "Aviso");
@@ -142,5 +150,31 @@ public class TurmaController {
 	public void setListaTurma(List<TurmaBean> listaTurma) {
 		this.listaTurma = listaTurma;
 	}
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
+	}
+
+	public String getCampoBuscaTurma() {
+		return campoBuscaTurma;
+	}
+
+	public void setCampoBuscaTurma(String campoBuscaTurma) {
+		this.campoBuscaTurma = campoBuscaTurma;
+	}
+
+	public Integer getTipoBuscaTurma() {
+		return tipoBuscaTurma;
+	}
+
+	public void setTipoBuscaTurma(Integer tipoBuscaTurma) {
+		this.tipoBuscaTurma = tipoBuscaTurma;
+	}
+	
+	
 
 }
