@@ -12,8 +12,10 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
-import com.accenture.treinamento.projeto.livraria.dao.ObraDAO;
+import com.accenture.treinamento.projeto.livraria.dao.LivroDAO;
 import com.accenture.treinamento.projeto.livraria.model.LivroBean;
+import com.accenture.treinamento.projeto.livraria.negocio.LivroNegocio;
+import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 
 /**
 *
@@ -21,24 +23,24 @@ import com.accenture.treinamento.projeto.livraria.model.LivroBean;
 * @since 17/05/2017
 */
 
-@ManagedBean(name = "MBObra")
+@ManagedBean(name = "MBLivro")
 @SessionScoped
-public class ObraController {
+public class LivroController {
 
 	private LivroBean obra;
 
 	private List<LivroBean> listaObra;
 
-	public ObraController() {
+	public LivroController() {
 		obra = new LivroBean();
 
 		listaObra = new ArrayList<>();
 		listaObra = null;
 	}
 
-	public void cadastrarObra() {
+	public void cadastrarObra() throws ProjetoException {
 
-		ObraDAO adao = new ObraDAO();
+		LivroDAO adao = new LivroDAO();
 		boolean cadastrou = adao.cadastrarObra(obra);
 
 		if (cadastrou == true) {
@@ -60,7 +62,7 @@ public class ObraController {
 
 	public void alterarObra() throws ProjetoException {
 
-		ObraDAO adao = new ObraDAO();
+		LivroDAO adao = new LivroDAO();
 		boolean alterou = adao.alterarObra(obra);
 
 		if (alterou == true) {
@@ -80,7 +82,7 @@ public class ObraController {
 	}
 
 	public void excluirObra() throws ProjetoException {
-		ObraDAO adao = new ObraDAO();
+		LivroDAO adao = new LivroDAO();
 		boolean excluiu = adao.excluirObra(obra);
 
 		if (excluiu == true) {
@@ -98,6 +100,13 @@ public class ObraController {
 					"PF('dialogAtencao').hide();");
 		}
 	}
+	
+	public void buscarLivros() throws ProjetoException {
+		
+		LivroNegocio adao = new LivroNegocio();
+        adao.buscarLivro();
+        
+	}
 
 	public void limparObjeto() {
 		obra = null;
@@ -111,9 +120,9 @@ public class ObraController {
 		this.obra = obra;
 	}
 
-	public List<LivroBean> getListaObra() {
+	public List<LivroBean> getListaObra() throws ProjetoException {
 		if (listaObra == null) {
-			ObraDAO adao = new ObraDAO();
+			LivroDAO adao = new LivroDAO();
 			listaObra = adao.listaObra();
 
 		}

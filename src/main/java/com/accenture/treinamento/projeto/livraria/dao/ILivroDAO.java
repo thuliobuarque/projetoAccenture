@@ -5,7 +5,7 @@ import java.util.List;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.livraria.model.LivroBean;
 
-public interface IObraDAO {
+public interface ILivroDAO {
 	
 	public abstract boolean cadastrarObra(LivroBean usuario) throws ProjetoException;
 	public abstract boolean alterarObra(LivroBean usuario) throws ProjetoException;
