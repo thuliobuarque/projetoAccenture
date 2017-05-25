@@ -5,127 +5,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
 import org.primefaces.context.RequestContext;
+
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.CursoDAO;
 import com.accenture.treinamento.projeto.portal.model.CursoBean;
 
 /**
- *
  * @author Thulio, Thayse, Thales, Caio, Priscila, Veridiana
  * @since 17/05/2017
  */
 
-
 public class CursoNegocio {
 
-	// OBJETOS E CLASSES
-	private CursoBean curso;
-
-	// LISTAS
-	private List<CursoBean> listaCurso;
-
-	public CursoNegocio() {
-		// INSTANCIAS
-		curso = new CursoBean();
-
-		// LISTAS
-		listaCurso = new ArrayList<>();
-		listaCurso = null;
-
-	}
-
-	
-	// METODO DE ADCIONAR CURSO
-	public void cadastrarCurso() throws ProjetoException {
+	public boolean cadastrarCurso(CursoBean curso) throws ProjetoException {
 
 		CursoDAO Cdao = new CursoDAO();
 		boolean cadastrou = Cdao.cadastrarCurso(curso);
-
-		if (cadastrou == true) {
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Aluno cadastrado com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
-		}
+		return cadastrou;
 	}
-
-	// METODO DE ALTERAR CURSO
-	public void alterarCurso() throws ProjetoException {
+	
+	public boolean alterarCurso(CursoBean curso) throws ProjetoException {
 
 		CursoDAO Cdao = new CursoDAO();
 		boolean alterou = Cdao.alterarCurso(curso);
-
-		if (alterou == true) {
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Curso alterado com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute("dlgAltAluno.hide();");
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute("dlgAltAluno.hide();");
-		}
+		return alterou;
 	}
-
-	// METODO DE EXCLUIR Curso
-	public void excluirCurso() throws ProjetoException {
+	
+	public boolean excluirCurso(CursoBean curso) throws ProjetoException {
+		
 		CursoDAO Cdao = new CursoDAO();
 		boolean excluir = Cdao.excluirCurso(curso);
-
-		if (excluir == true) {
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Curso excluido com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			// listaLaudo = null;
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante a exclusao!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute(
-					"PF('dialogAtencao').hide();");
-		}
+		return excluir;
 	}
-
-	public void LimparObjeto() {
-		curso = null;
+	
+	public List<CursoBean> getListaFuncionario() throws ProjetoException {
+		CursoDAO Cdao = new CursoDAO();
+		return Cdao.listaCurso();
 	}
-
-	public CursoBean getAluno() {
-		return curso;
+	
+	
+	public List<CursoBean> buscarCurso(String campo, Integer tipo) throws ProjetoException {
+		CursoDAO Cdao = new CursoDAO();
+		return Cdao.buscarTipoCurso(campo, tipo);
 	}
-
-	public void setCurso(CursoBean curso) {
-		this.curso = curso;
-	}
-
-	public List<CursoBean> getListaCurso() {
-		if (listaCurso == null) {
-			CursoDAO adao = new CursoDAO();
-			listaCurso = adao.listaCurso();
-		}
-		return listaCurso;
-	}
-
-	public void setListaAluno(List<CursoBean> listaCurso) {
-		this.listaCurso = listaCurso;
-	}
-
+	
 }

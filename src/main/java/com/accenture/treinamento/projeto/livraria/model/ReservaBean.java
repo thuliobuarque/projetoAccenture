@@ -10,6 +10,8 @@ public class ReservaBean {
 	private Date dataRetirada;
 	private LivroBean livro;
 	
+	private Integer livro1;
+	
 	
 	public Integer getId() {
 		return id;
@@ -35,6 +37,13 @@ public class ReservaBean {
 	public void setLivro(LivroBean livro) {
 		this.livro = livro;
 	}
+	public Integer getLivro1() {
+		return livro1;
+	}
+	public void setLivro1(Integer livro1) {
+		this.livro1 = livro1;
+	}
 
+	
 	
 }

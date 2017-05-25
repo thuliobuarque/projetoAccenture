@@ -13,6 +13,8 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.ProfessorDAO;
 import com.accenture.treinamento.projeto.portal.model.ProfessorBean;
+import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
+import com.accenture.treinamento.projeto.portal.negocio.ProfessorNegocio;
 
 
 /**
@@ -29,26 +31,34 @@ public class ProfessorController {
 	private ProfessorBean professor;
 	private List<ProfessorBean> listaprofessor;
 	
+	private String campoBuscaProfessor;
+	private Integer tipoBuscaProfessor;
+	private Integer abaAtiva = 0;
+	
 	public ProfessorController(){
 		
 		professor = new ProfessorBean();
 
 		listaprofessor = new ArrayList<>();
 		listaprofessor = null;
+		
+		tipoBuscaProfessor = 1;
+		campoBuscaProfessor = "";
 	}
 
 	
-	public void cadastrarProfessor() throws ProjetoException{
+	public void cadastrarProfessor(ProfessorBean professor) throws ProjetoException{
+		
 		ProfessorDAO Pdao = new ProfessorDAO();
-		boolean cadastrou = Pdao.cadastrarProfessor(professor);
 
-		if (cadastrou == true) {
+		if (Pdao.cadastrarProfessor(professor)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Professor cadastrado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgCadProfessor.hide();");
+			listaprofessor = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
@@ -58,18 +68,18 @@ public class ProfessorController {
 		}
 	}
 	
-	public void alterarProfessor() throws ProjetoException {
+	public void alterarProfessor(ProfessorBean professor) throws ProjetoException {
 
 		ProfessorDAO Pdao = new ProfessorDAO();
-		boolean alterou = Pdao.alterarProfessor(professor);
 
-		if (alterou == true) {
+		if (Pdao.alterarProfessor(professor)) {
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Professor alterado com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			RequestContext.getCurrentInstance().execute("dlgAltAutor.hide();");
+			listaprofessor = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante o cadastro!", "Erro");
@@ -80,16 +90,17 @@ public class ProfessorController {
 	}
 
 	public void excluirAutor() throws ProjetoException {
+		
 		ProfessorDAO Pdao = new ProfessorDAO();
-		boolean excluiu = Pdao.excluirProfessor(professor);
-
-		if (excluiu == true) {
+		
+		if (Pdao.excluirProfessor(professor)) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Professor excluido com sucesso!", "Sucesso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			// listaLaudo = null;
 			RequestContext.getCurrentInstance().execute(
 					"PF('dialogAtencao').hide();");
+			listaprofessor = null;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ocorreu um erro durante a exclusao!", "Erro");
@@ -99,6 +110,18 @@ public class ProfessorController {
 					"PF('dialogAtencao').hide();");
 		}
 	}
+	
+    public void buscarProfessor() throws ProjetoException {
+
+		ProfessorNegocio Pdao = new ProfessorNegocio();
+
+		listaprofessor = Pdao.buscarProfessor(campoBuscaProfessor, tipoBuscaProfessor);
+
+		if (listaprofessor == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum professor encontrado.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+    }
 	
 	public ProfessorBean getProfessor() {
 		return professor;
@@ -110,8 +133,8 @@ public class ProfessorController {
 
 	public List<ProfessorBean> getListaprofessor() throws ProjetoException {
 		if (listaprofessor == null) {
-			ProfessorDAO pdao = new ProfessorDAO();
-			listaprofessor = pdao.listaProfessor();
+			ProfessorNegocio Pdao = new ProfessorNegocio();
+			listaprofessor = Pdao.listaProfessor();
 		}
 		return listaprofessor;
 	}
@@ -123,5 +146,37 @@ public class ProfessorController {
 	public void LimparObjeto() {
 		professor = null;
 	}
+
+
+	public String getCampoBuscaProfessor() {
+		return campoBuscaProfessor;
+	}
+
+
+	public void setCampoBuscaProfessor(String campoBuscaProfessor) {
+		this.campoBuscaProfessor = campoBuscaProfessor;
+	}
+
+
+	public Integer getTipoBuscaProfessor() {
+		return tipoBuscaProfessor;
+	}
+
+
+	public void setTipoBuscaProfessor(Integer tipoBuscaProfessor) {
+		this.tipoBuscaProfessor = tipoBuscaProfessor;
+	}
+
+
+	public Integer getAbaAtiva() {
+		return abaAtiva;
+	}
+
+
+	public void setAbaAtiva(Integer abaAtiva) {
+		this.abaAtiva = abaAtiva;
+	}
+	
+	
 	
 }

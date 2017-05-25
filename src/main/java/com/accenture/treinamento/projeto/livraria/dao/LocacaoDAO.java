@@ -121,7 +121,7 @@ public class LocacaoDAO implements ILocacaoDAO {
 				locacao.setData_devolucao(rs.getDate("data_devolucao"));
 				locacao.getAluno().setId_aluno(rs.getInt("id_aluno"));
 				locacao.getProfessor().setId_professor(rs.getInt("id_professor"));
-				locacao.getLivro().setId_livro(rs.getInt("id_livro"));
+				locacao.getLivro().setId(rs.getInt("id_livro"));
 				locacao.setStatus(rs.getString("status"));
 				
 				locacoes.add(locacao);
@@ -229,7 +229,7 @@ public class LocacaoDAO implements ILocacaoDAO {
 				c.setData_devolucao(rs.getDate("data_devolucao"));
 				c.getAluno().setId_aluno(rs.getInt("id_aluno"));
 				c.getProfessor().setId_professor(rs.getInt("id_professor"));
-				c.getLivro().setId_livro(rs.getInt("id_livro"));
+				c.getLivro().setId(rs.getInt("id_livro"));
 				c.setStatus(rs.getString("id_livro"));
 				lista.add(c);
 
