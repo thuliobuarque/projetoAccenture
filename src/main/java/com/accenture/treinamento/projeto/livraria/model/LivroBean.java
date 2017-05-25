@@ -7,21 +7,12 @@ import java.sql.Date;
 public class LivroBean {
 	
 
-	private int id;
-	private String titulo;
-	private String nome;
-	private Date anoPublicacao;
-	private String editora;
-	private String resumo;
-	private String classificacao;
-	private int quantidade;
-	
-	
-	public int getId() {
-		return id;
+	private int id_livro;
+	public int getId_livro() {
+		return id_livro;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId_livro(int id_livro) {
+		this.id_livro = id_livro;
 	}
 	public String getTitulo() {
 		return titulo;
@@ -29,18 +20,11 @@ public class LivroBean {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	
-	public String getNome() {
-		return nome;
+	public String getAno_publicacao() {
+		return ano_publicacao;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public Date getAnoPublicacao() {
-		return anoPublicacao;
-	}
-	public void setAnoPublicacao(Date anoPublicacao) {
-		this.anoPublicacao = anoPublicacao;
+	public void setAno_publicacao(String ano_publicacao) {
+		this.ano_publicacao = ano_publicacao;
 	}
 	public String getEditora() {
 		return editora;
@@ -66,7 +50,21 @@ public class LivroBean {
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
-	
-	
-	
+	public AutorBean getAutor() {
+		return autor;
+	}
+	public void setAutor(AutorBean autor) {
+		this.autor = autor;
+	}
+	private String titulo;
+	private String ano_publicacao;
+	private String editora;
+	private String resumo;
+	private String classificacao;
+	private int quantidade;
+	private AutorBean autor;
 }
+	
+	
+	
+	
