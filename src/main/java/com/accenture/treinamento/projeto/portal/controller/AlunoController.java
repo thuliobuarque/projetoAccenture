@@ -13,6 +13,7 @@ import javax.faces.view.ViewScoped;
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
+import com.accenture.treinamento.projeto.livraria.negocio.AutorNegocio;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
 import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.util.CepWebService;
@@ -107,6 +108,18 @@ public class AlunoController {
                             "Servidor não está respondendo",
                             "Servidor não está respondendo"));
         }
+    }
+    
+    public void buscarAluno() throws ProjetoException {
+
+		AlunoNegocio adao = new AlnunoNegocio();
+
+		listaAluno = adao.buscarAutor(campoBuscaAluno);
+
+		if (listaAluno == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum aluno encontrado.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
     }
 
 	

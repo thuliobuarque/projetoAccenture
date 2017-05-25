@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
+import com.accenture.treinamento.projeto.livraria.negocio.AutorNegocio;
 import com.accenture.treinamento.projeto.portal.controller.TurmaController;
 import com.accenture.treinamento.projeto.portal.model.TurmaBean;
 import com.accenture.treinamento.projeto.portal.negocio.TurmaNegocio;
@@ -28,14 +29,15 @@ public class TurmaController {
 
 	private TurmaBean turma;
 
-	// LISTAS
 	private List<TurmaBean> listaTurma;
+	
+	private String campoBuscaTurma;
 
 	public TurmaController() {
-		// INSTANCIAS
+
 		turma = new TurmaBean();
 
-		// LISTAS
+
 		listaTurma = new ArrayList<>();
 		listaTurma = null;
 
@@ -102,6 +104,18 @@ public class TurmaController {
 
 			RequestContext.getCurrentInstance().execute(
 					"PF('dialogAtencao').hide();");
+		}
+	}
+	
+	public void buscarTurma() throws ProjetoException {
+
+		TurmaNegocio Tdao = new TurmaNegocio();
+
+		listaTurma = Tdao.buscarTurma(campoBuscaTurma);
+
+		if (listaTurma == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhuma turma encontrada.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}
 

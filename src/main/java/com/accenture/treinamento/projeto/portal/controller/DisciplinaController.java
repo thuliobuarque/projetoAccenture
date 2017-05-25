@@ -12,6 +12,7 @@ import org.primefaces.context.RequestContext;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
+import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.portal.negocio.DisciplinaNegocio;
 import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.dao.DisciplinaDAO;
@@ -114,6 +115,18 @@ public class DisciplinaController {
 					"PF('dialogAtencao').hide();");
 		}
 	}
+	
+		public void buscarDisciplina() throws ProjetoException {
+
+			DisciplinaNegocio Ddao = new DisciplinaNegocio();
+
+			listaDisciplina = Ddao.buscarDisciplina(campoBuscaDisciplina);
+
+			if (listaDisciplina == null) {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhuma disciplina encontrada.", "Aviso");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+	    }
 
 	public void LimparObjeto() {
 		disciplina = null;

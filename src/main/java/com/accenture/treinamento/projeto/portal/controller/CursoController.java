@@ -14,6 +14,7 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.CursoDAO;
 import com.accenture.treinamento.projeto.portal.model.CursoBean;
+import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.portal.negocio.CursoNegocio;
 
 /**
@@ -99,6 +100,18 @@ public class CursoController {
 			RequestContext.getCurrentInstance().execute("PF('dialogAtencao').hide();");
 		}
 	}
+	
+    public void buscarCurso() throws ProjetoException {
+
+		CursoNegocio Cdao = new CursoNegocio();
+
+		listaCurso = Cdao.buscarCurso(campoBuscaCurso);
+
+		if (listaCurso == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum curso encontrado.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+    }
 
 	public void LimparObjeto() {
 		curso = null;

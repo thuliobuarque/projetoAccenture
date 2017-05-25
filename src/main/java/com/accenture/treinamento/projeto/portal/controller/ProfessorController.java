@@ -13,6 +13,8 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.ProfessorDAO;
 import com.accenture.treinamento.projeto.portal.model.ProfessorBean;
+import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
+import com.accenture.treinamento.projeto.portal.negocio.ProfessorNegocio;
 
 
 /**
@@ -28,6 +30,7 @@ public class ProfessorController {
 
 	private ProfessorBean professor;
 	private List<ProfessorBean> listaprofessor;
+	private String campoBuscaProfessor;
 	
 	public ProfessorController(){
 		
@@ -102,6 +105,18 @@ public class ProfessorController {
 		}
 	}
 	
+    public void buscarProfessor() throws ProjetoException {
+
+		ProfessorNegocio Pdao = new ProfessorNegocio();
+
+		listaprofessor = Pdao.buscarProfessor(campoBuscaProfessor);
+
+		if (listaprofessor == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum professor encontrado.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+    }
+	
 	public ProfessorBean getProfessor() {
 		return professor;
 	}
@@ -112,8 +127,8 @@ public class ProfessorController {
 
 	public List<ProfessorBean> getListaprofessor() throws ProjetoException {
 		if (listaprofessor == null) {
-			ProfessorDAO pdao = new ProfessorDAO();
-			listaprofessor = pdao.listaProfessor();
+			ProfessorNegocio Pdao = new ProfessorNegocio();
+			listaprofessor = Pdao.listaProfessor();
 		}
 		return listaprofessor;
 	}

@@ -13,6 +13,7 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.FuncionarioDAO;
 import com.accenture.treinamento.projeto.portal.model.FuncionarioBean;
+import com.accenture.treinamento.projeto.portal.negocio.AlunoNegocio;
 import com.accenture.treinamento.projeto.portal.negocio.FuncionarioNegocio;
 
 /**
@@ -108,27 +109,18 @@ public class FuncionarioController {
 					"PF('dialogAtencao').hide();");
 		}
 	}
-	
-	public void buscarFuncionarios() throws ProjetoException {
-
-		List<FuncionarioBean> listaAux = null;
-		listaFuncionario = new ArrayList<>();
+		
+    public void buscarFuncionario() throws ProjetoException {
 
 		FuncionarioNegocio adao = new FuncionarioNegocio();
 
-		listaAux = adao.buscarTipoFuncionario(campoBuscaFuncionario, tipoBuscaFuncionario);
+		listaFuncionario = adao.buscarFuncionario(campoBuscaFuncionario);
 
-		if (listaAux != null && listaAux.size() > 0) {
-			// listaAss = null;
-			listaFuncionario = listaAux;
-		} else {
-			// listaAss = null;
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Nenhum Aluno encontrada.", "Aviso");
+		if (listaFuncionario == null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Nenhum funcionário encontrado.", "Aviso");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-
-	}
+    }
 		
 	public void limparBuscaDados() {
 		tipoBuscaFuncionario = 1;
