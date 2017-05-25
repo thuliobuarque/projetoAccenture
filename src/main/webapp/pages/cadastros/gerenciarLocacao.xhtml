@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+
+			<p:commandButton value="Nova Locação" icon="novo"
+				style="margin-top:20px;height:40px;width:80px;"
+				actionListener="#{MBLocacao.limparDados()}"
+				onclick="PF('dlgNovoLocacao').show();"
+				update=":formNovoLocacao, :frmmensagem:growl"
+				process=":formNovoLocacao" />
+
+			<h:form id="frmmensagem">
+
+				<p:growl id="growl" showDetail="false" />
+				<p:panel header="Gerenciar Locações"
+					style="margin-top:50px; height:auto; width:auto; background-color: #F5F5F5; border: 3px solid gray;">
+					<h:panelGrid columns="8" styleClass="semBorda"
+						style="font-size:12px !important;">
+						<p:outputPanel id="pnlprincipal">
+							<p:outputLabel value="Pesquisar por: " />
+							<p:selectOneMenu
+								value="#{MBLocacao.locacaoNegocio.tipoBuscaLocacao}"
+								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
+
+								<f:selectItem itemLabel="Nome" itemValue="1" />
+
+
+								<p:ajax event="change" update=":frmmensagem:pnlprincipal" />
+							</p:selectOneMenu>
+
+							<p:inputText id="campoBuscanome" size="35"
+								style="height:28px;margin-top:-6px;margin-left:16px;"
+								value="#{MBLocacao.locacaoNegocio.campoBuscaLocacao}"
+								rendered="#{MBLocacao.locacaoNegocio.tipoBuscaLocacao == 1}"
+								placeholder="Informe o nome" />
+
+							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
+								style="height:40px;width:80px;margin-left:10px"
+								action="#{MBLocacao.buscarLocacao()}"
+								update=":frmmensagem:tabela, :frmmensagem:growl">
+								<p:tooltip value="Buscar" for="botaoBusca" />
+							</p:commandButton>
+
+							<p:commandButton icon="limpar" id="limp" value="Limpar"
+								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
+								action="#{MBLocacao.locacaoNegocio.limparBuscaDados()}"
+								style="margin-left:20px;height:40px;width:80px;">
+								<p:tooltip value="Limpar Busca" for="limp" />
+							</p:commandButton>
+
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
+					id="tabela" style="margin-top:20px;"
+					value="#{MBLocacao.locacaoNegocio.listaLocacao}" var="tab"
+					rows="10" paginator="true" paginatorPosition="bottom">
+
+					<p:column headerText="Data Locação"
+						style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.data_locacao}">
+							<f:convertDateTime locale="pt,BR" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Data Devolução"
+						style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.data_devolucao}">
+							<f:convertDateTime locale="pt,BR" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Status" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.status}" />
+					</p:column>
+
+					<p:column headerText="Ações" width="8%">
+						<center>
+							<p:splitButton icon="confirmar">
+								<p:menuitem value="Alterar" icon="alterar-dados"
+									onclick="PF('dlgAltLocacao').show()"
+									process="@this, :formAltLocacao"
+									update=":formAltLocacao:pnlAltLocacao">
+
+									<f:setPropertyActionListener value="#{tab}"
+										target="#{MBLocacao.locacao}" />
+
+
+								</p:menuitem>
+
+								<p:menuitem value="Excluir" icon="trash"
+									onclick="PF('dialogAtencao').show()">
+
+									<f:setPropertyActionListener value="#{tab.id_aluno}"
+										target="#{MBAlunos.aluno.id_aluno}" />
+								</p:menuitem>
+							</p:splitButton>
+						</center>
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+
+		<p:dialog header="CADASTRO DE LOCAÇÃO" widgetVar="dlgNovoLocacao"
+			appendToBody="true" draggable="false" resizable="false"
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" closable="true" modal="true" width="auto">
+			<h:form id="formNovoLocacao">
+				<p:growl id="msg" />
+				<p:panel>
+					<p:tabView activeIndex="#{MBLocacao.abaAtiva}"
+						style="height:460px;" styleClass="semBorda">
+						<p:tab title="Dados da Locação">
+							<p:panelGrid columns="2" styleClass="semBorda">
+
+								<p:selectOneMenu value="#{MBLocacao.locacao.livro.id_livro}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBLivro.listaLivros}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_livro}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{MBLocacao.locacao.professor.id_professor}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBProfessor.listaProfessor}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_professor}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{MBLocacao.locacao.aluno.id_aluno}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBAlunos.listaAlunos}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_aluno}" />
+								</p:selectOneMenu>
+
+
+
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+				</p:panel>
+				<center>
+					<p:panelGrid columns="2" styleClass="semBorda">
+						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
+							action="#{MBLocacao.cadastrarLocacao()}"
+							style="height:40px;width:80px;"
+							oncomplete="PF('dlgNovoLocacao').hide();"
+							update=":formNovoLocacao:msg" />
+
+						<p:commandButton value="Cancelar" icon="cancelar"
+							style="height:40px;width:80px;"
+							onclick="PF('dlgNovoLocacao').hide();" />
+
+					</p:panelGrid>
+
+				</center>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog header="Alterar Locacao" widgetVar="dlgAltLocacao"
+			draggable="false" resizable="false" closable="true" modal="true"
+			width="auto">
+
+			<h:form id="formAltLocacao">
+				<p:growl id="msg" />
+				<p:panel id="pnlAltLocacao">
+					<p:tabView activeIndex="#{MBLocacao.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados da Locação">
+							<p:panelGrid columns="2" styleClass="semBorda">
+							
+								<p:selectOneMenu value="#{MBLocacao.locacao.livro.id_livro}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBLivro.listaLivros}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_livro}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{MBLocacao.locacao.professor.id_professor}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBProfessor.listaProfessor}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_professor}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu value="#{MBLocacao.locacao.aluno.id_aluno}"
+									filter="true" filterMatchMode="contains" style="width:480px;">
+
+									<f:selectItem itemLabel="NENHUM" itemValue="0" />
+									<f:selectItems value="#{MBAlunos.listaAlunos}" var="ep"
+										itemLabel="#{ep.nome}" itemValue="#{ep.id_aluno}" />
+								</p:selectOneMenu>
+								</p:panelGrid>
+							
+						</p:tab>
+					</p:tabView>
+
+					<center>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<p:commandButton value="ok" icon="confirmar" ajax="false"
+								action="#{MBLocacao.alterarLocacao()}"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltLocacao').hide();" update=":formAltLocacao:msg" />
+
+							<p:commandButton value="Cancelar" icon="cancelar"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltLocacao').hide();" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dialogAtencao" modal="true" header="Atenção"
+			resizable="false">
+
+			<h:form id="dlgexcluir">
+				<h:panelGrid columns="1">
+
+
+					<div class="alert alert-warning" role="alert">Deseja excluir
+						este Aluno?</div>
+
+				</h:panelGrid>
+
+
+
+				<center>
+
+					<p:commandButton value="Sim" action="#{MBLocacao.excluirLocacao()}"
+						icon="ui-icon-check" style="font-size:14px;"
+						update=":frmmensagem:tabela" ajax="false">
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="PF('dialogAtencao').hide();"
+						icon="ui-icon-closethick" style="font-size:14px;margin-left:5px;"></p:commandButton>
+
+				</center>
+
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>
+</html>

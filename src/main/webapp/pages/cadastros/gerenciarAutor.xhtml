@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../template/templategeral.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+
+			<p:commandButton value="Novo Autor" icon="novo"
+				style="margin-top:20px;height:40px;width:80px;"
+				actionListener="#{MBAutor.limparDados()}"
+				onclick="PF('dlgNovoAutor').show();"
+				update=":formNovoAutor, :frmmensagem:growl" process=":formNovoAutor" />
+
+			<h:form id="frmmensagem">
+
+				<p:growl id="growl" showDetail="false" />
+				<p:panel header="Gerenciar Autor"
+					style="margin-top:50px; height:auto; width:auto; background-color: #F5F5F5; border: 3px solid gray;">
+					<h:panelGrid columns="8" styleClass="semBorda"
+						style="font-size:12px !important;">
+						<p:outputPanel id="pnlprincipal">
+							<p:outputLabel value="Pesquisar por: " />
+							<p:selectOneMenu value="#{MBAutor.autorNegocio.tipoBuscaAutor}"
+								style="height:28px; top:9px;margin-top:6px;margin-left:16px;">
+
+								<f:selectItem itemLabel="Nome" itemValue="1" />
+
+
+								<p:ajax event="change" update=":frmmensagem:pnlprincipal" />
+							</p:selectOneMenu>
+
+							<p:inputText id="campoBuscaautor" size="35"
+								style="height:28px;margin-top:-6px;margin-left:16px;"
+								value="#{MBAutor.autorNegocio.campoBuscaAutor}"
+								rendered="#{MBAutor.autorNegocio.tipoBuscaAutor == 1}"
+								placeholder="Informe o nome" />
+
+							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
+								style="height:40px;width:80px;margin-left:10px"
+								action="#{MBAutor.buscarAutor()}"
+								update=":frmmensagem:tabela, :frmmensagem:growl">
+								<p:tooltip value="Buscar" for="botaoBusca" />
+							</p:commandButton>
+
+							<p:commandButton icon="limpar" id="limp" value="Limpar"
+								update=":frmmensagem:pnlprincipal,:frmmensagem:tabela"
+								action="#{MBAutor.autorNegocio.limparBuscaDados()}"
+								style="margin-left:20px;height:40px;width:80px;">
+								<p:tooltip value="Limpar Busca" for="limp" />
+							</p:commandButton>
+
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:panel>
+
+				<p:dataTable emptyMessage="Sem Dados" styleClass="table table-hover"
+					id="tabela" style="margin-top:20px;"
+					value="#{MBAutor.autorNegocio.listaAutor}" var="tab" rows="10"
+					paginator="true" paginatorPosition="bottom">
+
+					<p:column headerText="ID" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.id_autor}" />
+					</p:column>
+
+					<p:column headerText="Nome" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.nome}" />
+					</p:column>
+
+					<p:column headerText="Ações" width="8%">
+						<center>
+							<p:splitButton icon="confirmar">
+								<p:menuitem value="Alterar" icon="alterar-dados"
+									onclick="PF('dlgAltAutor').show()"
+									process="@this, :formAltAutor"
+									update=":formAltAutor:pnlAltAutor">
+
+									<f:setPropertyActionListener value="#{tab}"
+										target="#{MBAutor.autor}" />
+
+
+								</p:menuitem>
+
+								<p:menuitem value="Excluir" icon="trash"
+									onclick="PF('dialogAtencao').show()">
+
+									<f:setPropertyActionListener value="#{tab.id_aluno}"
+										target="#{MBAlunos.aluno.id_aluno}" />
+								</p:menuitem>
+							</p:splitButton>
+						</center>
+					</p:column>
+
+
+				</p:dataTable>
+
+			</h:form>
+
+		</div>
+
+		<!-- COMEÇO DO DIALOG DE CLIENTE  -->
+		<p:dialog header="CADASTRO DE AUTOR" widgetVar="dlgNovoAutor"
+			appendToBody="true" draggable="false" resizable="false"
+			maximizable="true" minimizable="true" position="center"
+			showEffect="slide" closable="true" modal="true" width="auto">
+			<h:form id="formNovoAutor">
+				<p:growl id="msg" />
+				<p:panel>
+					<p:tabView activeIndex="#{MBAutor.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome Completo:" />
+								<p:inputText id="nome" value="#{Autor.autor.nome}" size="40"
+									required="false" placeholder="Digite seu nome completo "
+									requiredMessage="E necessario informar o nome completo">
+								</p:inputText>
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+				</p:panel>
+				<center>
+					<p:panelGrid columns="2" styleClass="semBorda">
+						<p:commandButton value="Gravar" icon="confirmar" ajax="false"
+							action="#{MBAutor.cadastrarAutor()}"
+							style="height:40px;width:80px;"
+							oncomplete="PF('dlgNovoAutor').hide();"
+							update=":formNovoAutor:msg" />
+
+						<p:commandButton value="Cancelar" icon="cancelar"
+							style="height:40px;width:80px;"
+							onclick="PF('dlgNovoAutor').hide();" />
+
+					</p:panelGrid>
+
+				</center>
+			</h:form>
+		</p:dialog>
+
+
+		<!-- FIM DO DIALOG DE Autor -->
+
+		<!-- COMEÇO DO DIALOG DE EDITAR Autor  -->
+		<p:dialog header="Alterar Autor" widgetVar="dlgAltAutor"
+			draggable="false" resizable="false" closable="true" modal="true"
+			width="auto">
+
+			<h:form id="formAltAutor">
+				<p:growl id="msg" />
+				<p:panel id="pnlAltAutor">
+					<p:tabView activeIndex="#{MBAutor.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome Completo:" />
+								<p:inputText id="nome" value="#{MBAutor.autor.nome}" size="40"
+									required="false" placeholder="Digite seu nome completo "
+									requiredMessage="E necessario informar o nome completo">
+								</p:inputText>
+							</p:panelGrid>
+						</p:tab>
+					</p:tabView>
+
+					<center>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<p:commandButton value="ok" icon="confirmar" ajax="false"
+								action="#{MBAutor.alterarAutor()}"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltAutor').hide();" update=":formAltAutor:msg" />
+
+							<p:commandButton value="Cancelar" icon="cancelar"
+								style="height:40px;width:80px;"
+								onclick="PF('dlgAltAutor').hide();" />
+
+						</p:panelGrid>
+
+					</center>
+
+				</p:panel>
+			</h:form>
+		</p:dialog>
+
+		<!-- FIM DO DIALOG DE EDITAR Autor  -->
+
+		<!-- COMEÇO DO DIALOG DE EXCLUIR Autor  -->
+		<p:dialog widgetVar="dialogAtencao" modal="true" header="Atenção"
+			resizable="false">
+
+			<h:form id="dlgexcluir">
+				<h:panelGrid columns="1">
+
+
+					<div class="alert alert-warning" role="alert">Deseja excluir
+						este Aluno?</div>
+
+				</h:panelGrid>
+
+
+
+				<center>
+
+					<p:commandButton value="Sim" action="#{MBAutor.excluirAutor()}"
+						icon="ui-icon-check" style="font-size:14px;"
+						update=":frmmensagem:tabela" ajax="false">
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="PF('dialogAtencao').hide();"
+						icon="ui-icon-closethick" style="font-size:14px;margin-left:5px;"></p:commandButton>
+
+				</center>
+
+
+			</h:form>
+		</p:dialog>
+		<!-- FIM DO DIALOG DE EXCLUIR Autor -->
+
+
+	</ui:define>
+</ui:composition>
+</html>
