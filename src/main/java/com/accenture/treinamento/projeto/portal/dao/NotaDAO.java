@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.factory.ConnectionFactory;
+import com.accenture.treinamento.projeto.portal.model.DisciplinaBean;
 import com.accenture.treinamento.projeto.portal.model.NotaBean;
 
 import java.sql.PreparedStatement;
@@ -101,25 +102,23 @@ public class NotaDAO implements INotaDAO{
 
 	@Override
 	public List<NotaBean> listaNota() throws ProjetoException {
-		String sql = "select nota1, nota2, media, mediafinal from nota";
+		String sql = "select nota.nota1, nota.nota2, nota.media, nota.mediafinal from nota" 
+				+ "inner join professor on (professor.id_professor = nota.id_professor) "
+				+ "inner join aluno on (professor.id_aluno = nota.id_aluno) ";
 
 		ArrayList<NotaBean> lista = new ArrayList<NotaBean>();
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stm = conexao.prepareStatement(sql);
 			ResultSet rs = stm.executeQuery();
+			
+			NotaBean n = new NotaBean();
 
-			while (rs.next()) {
-				NotaBean n = new NotaBean();
-
-				n.setNota1(rs.getFloat("nota1"));
-				n.setNota2(rs.getFloat("nota2"));
-				n.setMedia(rs.getFloat("media"));
-				n.setMediafinal(rs.getFloat("mediafinal"));
-
-
-				lista.add(n);
-			}
+			n.setNota1(rs.getFloat("nota1"));
+			n.setNota2(rs.getFloat("nota2"));
+			n.setMedia(rs.getFloat("media"));
+			n.setMediafinal(rs.getFloat("mediafinal"));
+			
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
 		} finally {
@@ -132,5 +131,38 @@ public class NotaDAO implements INotaDAO{
 		}
 		return lista;
 	}
+
+	@Override
+	public List<NotaBean> buscarNota(String nome) throws ProjetoException {
+		String sql = "select nota.id_nota, nota.nota1, nota.nota2, nota.media, nota.mediafinal from nota"
+				+ "inner join professor on (professor.id_professor = nota.id_professor) "
+				+ "inner join aluno on (aluno.id_aluno = nota.id_aluno)";
+
+		List<NotaBean> lista = new ArrayList<>();
+
+		try {
+			conexao = ConnectionFactory.getConnection();
+			PreparedStatement stmt = conexao.prepareStatement(sql);	
+			ResultSet rs = stmt.executeQuery();
+			NotaBean n = new NotaBean();
+
+			n.setNota1(rs.getFloat("nota1"));
+			n.setNota2(rs.getFloat("nota2"));
+			n.setMedia(rs.getFloat("media"));
+			n.setMediafinal(rs.getFloat("mediafinal"));
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			// throw new RuntimeException(ex); //
+		} finally {
+			try {
+				conexao.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				System.exit(1);
+			}
+		}
+		return lista;
+	}
+
 	
 }

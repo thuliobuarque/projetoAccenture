@@ -10,4 +10,6 @@ public interface INotaDAO {
 	public abstract boolean alterarNota(NotaBean notas) throws ProjetoException;
 	public abstract boolean excluirNota(NotaBean notas) throws ProjetoException;
 	public abstract List<NotaBean> listaNota() throws ProjetoException;
+	public abstract List<NotaBean> buscarNota(String nome) throws ProjetoException;
+
 }

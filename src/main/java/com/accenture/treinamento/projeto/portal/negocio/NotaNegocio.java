@@ -34,8 +34,23 @@ public class NotaNegocio {
 	public boolean cadastrarNota(NotaBean notas) throws ProjetoException {
 		
 		NotaDAO ndao = new NotaDAO();
-		ndao.cadastrarNota(notas);
-		listaNota = null;
+		boolean cadastrou = ndao.cadastrarNota(notas);
+		if (cadastrou == true) {
+
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Disciplina cadastrada com sucesso!", "Sucesso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			RequestContext.getCurrentInstance().execute(
+					"dlgCadNota.hide();");
+		} else {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Ocorreu um erro durante o cadastro da disciplina!", "Erro");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			RequestContext.getCurrentInstance().execute(
+					"dlgCadNota.hide();");
+		}
 		return true;
 	}
 	
@@ -82,7 +97,43 @@ public class NotaNegocio {
 		}
 	}
 	
+	public void buscarNota() throws ProjetoException{
+			
+			List<NotaBean> listaAux = null;
+			listaNota = new ArrayList<>();
+			
+			NotaDAO ndao = new NotaDAO();
+			
+			listaAux = ndao.buscarNota(campoBuscaNotaAluno);
+			if (listaAux != null && listaAux.size() > 0) {
+				listaNota = listaAux;
+			} else {
+				// listaAss = null;
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Nenhuma Turma encontrada.", "Aviso");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
 	
+	}
+	public void listarNota() throws ProjetoException{
+		
+		List<NotaBean> listaAux = null;
+		listaNota = new ArrayList<>();
+		
+		NotaDAO ndao = new NotaDAO();
+		
+		listaAux = ndao.listaNota();
+		if (listaAux != null && listaAux.size() > 0) {
+			listaNota = listaAux;
+		} else {
+			// listaAss = null;
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Nenhuma Turma encontrada.", "Aviso");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	
+	}
+
 	public List<NotaBean> getListaNota() {
 		return listaNota;
 	}
