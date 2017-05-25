@@ -130,7 +130,7 @@ public class DisciplinaNegocio {
 		
 		DisciplinaDAO dDao = new DisciplinaDAO();
 		
-		listaAux = dDao.buscarTurma(campoBuscaAluno, tipoBuscaAluno);
+		listaAux = dDao.buscarDisciplina(campoBuscaDisciplina, tipoBuscaDisciplina);
 
 		if (listaAux != null && listaAux.size() > 0) {
 			// listaAss = null;
@@ -142,10 +142,6 @@ public class DisciplinaNegocio {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 
-	}
-
-		
-		
 	}
 
 	public void LimparObjeto() {
