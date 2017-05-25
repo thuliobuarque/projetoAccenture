@@ -118,8 +118,7 @@
 		<p:dialog header="CADASTRO DE ALUNO" widgetVar="dlgNovoAluno"
 			appendToBody="true" draggable="false" resizable="false"
 			maximizable="true" minimizable="true" position="center"
-			showEffect="slide" visible="true" closable="true" modal="true"
-			width="auto">
+			showEffect="slide" closable="true" modal="true" width="auto">
 			<h:form id="formNovoAluno">
 				<p:growl id="msg" />
 				<p:panel>
@@ -147,9 +146,40 @@
 
 								<h:outputLabel value="Senha:" />
 								<p:password id="senha" value="#{MBAlunos.aluno.senha}" size="40"
-									required="false" requiredMessage="E necessario informar a senha"
+									required="false"
+									requiredMessage="E necessario informar a senha"
 									placeholder="Digite uma senha">
 								</p:password>
+
+								<h:outputLabel value="Email:" />
+								<p:inputText id="email" value="#{MBAlunos.aluno.email}" placeholder="Digite seu email "
+									required="true" requiredMessage="E necessario informar o email">
+									<f:validateRegex
+										pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+								</p:inputText>
+
+								<h:outputLabel value="Data de Nascimento:" />
+								<p:calendar pattern="dd/MM/yyyy" mask="true" id="nascimento"
+									yearRange="-111:+39" navigator="true" pages="1" showOn="button"
+									size="12" value="#{MBAlunos.aluno.datanascimento}" locale="pt"
+									required="true" 
+									requiredMessage="Informe sua data de nascimento " />
+
+								<h:outputLabel value="Celular:" />
+								<p:inputMask id="celular" value="#{MBAlunos.aluno.celular}"
+									required="true" mask="(99)99999-9999" placeholder="Digite seu celular "
+									requiredMessage="E necessario informar o celular">
+								</p:inputMask>
+
+								<h:outputLabel value="Sexo:" />
+								<p:selectOneMenu value="#{MBAlunos.aluno.genero}" id="genero">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Masculino" itemValue="m" />
+									<f:selectItem itemLabel="Feminino" itemValue="f" />
+
+								</p:selectOneMenu>
+
+
 							</p:panelGrid>
 
 						</p:tab>
@@ -161,19 +191,18 @@
 									<p:inputMask mask="99999-999" value="#{MBAlunos.aluno.cep}" />
 
 									<p:commandButton value="Pesquisar" icon="ui-icon-search"
-										action="#{MBAlunos.encontraCEP}" />
+										action="#{MBAlunos.encontraCEP}" disabled="true" />
 
 								</p:panelGrid>
 
 								<p:panelGrid columns="2" styleClass="semBorda">
 									<h:outputLabel value="UF: "
 										style="font-weight:bold; padding-right: 5px; float: right;" />
-									<p:inputText size="5" value="#{MBAlunos.aluno.estado}" />
+									<p:inputText size="5" value="#{MBAlunos.aluno.estado}" maxlength="2" />
 
 									<h:outputLabel value="Logradouro: "
 										style="font-weight:bold; padding-right: 5px; float: right;" />
-									<p:inputText size="50"
-										value="#{MBAlunos.aluno.tipoLogradouro}" />
+									<p:inputText size="50" value="#{MBAlunos.aluno.tipoLogradouro}" />
 
 									<h:outputLabel value="Cidade: "
 										style="font-weight:bold; padding-right: 5px; float: right;" />
@@ -217,19 +246,99 @@
 			<h:form id="formAltAluno">
 				<p:growl id="msg" />
 				<p:panel id="pnlAltAluno">
-					<p:panelGrid columns="2" styleClass="semBorda">
+					<p:tabView activeIndex="#{MBAlunos.abaAtiva}" style="height:460px;"
+						styleClass="semBorda">
+						<p:tab title="Dados Pessoais">
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<h:outputLabel value="Nome Completo:" />
+								<p:inputText id="nome" value="#{MBAlunos.aluno.nome}" size="40"
+									required="false" placeholder="Digite seu nome completo "
+									requiredMessage="E necessario informar o nome completo">
+								</p:inputText>
 
-						<h:outputLabel value="Nome Completo:" />
-						<p:inputText id="nome" value="#{MBAlunos.aluno.nome}" size="40"
-							required="true"
-							requiredMessage="E necessario informar o nome completo">
-						</p:inputText>
+								<h:outputLabel value="CPF:" />
+								<p:inputMask id="cpf" value="#{MBAlunos.aluno.cpf}"
+									maxlength="11" required="false" placeholder="Digite seu cpf"
+									requiredMessage="E necessario informar o cpf"
+									mask="999.999.999-99"></p:inputMask>
 
-						<h:outputLabel value="CPF:" />
-						<p:inputMask id="cpf" value="#{MBAlunos.aluno.cpf}" maxlength="11"
-							required="true" requiredMessage="E necessario informar o cpf"
-							mask="999.999.999-99"></p:inputMask>
-					</p:panelGrid>
+								<h:outputLabel value="Login:" />
+								<p:inputText id="login" value="#{MBAlunos.aluno.login}"
+									size="40" required="false" placeholder="Digite um login "
+									requiredMessage="E necessario informar o login">
+								</p:inputText>
+
+								<h:outputLabel value="Senha:" />
+								<p:password id="senha" value="#{MBAlunos.aluno.senha}" size="40"
+									required="false"
+									requiredMessage="E necessario informar a senha"
+									placeholder="Digite uma senha">
+								</p:password>
+
+								<h:outputLabel value="Email:" />
+								<p:inputText id="email" value="#{MBAlunos.aluno.email}" placeholder="Digite seu email "
+									required="true" requiredMessage="E necessario informar o email">
+									<f:validateRegex
+										pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+								</p:inputText>
+
+								<h:outputLabel value="Data de Nascimento:" />
+								<p:calendar pattern="dd/MM/yyyy" mask="true" id="nascimento"
+									yearRange="-111:+39" navigator="true" pages="1" showOn="button"
+									size="12" value="#{MBAlunos.aluno.datanascimento}" locale="pt"
+									required="true" 
+									requiredMessage="Informe sua data de nascimento " />
+
+								<h:outputLabel value="Celular:" />
+								<p:inputMask id="celular" value="#{MBAlunos.aluno.celular}"
+									required="true" mask="(99)99999-9999" placeholder="Digite seu celular "
+									requiredMessage="E necessario informar o celular">
+								</p:inputMask>
+
+								<h:outputLabel value="Sexo:" />
+								<p:selectOneMenu value="#{MBAlunos.aluno.genero}" id="genero">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Masculino" itemValue="m" />
+									<f:selectItem itemLabel="Feminino" itemValue="f" />
+
+								</p:selectOneMenu>
+
+
+							</p:panelGrid>
+
+						</p:tab>
+
+						<p:tab title="Endereço">
+							<p:outputPanel autoUpdate="true">
+								<p:panelGrid columns="3" styleClass="semBorda">
+									<h:outputText value="CEP: " />
+									<p:inputMask mask="99999-999" value="#{MBAlunos.aluno.cep}" />
+
+									<p:commandButton value="Pesquisar" icon="ui-icon-search"
+										action="#{MBAlunos.encontraCEP}" disabled="true" />
+
+								</p:panelGrid>
+
+								<p:panelGrid columns="2" styleClass="semBorda">
+									<h:outputLabel value="UF: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="5" value="#{MBAlunos.aluno.estado}" maxlength="2" />
+
+									<h:outputLabel value="Logradouro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBAlunos.aluno.tipoLogradouro}" />
+
+									<h:outputLabel value="Cidade: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="50" value="#{MBAlunos.aluno.cidade}" />
+
+									<h:outputLabel value="Bairro: "
+										style="font-weight:bold; padding-right: 5px; float: right;" />
+									<p:inputText size="25" value="#{MBAlunos.aluno.bairro}" />
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:tab>
+					</p:tabView>
 
 					<center>
 						<p:panelGrid columns="2" styleClass="semBorda">

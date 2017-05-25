@@ -1,9 +1,11 @@
 package com.accenture.treinamento.projeto.portal.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +20,29 @@ public class AlunoDAO implements IAlunoDAO {
 	
 	public boolean cadastrarAluno(AlunoBean aluno) throws ProjetoException {
 
-		String sql = "insert into aluno (nome, cpf) values (?, ?)";
+		String sql = "insert into aluno (nome, cpf, matricula, email, celular, logradouro, data_nascimento, genero, cep, estado, cidade, bairro) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			conexao = ConnectionFactory.getConnection();
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.setString(1, aluno.getNome().toUpperCase().trim());
 			stmt.setString(2, aluno.getCpf().replaceAll("[^0-9]", ""));
+			stmt.setString(3, "10");
+			//aluno.getMatricula()
+			stmt.setString(4, aluno.getEmail().toUpperCase().trim());
+			if (aluno.getCelular() == null) {
+				stmt.setNull(5, Types.CHAR);
+			} else {
+				stmt.setString(5, aluno.getCelular().toUpperCase().trim());
+			}	
+			stmt.setString(6, aluno.getTipoLogradouro().toUpperCase().trim());
+			stmt.setDate(7, new Date(aluno.getDatanascimento().getTime()));
+			stmt.setString(8, aluno.getGenero().toUpperCase().trim());
+			stmt.setString(9, aluno.getCep().replaceAll("[^0-9]", ""));
+			stmt.setString(10, aluno.getEstado().toUpperCase().trim());			
+			stmt.setString(11, aluno.getCidade().toUpperCase().trim());
+			stmt.setString(12, aluno.getBairro().toUpperCase().trim());
+			
 			stmt.execute();
 			
 			    ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");

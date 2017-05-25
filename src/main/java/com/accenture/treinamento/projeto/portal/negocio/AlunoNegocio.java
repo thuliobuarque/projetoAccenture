@@ -1,5 +1,11 @@
 package com.accenture.treinamento.projeto.portal.negocio;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +17,7 @@ import org.primefaces.context.RequestContext;
 import com.accenture.treinamento.projeto.exception.ProjetoException;
 import com.accenture.treinamento.projeto.portal.dao.AlunoDAO;
 import com.accenture.treinamento.projeto.portal.model.AlunoBean;
+import com.accenture.treinamento.projeto.util.ClientRest;
 import com.accenture.treinamento.projeto.util.SessionUtil;
 
 /**
@@ -19,13 +26,11 @@ import com.accenture.treinamento.projeto.util.SessionUtil;
  * @since 17/05/2017
  */
 
-
 public class AlunoNegocio {
-
 
 	// LISTAS
 	private List<AlunoBean> listaAluno;
-	
+
 	// BUSCAS
 	private String tipo;
 	private Integer tipoBuscaAluno;
@@ -34,11 +39,10 @@ public class AlunoNegocio {
 
 	public AlunoNegocio() {
 
-
 		// LISTAS
 		listaAluno = new ArrayList<>();
 		listaAluno = null;
-		
+
 		// BUSCA
 		tipo = "";
 		tipoBuscaAluno = 1;
@@ -50,32 +54,21 @@ public class AlunoNegocio {
 	// METODO DE AUTENTICAR ALUNO
 	public String loginTeste() throws ProjetoException {
 
-    return "/pages/comum/principal.faces?faces-redirect=true";
-	
-	}
-	
+		return "/pages/comum/principal.faces?faces-redirect=true";
 
+	}
 
 	// METODO DE ADCIONAR ALUNO
-	public void cadastrarAluno(AlunoBean aluno) throws ProjetoException {
+	public boolean cadastrarAluno(AlunoBean aluno) throws ProjetoException,
+			MalformedURLException {
+		String numero = gerarNumero();
+		aluno.setMatricula(Integer.parseInt(numero));
 
 		AlunoDAO adao = new AlunoDAO();
-		boolean cadastrou = adao.cadastrarAluno(aluno);
+		adao.cadastrarAluno(aluno);
+		listaAluno = null;
+		return true;
 
-		if (cadastrou == true) {
-
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Aluno cadastrado com sucesso!", "Sucesso");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-			listaAluno = null;
-			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
-		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ocorreu um erro durante o cadastro!", "Erro");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			RequestContext.getCurrentInstance().execute("dlgCadAluno.hide();");
-		}
 	}
 
 	// METODO DE ALTERAR ALUNO
@@ -122,7 +115,33 @@ public class AlunoNegocio {
 					"PF('dialogAtencao').hide();");
 		}
 	}
-	
+
+	public String gerarNumero() throws MalformedURLException {
+		HttpURLConnection connection = null;
+		String resp = "";
+		try {
+			URL url = new URL(ClientRest.URL_WS + "/gerenciarAluno");
+			connection = (HttpURLConnection) url.openConnection();
+			InputStream content = connection.getInputStream();
+			resp = toString(content);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			connection.disconnect();
+		}
+		return resp;
+	}
+
+	private String toString(InputStream is) throws IOException {
+		byte[] bytes = new byte[1024];
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int lidos;
+		while ((lidos = is.read(bytes)) > 0) {
+			baos.write(bytes, 0, lidos);
+		}
+		return new String(baos.toByteArray());
+	}
+
 	public void buscarAlunos() throws ProjetoException {
 
 		List<AlunoBean> listaAux = null;
@@ -144,19 +163,17 @@ public class AlunoNegocio {
 
 	}
 
-	
-    public String logout() {
-        SessionUtil.getSession().invalidate();
-        return "/pages/comum/login.faces?faces-redirect=true";
-    }
-	
+	public String logout() {
+		SessionUtil.getSession().invalidate();
+		return "/pages/comum/login.faces?faces-redirect=true";
+	}
+
 	public void limparBuscaDados() {
 		tipoBuscaAluno = 1;
 		campoBuscaAluno = "";
 		statusAluno = "P";
 		listaAluno = null;
 	}
-
 
 	public List<AlunoBean> getListaAluno() {
 		if (listaAluno == null) {
@@ -201,7 +218,5 @@ public class AlunoNegocio {
 	public void setStatusAluno(String statusAluno) {
 		this.statusAluno = statusAluno;
 	}
-	
-	
 
 }

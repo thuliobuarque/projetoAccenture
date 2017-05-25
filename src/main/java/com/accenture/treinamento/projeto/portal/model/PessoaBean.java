@@ -12,12 +12,12 @@ public class PessoaBean implements Serializable {
 	private String cpf;
 	private String login;
 	private String senha;
-	private String matricula;
+	private Integer matricula;
 	private String email;
 	private String celular;
 	private String enderc;
 	private Date datanascimento;
-	private Integer genero;		
+	private String genero;		
 
 	private String cep = null;
 
@@ -72,12 +72,12 @@ public class PessoaBean implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public String getMatricula() {
+	
+	public Integer getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(String matricula) {
+	public void setMatricula(Integer matricula) {
 		this.matricula = matricula;
 	}
 
@@ -89,11 +89,11 @@ public class PessoaBean implements Serializable {
 		this.datanascimento = datanascimento;
 	}
 
-	public Integer getGenero() {
+	public String getGenero() {
 		return genero;
 	}
 
-	public void setGenero(Integer genero) {
+	public void setGenero(String genero) {
 		this.genero = genero;
 	}
 
