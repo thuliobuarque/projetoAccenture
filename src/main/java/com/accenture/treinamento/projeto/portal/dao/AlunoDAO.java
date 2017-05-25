@@ -127,7 +127,7 @@ public class AlunoDAO implements IAlunoDAO {
 	
 	public ArrayList<AlunoBean> listaAluno() {
 
-		String sql = "select id_aluno, nome, cpf from aluno order by nome";
+		String sql = "select id_aluno, nome, cpf, matricula, email, celular, data_nascimento, cep  from aluno order by nome";
 
 		ArrayList<AlunoBean> lista = new ArrayList<>();
 		try {
@@ -141,6 +141,11 @@ public class AlunoDAO implements IAlunoDAO {
 				a.setId_aluno(rs.getInt("id_aluno"));
 				a.setNome(rs.getString("nome"));
 				a.setCpf(rs.getString("cpf"));
+				a.setMatricula(rs.getInt("matricula"));
+				a.setEmail(rs.getString("email"));
+				a.setCelular(rs.getString("celular"));
+				a.setDatanascimento(rs.getDate("data_nascimento"));
+				a.setCep(rs.getString("cep"));
 
 
 				lista.add(a);
@@ -161,7 +166,7 @@ public class AlunoDAO implements IAlunoDAO {
 	 public List<AlunoBean> buscarTipoAluno(String valor, Integer tipo) throws ProjetoException {
 	  		
 	      	
-   		 String sql = "select id_aluno, nome, cpf from aluno where";
+   		 String sql = "select id_aluno, nome, cpf, matricula, email, celular, data_nascimento, cep from aluno where";
    		
    		if (tipo == 1) {
    			sql += " aluno.nome like ? order by aluno.nome ";
@@ -189,6 +194,11 @@ public class AlunoDAO implements IAlunoDAO {
    				c.setId_aluno(rs.getInt("id_aluno"));
 				c.setNome(rs.getString("nome"));
 				c.setCpf(rs.getString("cpf"));
+				c.setMatricula(rs.getInt("matricula"));
+				c.setEmail(rs.getString("email"));
+				c.setCelular(rs.getString("celular"));
+				c.setDatanascimento(rs.getDate("data_nascimento"));
+				c.setCep(rs.getString("cep"));
 
 
    				lista.add(c);

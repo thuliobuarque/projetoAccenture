@@ -38,7 +38,7 @@
 
 							<p:inputText id="campoBuscanome" size="35"
 								style="height:28px;margin-top:-6px;margin-left:16px;"
-								value="#{MBAlunos.alunoNegocio.campoBuscaAluno}"
+								value="#{MBAlunos.campoBuscaAluno}"
 								rendered="#{MBAlunos.tipoBuscaAluno == 1}"
 								placeholder="Informe o nome" />
 
@@ -50,7 +50,7 @@
 
 							<p:commandButton id="botaoBusca" icon="buscar" value="Buscar"
 								style="height:40px;width:80px;margin-left:10px"
-								action="#{MBAlunos.buscarAlunos()}"
+								action="#{MBAlunos.buscarAluno()}"
 								update=":frmmensagem:tabela, :frmmensagem:growl">
 								<p:tooltip value="Buscar" for="botaoBusca" />
 							</p:commandButton>
@@ -71,16 +71,38 @@
 					value="#{MBAlunos.listaAluno}" var="tab" rows="10"
 					paginator="true" paginatorPosition="bottom">
 
-					<p:column headerText="ID" style="font-weight:bold; width:15%">
-						<h:outputText value="#{tab.id_aluno}" />
-					</p:column>
-
 					<p:column headerText="Nome" style="font-weight:bold; width:15%">
 						<h:outputText value="#{tab.nome}" />
 					</p:column>
 
 					<p:column headerText="CPF" style="font-weight:bold; width:15%">
 						<h:outputText value="#{tab.cpf}" />
+					</p:column>
+					
+					
+					<p:column headerText="Matricula" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.matricula}" />
+					</p:column>
+					
+					
+					<p:column headerText="Email" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.email}" />
+					</p:column>
+					
+					
+					<p:column headerText="Celular" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.celular}" />
+					</p:column>
+					
+						
+					<p:column headerText="Data Nascimento" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.datanascimento}">
+						<f:convertDateTime pattern="dd/mm/yyyy"/>
+						</h:outputText>
+					</p:column>
+					
+			        <p:column headerText="Cep" style="font-weight:bold; width:15%">
+						<h:outputText value="#{tab.cep}" />
 					</p:column>
 
 					<p:column headerText="Ações" width="8%">

@@ -43,12 +43,11 @@ public class AlunoNegocio {
 
 	public boolean cadastrarAluno(AlunoBean aluno) throws ProjetoException,
 			MalformedURLException {
-		String numero = gerarNumero();
-		aluno.setMatricula(Integer.parseInt(numero));
+		//String numero = gerarNumero();
+		//aluno.setMatricula(Integer.parseInt(numero));
 
 		AlunoDAO adao = new AlunoDAO();
 		adao.cadastrarAluno(aluno);
-		listaAluno = null;
 		return true;
 
 	}

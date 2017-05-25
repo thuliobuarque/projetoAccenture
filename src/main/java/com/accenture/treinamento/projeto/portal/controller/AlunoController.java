@@ -209,10 +209,10 @@ public class AlunoController {
 		this.tipoBuscaAluno = tipoBuscaAluno;
 	}
 
-	public List<AlunoBean> getListaAluno() {
+	public List<AlunoBean> getListaAluno() throws ProjetoException {
 		if (listaAluno == null) {
 			AlunoNegocio adao = new AlunoNegocio();
-			listaAluno = adao.listaAluno();
+			listaAluno = adao.getListaAluno();
 		}
 		return listaAluno;
 	}
