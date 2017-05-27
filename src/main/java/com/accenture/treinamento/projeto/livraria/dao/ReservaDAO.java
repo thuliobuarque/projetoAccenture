@@ -145,7 +145,7 @@ public class ReservaDAO implements IReservaDAO {
 			while (rs.next()) {
 				ReservaBean lb = new ReservaBean();
 				lb.setId(rs.getInt("id_reserva"));
-				lb.setLivro1(rs.getInt("id_livro"));
+				
 				
 				list.add(lb);					
 			}

@@ -1,19 +1,15 @@
 package com.accenture.treinamento.projeto.livraria.model;
 
 import java.sql.Date;
-import java.util.ArrayList;
-
-import com.accenture.treinamento.projeto.portal.model.AlunoBean;
-import com.accenture.treinamento.projeto.portal.model.ProfessorBean;
+import java.util.List;
 
 public class LocacaoBean {
 	
 	private Integer id_locacao;
 	private Date data_locacao;
 	private Date data_devolucao;
-	private AlunoBean aluno;
-	private ProfessorBean professor;
-	private LivroBean livro;
+	private Integer id_pessoa;
+	private List<Integer> livros;
 	private String status;
 	
 	public Integer getId_locacao() {
@@ -25,6 +21,12 @@ public class LocacaoBean {
 	public Date getData_locacao() {
 		return data_locacao;
 	}
+	public List<Integer> getLivros() {
+		return livros;
+	}
+	public void setLivros(List<Integer> livros) {
+		this.livros = livros;
+	}
 	public void setData_locacao(Date data_locacao) {
 		this.data_locacao = data_locacao;
 	}
@@ -34,24 +36,14 @@ public class LocacaoBean {
 	public void setData_devolucao(Date data_devolucao) {
 		this.data_devolucao = data_devolucao;
 	}
-	public AlunoBean getAluno() {
-		return aluno;
+	
+	public Integer getId_pessoa() {
+		return id_pessoa;
 	}
-	public void setAluno(AlunoBean aluno) {
-		this.aluno = aluno;
+	public void setId_pessoa(Integer id_pessoa) {
+		this.id_pessoa = id_pessoa;
 	}
-	public ProfessorBean getProfessor() {
-		return professor;
-	}
-	public void setProfessor(ProfessorBean professor) {
-		this.professor = professor;
-	}
-	public LivroBean getLivro() {
-		return livro;
-	}
-	public void setLivro(LivroBean livro) {
-		this.livro = livro;
-	}
+	
 	public String getStatus() {
 		return status;
 	}

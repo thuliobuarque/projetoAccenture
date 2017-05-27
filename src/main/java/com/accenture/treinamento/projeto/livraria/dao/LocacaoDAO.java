@@ -115,15 +115,21 @@ public class LocacaoDAO implements ILocacaoDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				LocacaoBean locacao = new LocacaoBean();
+				List<Integer> auxLivros = new ArrayList<>();
 
 				locacao.setId_locacao(rs.getInt("id_locacao"));
 				locacao.setData_locacao(rs.getDate("data_locacao"));
 				locacao.setData_devolucao(rs.getDate("data_devolucao"));
-				locacao.getAluno().setId_aluno(rs.getInt("id_aluno"));
-				locacao.getProfessor().setId_professor(rs.getInt("id_professor"));
-				locacao.getLivro().setId_livro(rs.getInt("id_livro"));
+				locacao.setId_pessoa(rs.getInt("id_pessoa"));
+				PreparedStatement stmt2 = conexao.prepareStatement("SELECT id_livro FROM mydb.locacao WHERE id_locacao = ?");
+				stmt2.setInt(1, rs.getInt("id_locacao"));
+				stmt2.setDate(2, new Date(locacao.getData_locacao().getTime()));
+				ResultSet rs2 = stmt2.executeQuery();
+				while(rs2.next()){
+					auxLivros.add(rs2.getInt("id_livro"));
+				}
+				locacao.setLivros(auxLivros);
 				locacao.setStatus(rs.getString("status"));
-				
 				locacoes.add(locacao);
 			}
 		} catch (SQLException e) {
@@ -139,16 +145,16 @@ public class LocacaoDAO implements ILocacaoDAO {
 	}
 
 	
-	/*
+	
 	@Override
 	public List<LocacaoBean> searchLocacao(String value, Integer type) throws ProjetoException {
 		
-		String sql = "select * from acl.locacao ";
+		String sql = "select * from mydb.locacao ";
 
 		if (type == 1) {
-			sql += "join acl.pessoa on locacao.id_pessoa = pessoa.id_pessoa where aluno.nome like ? order by locacao.data_locacao ";
+			sql += "join mydb.pessoa on locacao.id_pessoa = pessoa.id_pessoa where aluno.nome like ? order by locacao.data_locacao ";
 		} else if (type == 2) {
-			sql += "join acl.livro on locacao.id_livro = livro.id_livro where livro.nome like ? order by locacao.data_locacao ";
+			sql += "join mydb.livro on locacao.id_livro = livro.id_livro where livro.nome like ? order by locacao.data_locacao ";
 		}
 		List<LocacaoBean> list = new ArrayList<>();
 
@@ -166,14 +172,14 @@ public class LocacaoDAO implements ILocacaoDAO {
 
 			while (rs.next()) {
 				LocacaoBean lb = new LocacaoBean();
-				ArrayList<Integer> auxLivros = new ArrayList<>();
-				lb.setId(rs.getInt("idalunos"));
-				lb.setPessoa(rs.getInt("id_pessoa"));
-				lb.setDataLocacao(rs.getDate("data_locacao"));
-				lb.setDataEntrega(rs.getDate("data_devolucao"));
-				PreparedStatement stmt2 = conexao.prepareStatement("SELECT id_livro FROM acl.locacao WHERE id_locacao = ?");
+				List<Integer> auxLivros = new ArrayList<>();
+
+				lb.setId_pessoa(rs.getInt("id_pessoa"));
+				lb.setData_locacao(rs.getDate("data_locacao"));
+				lb.setData_devolucao(rs.getDate("data_devolucao"));
+				PreparedStatement stmt2 = conexao.prepareStatement("SELECT id_livro FROM mydb.locacao WHERE id_locacao = ?");
 				stmt2.setInt(1, rs.getInt("id_locacao"));
-				stmt2.setDate(2, new Date(locacao.getData_locacao().getTime()));
+				stmt2.setDate(2, new Date(lb.getData_locacao().getTime()));
 				ResultSet rs2 = stmt2.executeQuery();
 				while(rs2.next()){
 					auxLivros.add(rs2.getInt("id_livro"));
@@ -194,59 +200,5 @@ public class LocacaoDAO implements ILocacaoDAO {
 		}
 		return list;
 	}
-}*/
-	
-	@Override
-	public List<LocacaoBean> searchLocacao(String value, Integer type) throws ProjetoException {
-		
-			String sql = "select l.data_locacao, l.data_devolucao, aluno.id_aluno, professor.id_professor, livro.id_livro, status from   locacao as l"
-			+ "inner join  Aluno On (l.id_aluno = aluno.id_aluno)"
-			+ "inner join  Professor On( l.id_professor = professor.id_professor)"
-			+ "inner join  livro On (l.id_livro = livro.id_livro)";
-					
-					
-		if (type == 1) {
-			sql += " locacao.data_locacao like ? order by locacao.data_locacao ";
-		}
-
-		List<LocacaoBean> lista = new ArrayList<>();
-
-		try {
-			conexao = ConnectionFactory.getConnection();
-			PreparedStatement stmt = conexao.prepareStatement(sql);
-			if (type == 1) {
-				stmt.setString(1, "%" + value.toUpperCase() + "%");
-			}
-
-			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				LocacaoBean c = new LocacaoBean();
-
-				
-				c.setId_locacao(rs.getInt("id_locacao"));
-				c.setData_locacao(rs.getDate("data_locacao"));
-				c.setData_devolucao(rs.getDate("data_devolucao"));
-				c.getAluno().setId_aluno(rs.getInt("id_aluno"));
-				c.getProfessor().setId_professor(rs.getInt("id_professor"));
-				c.getLivro().setId_livro(rs.getInt("id_livro"));
-				c.setStatus(rs.getString("id_livro"));
-				lista.add(c);
-
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			// throw new RuntimeException(ex); //
-		} finally {
-			try {
-				conexao.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				System.exit(1);
-			}
-		}
-		return lista;
-	}
-
-	
 }	
+	

@@ -6,11 +6,9 @@ import com.accenture.treinamento.projeto.portal.model.PessoaBean;
 public class ReservaBean {
 	
 	private Integer id;
-	private PessoaBean pessoa;
+	private Integer pessoa;
 	private Date dataRetirada;
-	private LivroBean livro;
-	
-	private Integer livro1;
+	private Integer id_livro;
 	
 	
 	public Integer getId() {
@@ -19,10 +17,16 @@ public class ReservaBean {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public PessoaBean getPessoa() {
+	public Integer getPessoa() {
 		return pessoa;
 	}
-	public void setPessoa(PessoaBean pessoa) {
+	public Integer getId_livro() {
+		return id_livro;
+	}
+	public void setId_livro(Integer id_livro) {
+		this.id_livro = id_livro;
+	}
+	public void setPessoa(Integer pessoa) {
 		this.pessoa = pessoa;
 	}
 	public Date getDataRetirada() {
@@ -30,18 +34,6 @@ public class ReservaBean {
 	}
 	public void setDataRetirada(Date dataRetirada) {
 		this.dataRetirada = dataRetirada;
-	}
-	public LivroBean getLivro() {
-		return livro;
-	}
-	public void setLivro(LivroBean livro) {
-		this.livro = livro;
-	}
-	public Integer getLivro1() {
-		return livro1;
-	}
-	public void setLivro1(Integer livro1) {
-		this.livro1 = livro1;
 	}
 
 	
